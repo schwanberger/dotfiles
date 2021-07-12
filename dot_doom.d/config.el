@@ -192,3 +192,4 @@
   (advice-remove 'org-tree-slide--display-tree-with-narrow
                  #'+org-present--hide-first-heading-maybe-a)
   )
+(setq +treemacs-git-mode 'deferred)
