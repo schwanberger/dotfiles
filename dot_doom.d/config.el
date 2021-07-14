@@ -22,9 +22,9 @@
 ;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
 ;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
 (setq doom-font (font-spec :family "Iosevka SS14 Extended" :size 16)
-;;(setq doom-font (font-spec :family "Iosevka SS14" :size 16)
-;;(setq doom-font (font-spec :family "Iosevka SS14" :size 16 :weight 'light)
-;;(setq doom-font (font-spec :family "Iosevka Term" :size 15 :weight 'regular)
+      ;;(setq doom-font (font-spec :family "Iosevka SS14" :size 16)
+      ;;(setq doom-font (font-spec :family "Iosevka SS14" :size 16 :weight 'light)
+      ;;(setq doom-font (font-spec :family "Iosevka Term" :size 15 :weight 'regular)
       ;;doom-variable-pitch-font (font-spec :family "Noto Sans" :size 14)
       ;;doom-variable-pitch-font (font-spec :family "Alegreya" :size 15)
       ;;doom-variable-pitch-font (font-spec :family "Cantarell" :size 15 :weight 'regular)
@@ -37,13 +37,17 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
+;;(setq doom-theme 'doom-dracula)
+;;(setq doom-theme 'doom-palenight)
 ;;(setq doom-theme 'doom-vibrant)
-;;
+;;(setq doom-theme 'doom-vibrant-darker)
+(setq doom-theme 'doom-vibrant-dark)
+
 ;; (setq doom-theme 'doom-gruvbox
 ;;       doom-gruvbox-dark-variant 'hard
 ;;       )
 
-(setq doom-theme 'doom-one)
+;;(setq doom-theme 'doom-one)
 
 ;;(setq doom-theme 'doom-solarized-light)
 ;;(setq doom-theme 'spacemacs-light)
@@ -109,11 +113,11 @@
 
 (setq org-pandoc-options-for-html5 '(
                                      (number-sections . t)
-                                      (toc . t)
-                                      (self-contained . t)
-                                      ;(template . "C:/Projects/todo/easy_template.html")
-                                      (template . "C:/Projects/todo/pandoc/html5/github/GitHub.html5")
-                                      ;;(template . "C:/Projects/todo/pandoc/html5/kjhealy/html.template")
+                                     (toc . t)
+                                     (self-contained . t)
+                                        ;(template . "C:/Projects/todo/easy_template.html")
+                                     (template . "C:/Projects/todo/pandoc/html5/github/GitHub.html5")
+                                     ;;(template . "C:/Projects/todo/pandoc/html5/kjhealy/html.template")
                                      ))
 
 (setq org-pandoc-options-for-latex-pdf '(
@@ -143,8 +147,7 @@
   ;;(setq org-superstar-headline-bullets-list '("■" "◆" "▲" "□" "◇" "△")
   ;;(setq org-superstar-headline-bullets-list '("∷" "∴" "∵")
   ;;(setq org-superstar-headline-bullets-list '("∮" "∯" "∰" "∎")
-  (setq org-superstar-headline-bullets-list '("☰" "☱" "☲" "☴" "☳" "☶" "☷")
-
+  (setq org-superstar-headline-bullets-list '("◉" "○" "●" "○" "●" "○" "●")
         org-pretty-entities t
         org-hide-emphasis-markers t ;; show actually italicized text instead of /italicized text/
         org-agenda-block-separator ""
@@ -152,9 +155,8 @@
         org-fontify-done-headline t
         org-superstar-remove-leading-stars t
         ;; For some odd reason, this works on windows but not on linux
-        ;; org-superstar-item-bullet-alist '((?* . ?➤)
-        ;;                                   (?+ . ?•)
-        ;;                                   (?- . ?–))
+        org-superstar-item-bullet-alist '((?- . ?‐)
+                                          (?- . ?‐))
         org-fontify-quote-and-verse-blocks t)
 
   (set-face-attribute 'org-document-title nil :font "Iosevka Etoile" :weight 'bold :height 2.0)
