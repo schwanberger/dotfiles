@@ -21,7 +21,7 @@
 ;; font string. You generally only need these two:
 ;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
 ;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
-(setq doom-font (font-spec :family "Iosevka SS14 Extended" :size 16)
+(setq doom-font (font-spec :family "JetBrains Mono" :size 16 :weight 'light)
 ;;(setq doom-font (font-spec :family "JetBrains Mono Nerd Font" :size 16)
       ;;(setq doom-font (font-spec :family "Iosevka SS14" :size 16)
       ;;(setq doom-font (font-spec :family "Iosevka SS14" :size 16 :weight 'light)
@@ -31,6 +31,7 @@
       ;;doom-variable-pitch-font (font-spec :family "Cantarell" :size 15 :weight 'regular)
       ;;doom-variable-pitch-font (font-spec :family "Source Sans Pro" :size 15 :weight 'semi-bold)
       doom-variable-pitch-font (font-spec :family "Iosevka Etoile" :size 16 :weight 'regular)
+      ;;doom-variable-pitch-font (font-spec :family "Overpass Nerd Font" :size 16 :weight 'regular)
       ;;doom-variable-pitch-font (font-spec :family "Iosevka Aile" :size 16 :weight 'regular)
       ivy-posframe-font (font-spec :family "JetBrains Mono" :size 16 :weight 'light)
       doom-big-font (font-spec :family "Iosevka Etoile" :size 30)
@@ -43,7 +44,11 @@
 ;;(setq doom-theme 'doom-palenight)
 ;;(setq doom-theme 'doom-vibrant)
 ;;(setq doom-theme 'doom-vibrant-darker)
-(setq doom-theme 'doom-vibrant-dark)
+;;(setq doom-theme 'doom-one-light)
+(setq doom-theme 'doom-vibrant-dark
+      doom-themes-enable-bold t
+      doom-themes-enable-italic t
+      )
 
 ;; (setq doom-theme 'doom-gruvbox
 ;;       doom-gruvbox-dark-variant 'hard
@@ -180,3 +185,50 @@
                  #'+org-present--hide-first-heading-maybe-a)
   )
 (setq +treemacs-git-mode 'deferred)
+
+;; From lunik1 config https://github.com/lunik1/.doom.d/blob/master/config.org
+(setq +ligatures-in-modes '(org-mode)
+      +ligatures-extras-in-modes '(org-mode))
+
+(setq +ligatures-extra-symbols
+      '(;; org
+        :name          "»"
+        :src_block     "›"
+        :src_block_end "‹"
+        :quote         "“"
+        :quote_end     "”"))
+
+(add-hook! 'text-mode-hook #'mixed-pitch-mode)
+
+(after! doom-emacs
+  (setq doom-themes-treemacs-theme "doom-colors"))
+
+(setq truncate-string-ellipsis "…")
+
+(after! lsp-mode
+  (setq lsp-enable-indentation t
+        lsp-enable-on-type-formatting t))
+
+(setq ispell-dictionary "en_GB"
+      langtool-default-language "en-GB")
+
+(setq org-use-property-inheritance t
+      org-log-done 'time ; matches behaviour of orgzly
+      org-list-allow-alphabetical t
+      org-export-in-background t
+      org-re-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js")
+
+(add-hook! 'org-mode-hook #'+org-pretty-mode)
+(setq org-ellipsis " ▾ ")
+
+(use-package! org-appear
+  :hook (org-mode . org-appear-mode)
+  :config
+  (setq org-appear-autoemphasis t
+        org-appear-autosubmarkers t
+        org-appear-autolinks t)
+  ;; for proper first-time setup, `org-appear--set-fragments'
+  ;; needs to be run after other hooks have acted.
+  (run-at-time nil nil #'org-appear--set-fragments))
+
+(use-package! org-pandoc-import)
