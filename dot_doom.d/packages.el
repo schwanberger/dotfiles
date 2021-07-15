@@ -52,3 +52,9 @@
 (package! org-super-agenda)
 (package! org-gtd)
 (package! spacemacs-theme)
+(package! org-appear :recipe (:host github :repo "awth13/org-appear"))
+(package! org-pandoc-import
+  :recipe (:host github
+           :repo "tecosaur/org-pandoc-import"
+           :files ("*.el" "filters" "preprocessors")))
+(package! ox-gfm)
