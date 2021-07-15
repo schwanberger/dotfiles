@@ -30,8 +30,9 @@
       ;;doom-variable-pitch-font (font-spec :family "Alegreya" :size 15)
       ;;doom-variable-pitch-font (font-spec :family "Cantarell" :size 15 :weight 'regular)
       ;;doom-variable-pitch-font (font-spec :family "Source Sans Pro" :size 15 :weight 'semi-bold)
-      doom-variable-pitch-font (font-spec :family "Iosevka Etoile" :size 16 :weight 'regular)
-      ;;doom-variable-pitch-font (font-spec :family "Overpass Nerd Font" :size 16 :weight 'regular)
+      ;;doom-variable-pitch-font (font-spec :family "Iosevka Etoile" :size 16 :weight 'regular)
+      ;;doom-variable-pitch-font (font-spec :family "Overpass Nerd Font" :size 48 :weight 'regular)
+      doom-variable-pitch-font (font-spec :family "Overpass Nerd Font")
       ;;doom-variable-pitch-font (font-spec :family "Iosevka Aile" :size 16 :weight 'regular)
       ivy-posframe-font (font-spec :family "JetBrains Mono" :size 16 :weight 'light)
       doom-big-font (font-spec :family "Iosevka Etoile" :size 30)
@@ -174,10 +175,11 @@
     ;; Get rid of the background on column views
     `(org-column :background nil)
     `(org-column-title :background nil)
-    ))
+    )
+  (load! "+org")
+  )
 
   (require 'org-indent)
-(load! "+org")
 
 
 (after! org-tree-slide
@@ -198,7 +200,8 @@
         :quote         "“"
         :quote_end     "”"))
 
-(add-hook! 'text-mode-hook #'mixed-pitch-mode)
+;; This mixed-pitch-mode should be used more sparsely
+;;(add-hook! 'text-mode-hook #'mixed-pitch-mode)
 
 (after! doom-emacs
   (setq doom-themes-treemacs-theme "doom-colors"))
