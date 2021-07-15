@@ -169,7 +169,7 @@
     ;; Get rid of the background on column views
     `(org-column :background nil)
     `(org-column-title :background nil)
-    )
+    ))
 
   (require 'org-indent)
 (load! "+org")
