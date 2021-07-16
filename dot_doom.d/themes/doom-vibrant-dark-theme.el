@@ -50,36 +50,27 @@ Can be an integer to determine the exact padding."
 
   ;; name        gui       256           16
   ((bg         '("#21242b" "black"       "black"        ))
-   (fg         '("#bbc2cf" "#bfbfbf"     "brightwhite"  ))
+   (fg         '("#bbc2cf" "#bfbfbf"     "brightwhite" ))
 
    ;; These are off-color variants of bg/fg, used primarily for `solaire-mode',
    ;; but can also be useful as a basis for subtle highlights (e.g. for hl-line
    ;; or region), especially when paired with the `doom-darken', `doom-lighten',
    ;; and `doom-blend' helper functions.
    (bg-alt     '("#282c34" "black"       "black"  ))
-   (fg-alt     '("#5B6268" "#2d2d2d"     "white"        ))
+   (fg-alt     '("#5D656B" "#5d5d5d"     "white"       ))
 
    ;; These should represent a spectrum from bg to fg, where base0 is a starker
    ;; bg and base8 is a starker fg. For example, if bg is light grey and fg is
    ;; dark grey, base0 should be white and base8 should be black.
-   ;; (base0      '("#1c1f24" "#101010"     "black"       ))
-   ;; (base1      '("#1c1f24" "#1e1e1e"     "brightblack" ))
-   ;; (base2      '("#21272d" "#21212d"     "brightblack" ))
-   ;; (base3      '("#23272e" "#262626"     "brightblack" ))
-   ;; (base4      '("#484854" "#5e5e5e"     "brightblack" ))
-   ;; (base5      '("#62686E" "#666666"     "brightblack" ))
-   ;; (base6      '("#757B80" "#7b7b7b"     "brightblack" ))
-   ;; (base7      '("#9ca0a4" "#979797"     "brightblack" ))
-   ;; (base8      '("#DFDFDF" "#dfdfdf"     "white"       ))
-   (base0      '("#1B2229" "black"       "black"        ))
-   (base1      '("#1c1f24" "#1e1e1e"     "brightblack"  ))
-   (base2      '("#202328" "#2e2e2e"     "brightblack"  ))
-   (base3      '("#23272e" "#262626"     "brightblack"  ))
-   (base4      '("#3f444a" "#3f3f3f"     "brightblack"  ))
-   (base5      '("#5B6268" "#525252"     "brightblack"  ))
-   (base6      '("#73797e" "#6b6b6b"     "brightblack"  ))
-   (base7      '("#9ca0a4" "#979797"     "brightblack"  ))
-   (base8      '("#DFDFDF" "#dfdfdf"     "white"        ))
+   (base0      '("#1c1f24" "#101010"     "black"       ))
+   (base1      '("#1c1f24" "#1e1e1e"     "brightblack" ))
+   (base2      '("#21272d" "#21212d"     "brightblack" ))
+   (base3      '("#262a31" "#262626"     "brightblack" ))
+   (base4      '("#484854" "#5e5e5e"     "brightblack" ))
+   (base5      '("#62686E" "#666666"     "brightblack" ))
+   (base6      '("#757B80" "#7b7b7b"     "brightblack" ))
+   (base7      '("#9ca0a4" "#979797"     "brightblack" ))
+   (base8      '("#DFDFDF" "#dfdfdf"     "white"       ))
 
    (grey       base4)
    (red        '("#ff665c" "#ff6655" "red"             ))
@@ -150,8 +141,6 @@ Can be an integer to determine the exact padding."
     :background modeline-bg-inactive :foreground modeline-fg-inactive
     :box (if -modeline-pad `(:line-width ,-modeline-pad :color ,modeline-bg-inactive)))
    (mode-line-emphasis :foreground (if doom-vibrant-brighter-modeline base8 highlight))
-   (org-block :background (doom-lighten base3 0.03))
-   (org-quote :background (doom-lighten base3 0.03) :extend t)
 
    ;;;; all-the-icons
    ((all-the-icons-dblue &override) :foreground dark-cyan)

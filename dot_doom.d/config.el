@@ -22,18 +22,7 @@
 ;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
 ;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
 (setq doom-font (font-spec :family "JetBrains Mono" :size 16 :weight 'light)
-;;(setq doom-font (font-spec :family "JetBrains Mono Nerd Font" :size 16)
-      ;;(setq doom-font (font-spec :family "Iosevka SS14" :size 16)
-      ;;(setq doom-font (font-spec :family "Iosevka SS14" :size 16 :weight 'light)
-      ;;(setq doom-font (font-spec :family "Iosevka Term" :size 15 :weight 'regular)
-      ;;doom-variable-pitch-font (font-spec :family "Noto Sans" :size 14)
-      ;;doom-variable-pitch-font (font-spec :family "Alegreya" :size 15)
-      ;;doom-variable-pitch-font (font-spec :family "Cantarell" :size 15 :weight 'regular)
-      ;;doom-variable-pitch-font (font-spec :family "Source Sans Pro" :size 15 :weight 'semi-bold)
-      ;;doom-variable-pitch-font (font-spec :family "Iosevka Etoile" :size 16 :weight 'regular)
-      ;;doom-variable-pitch-font (font-spec :family "Overpass Nerd Font" :size 48 :weight 'regular)
       doom-variable-pitch-font (font-spec :family "Overpass Nerd Font")
-      ;;doom-variable-pitch-font (font-spec :family "Iosevka Aile" :size 16 :weight 'regular)
       ivy-posframe-font (font-spec :family "JetBrains Mono" :size 16 :weight 'light)
       doom-big-font (font-spec :family "Iosevka Etoile" :size 30)
       )
@@ -41,26 +30,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-;;(setq doom-theme 'doom-dracula)
-;;(setq doom-theme 'doom-palenight)
-;;(setq doom-theme 'doom-vibrant)
-;;(setq doom-theme 'doom-vibrant-darker)
-;;(setq doom-theme 'doom-one-light)
-(setq doom-theme 'doom-vibrant-dark
-      doom-themes-enable-bold t
-      doom-themes-enable-italic t
-      )
-
-;; (setq doom-theme 'doom-gruvbox
-;;       doom-gruvbox-dark-variant 'hard
-;;       )
-
-;;(setq doom-theme 'doom-one)
-
-;;(setq doom-theme 'doom-solarized-light)
-;;(setq doom-theme 'spacemacs-light)
-;;(setq doom-theme 'doom-dracula)
-;;(setq doom-theme 'doom-nord-light)
+(setq doom-theme 'doom-vibrant-dark)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -69,7 +39,6 @@
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type 't)
-
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
@@ -138,27 +107,29 @@
 
 
 
-(after! org-superstar
-  (setq org-superstar-headline-bullets-list '("◉" "○" "●" "○" "●" "○" "●")
-  ;;(setq org-superstar-headline-bullets-list '("■" "◆" "▲")
-  ;;(setq org-superstar-headline-bullets-list '("■" "□" "▣" "◆" "◇" "◈")
-  ;;(setq org-superstar-headline-bullets-list '("◳" "◰" "◱" "◲" "◈" "◇" "◆" )
-  ;;(setq org-superstar-headline-bullets-list '("□" "▣" "■" "◇" "◈" "◆")
-  ;;(setq org-superstar-headline-bullets-list '("■" "◆" "▲" "□" "◇" "△")
-  ;;(setq org-superstar-headline-bullets-list '("∷" "∴" "∵")
-  ;;(setq org-superstar-headline-bullets-list '("∮" "∯" "∰" "∎")
-        org-pretty-entities t
-        org-hide-emphasis-markers t ;; show actually italicized text instead of /italicized text/
-        org-agenda-block-separator ""
-        org-fontify-whole-heading-line t
-        org-fontify-done-headline t
-        org-superstar-remove-leading-stars t
-        ;; For some odd reason, this works on windows but not on linux
-        org-superstar-item-bullet-alist '((?- . ?‐)
-                                          (?- . ?‐))
-        org-fontify-quote-and-verse-blocks t)
+;; (after! org-superstar
+;;   (setq org-superstar-headline-bullets-list '("◉" "○" "●" "○" "●" "○" "●")
+;;         org-superstar-prettify-item-bullets t
+;;         )
+;;   ;;(setq org-superstar-headline-bullets-list '("■" "◆" "▲")
+;;   ;;(setq org-superstar-headline-bullets-list '("■" "□" "▣" "◆" "◇" "◈")
+;;   ;;(setq org-superstar-headline-bullets-list '("◳" "◰" "◱" "◲" "◈" "◇" "◆" )
+;;   ;;(setq org-superstar-headline-bullets-list '("□" "▣" "■" "◇" "◈" "◆")
+;;   ;;(setq org-superstar-headline-bullets-list '("■" "◆" "▲" "□" "◇" "△")
+;;   ;;(setq org-superstar-headline-bullets-list '("∷" "∴" "∵")
+;;   ;;(setq org-superstar-headline-bullets-list '("∮" "∯" "∰" "∎")
+;;   ;;         org-pretty-entities t
+;;   ;; ;;        org-hide-emphasis-markers t ;; show actually italicized text instead of /italicized text/
+;;   ;;         org-agenda-block-separator ""
+;;   ;;         org-fontify-whole-heading-line t
+;;   ;;         org-fontify-done-headline t
+;;   ;;         org-superstar-remove-leading-stars t
+;;   ;;         ;; For some odd reason, this works on windows but not on linux
+;;   ;;         org-superstar-item-bullet-alist '((?- . ?‐)
+;;   ;;                                           (?- . ?‐))
+;;   ;;         org-fontify-quote-and-verse-blocks t)
 
-  )
+;;   ))
 
 (after! org
   (custom-set-faces!
@@ -176,10 +147,17 @@
     `(org-column :background nil)
     `(org-column-title :background nil)
     )
-  (load! "+org")
+  (after! org-superstar
+    (setq org-superstar-headline-bullets-list '("◉" "○" "●" "○" "●" "○" "●")
+          org-superstar-prettify-item-bullets t
+          ))
+  (setq org-fontify-quote-and-verse-blocks t)
   )
 
-  (require 'org-indent)
+  ;; (load! "+org")
+  ;; )
+
+(require 'org-indent)
 
 
 (after! org-tree-slide
@@ -217,6 +195,7 @@
 
 (setq org-use-property-inheritance t
       org-log-done 'time ; matches behaviour of orgzly
+      org-log-into-drawer t
       org-list-allow-alphabetical t
       org-export-in-background t
       org-re-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js")
