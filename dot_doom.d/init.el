@@ -52,7 +52,7 @@
        (popup +defaults)   ; tame sudden yet inevitable temporary windows
        ;;tabs              ; a tab bar for Emacs
        (treemacs +lsp)          ; a project drawer, like neotree but cooler
-       ;;unicode           ; extended unicode support for various languages
+       unicode           ; extended unicode support for various languages
        vc-gutter         ; vcs diff in the fringe
        vi-tilde-fringe   ; fringe tildes to mark beyond EOB
        ;;window-select     ; visually switch windows
@@ -63,7 +63,7 @@
        (evil +everywhere); come to the dark side, we have cookies
        file-templates    ; auto-snippets for empty files
        fold              ; (nigh) universal code folding
-       (format)  ; automated prettiness
+       (format +onsave)  ; automated prettiness
        ;;god               ; run Emacs commands without modifier keys
        ;;lispy             ; vim for lisp, for people who don't like vim
        multiple-cursors  ; editing in many places at once
@@ -90,7 +90,7 @@
        (syntax +childframe)              ; tasing you for every semicolon you forget
        ;;(spell +flyspell +hunspell +everywhere) ; tasing you for misspelling mispelling
        ;;(spell +flyspell +aspell +everywhere) ; tasing you for misspelling mispelling
-       (spell +aspell +everywhere) ; tasing you for misspelling mispelling
+       spell ; tasing you for misspelling mispelling
        grammar           ; tasing grammar mistake every you make
 
        :tools
@@ -107,7 +107,7 @@
        magit             ; a git porcelain for Emacs
        ;;make              ; run make tasks from Emacs
        ;;pass              ; password manager for nerds
-       ;;pdf               ; pdf enhancements
+       pdf               ; pdf enhancements
        ;;prodigy           ; FIXME managing external services & code builders
        rgb               ; creating color strings
        ;;taskrunner        ; taskrunner for all your projects
@@ -157,7 +157,7 @@
        ;;nim               ; python + lisp at the speed of c
        ;;nix               ; I hereby declare "nix geht mehr!"
        ;;ocaml             ; an objective camel
-       (org +pretty +present +pandoc)               ; organize your plain life in plain text
+       (org +pretty +present +pandoc +noter)               ; organize your plain life in plain text
        ;;php               ; perl's insecure younger brother
        plantuml          ; diagrams for confusing people more
        ;;purescript        ; javascript, but functional

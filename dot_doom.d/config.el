@@ -21,16 +21,18 @@
 ;; font string. You generally only need these two:
 ;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
 ;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
-(setq doom-font (font-spec :family "JetBrains Mono" :size 16 :weight 'light)
-      doom-variable-pitch-font (font-spec :family "Overpass Nerd Font")
-      ivy-posframe-font (font-spec :family "JetBrains Mono" :size 16 :weight 'light)
+(setq doom-font (font-spec :family "JetBrains Mono" :size 17 :weight 'light)
+      doom-variable-pitch-font (font-spec :family "Overpass")
+      ivy-posframe-font (font-spec :family "JetBrains Mono" :size 17 :weight 'light)
+      ;;doom-unicode-font (font-spec :family "Noto Sans Mono")
       doom-big-font (font-spec :family "Iosevka Etoile" :size 30)
       )
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-vibrant-dark)
+;;(setq doom-theme 'doom-vibrant-dark)
+(setq doom-theme 'doom-one)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -58,7 +60,6 @@
 ;; they are implemented.
 ;; set-locale to DA_DK
 ;;(set-locale-environment "DA_DK")
-;; Use UTF-8 for all character encoding.
 ;;(set-language-environment 'utf-8)
 ;;(set-default-coding-systems 'utf-8)
 ;;(set-selection-coding-system 'utf-8)
@@ -78,35 +79,6 @@
 ;;(add-to-list 'exec-path "C:/tools/msys64/mingw64/bin")
 
 (setq select-enable-clipboard nil)
-
-
-(add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
-
-(add-to-list 'initial-frame-alist '(fullscreen . maximized))
-
-(setq org-pandoc-options-for-docx '(
-                                    (reference-doc . "C:/Projects/todo/pandoc/nc_ref.docx")
-                                    ))
-
-(setq org-pandoc-options-for-html5 '(
-                                     (number-sections . t)
-                                     (toc . t)
-                                     (self-contained . t)
-                                        ;(template . "C:/Projects/todo/easy_template.html")
-                                     (template . "C:/Projects/todo/pandoc/html5/github/GitHub.html5")
-                                     ;;(template . "C:/Projects/todo/pandoc/html5/kjhealy/html.template")
-                                     ))
-
-(setq org-pandoc-options-for-latex-pdf '(
-                                         (number-sections . t)
-                                         (toc . t)
-                                         (template . "C:/Projects/todo/eisvogel.tex")
-                                         (pdf-engine . "lualatex")
-                                         ))
-
-
-
-
 ;; (after! org-superstar
 ;;   (setq org-superstar-headline-bullets-list '("◉" "○" "●" "○" "●" "○" "●")
 ;;         org-superstar-prettify-item-bullets t
@@ -152,37 +124,118 @@
           org-superstar-prettify-item-bullets t
           ))
   (setq org-fontify-quote-and-verse-blocks t)
+  (setq org-pandoc-options-for-docx '(
+                                      (reference-doc . "C:/Projects/todo/pandoc/nc_ref.docx")
+                                      ))
+
+  (setq org-pandoc-options-for-html5 '(
+                                       (number-sections . t)
+                                       (toc . t)
+                                       (self-contained . t)
+                                        ;(template . "C:/Projects/todo/easy_template.html")
+                                       (template . "C:/Projects/todo/pandoc/html5/github/GitHub.html5")
+                                       ;;(template . "C:/Projects/todo/pandoc/html5/kjhealy/html.template")
+                                       ))
+
+  (setq org-pandoc-options-for-latex-pdf '(
+                                           (number-sections . t)
+                                           (toc . t)
+                                           (template . "C:/Projects/todo/eisvogel.tex")
+                                           (pdf-engine . "lualatex")
+                                           ))
+  (setq org-use-property-inheritance t
+        org-log-done 'time ; matches behaviour of orgzly
+        org-log-into-drawer t
+        org-list-allow-alphabetical t
+        org-export-in-background t
+        org-re-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js")
+
+  ;;(add-hook! 'org-mode-hook #'+org-pretty-mode)
+  (setq org-ellipsis " ▾ ")
+
+  (use-package! org-appear
+    :hook (org-mode . org-appear-mode)
+    :config
+    (setq org-appear-autoemphasis t
+          org-appear-autosubmarkers t
+          org-appear-autolinks t)
+    ;; for proper first-time setup, `org-appear--set-fragments'
+    ;; needs to be run after other hooks have acted.
+    (run-at-time nil nil #'org-appear--set-fragments))
+
+  (use-package! org-pandoc-import)
+
+  (defun +thsc/org-tree-slide-mode-hook ()
+    "Line numbering to be disabled. Mixed-pitch-mode to be enabled and then disabled."
+    (let ((org-tree-slide-mode-active org-tree-slide-mode))
+      (setq display-line-numbers (not org-tree-slide-mode-active))
+      (mixed-pitch-mode (if org-tree-slide-mode-active 't 0))
+      )
+    )
+
+  (add-hook! 'org-tree-slide-mode-hook '+thsc/org-tree-slide-mode-hook)
+  (setq +ligatures-in-modes '(org-mode)
+        +ligatures-extras-in-modes '(org-mode))
+
+  (setq +ligatures-extra-symbols
+        '(;; org
+          ;;:name          "»"
+          :src_block     "»"
+          :src_block_end "«"
+          :quote         "“"
+          :quote_end     "”"))
+
+  (defun locally-defer-font-lock ()
+    "Set jit-lock defer and stealth, when buffer is over a certain size."
+    (when (> (buffer-size) 50000)
+      (setq-local jit-lock-defer-time 0.05
+                  jit-lock-stealth-time 1)))
+
+  (add-hook! 'org-mode-hook #'locally-defer-font-lock)
+
+  (add-hook! 'org-mode-hook #'solaire-mode)
+
+  (setq org-hide-emphasis-markers t)
+
+  (load! "+org")
   )
+;; (add-hook! 'org-tree-slide-mode-hook ;:append t
+;;            ;; (call-interactively 'mixed-pitch-mode nil (vector org-tree-slide-mode))
+;;            ;;(setq display-line-numbers (not org-tree-slide-mode))
+;;            ;;(call-interactively 'mixed-pitch-mode ('org-tree-slide-mode))
+;;            ;; #'lambda()
+;;            ;; `(
+;;            ;;  ,(setq display-line-numbers (not org-tree-slide-mode))
+;;            ;;  ;;,(mixed-pitch-mode (not org-tree-slide-mode))
+;;            ;;  ,(mixed-pitch-mode '(org-tree-slide-mode))
+;;            #'lambda ()
+;;            (mixed-pitch-mode (if org-tree-slide-mode 't))
+;;            )
+;;
+;;(require 'org-indent)
 
-  ;; (load! "+org")
-  ;; )
 
-(require 'org-indent)
-
-
-(after! org-tree-slide
-  (advice-remove 'org-tree-slide--display-tree-with-narrow
-                 #'+org-present--hide-first-heading-maybe-a)
-  )
 (setq +treemacs-git-mode 'deferred)
 
 ;; From lunik1 config https://github.com/lunik1/.doom.d/blob/master/config.org
-(setq +ligatures-in-modes '(org-mode)
-      +ligatures-extras-in-modes '(org-mode))
+;; In general, limit ligatures
+;; Test move
+;; (setq +ligatures-in-modes '(org-mode)
+;;       +ligatures-extras-in-modes '(org-mode))
 
-(setq +ligatures-extra-symbols
-      '(;; org
-        :name          "»"
-        :src_block     "›"
-        :src_block_end "‹"
-        :quote         "“"
-        :quote_end     "”"))
+;; (setq +ligatures-extra-symbols
+;;       '(;; org
+;;         ;;:name          "»"
+;;         :src_block     "»"
+;;         :src_block_end "«"
+;;         :quote         "“"
+;;         :quote_end     "”"))
 
 ;; This mixed-pitch-mode should be used more sparsely
 ;;(add-hook! 'text-mode-hook #'mixed-pitch-mode)
 
-(after! doom-emacs
-  (setq doom-themes-treemacs-theme "doom-colors"))
+ ;; (after! doom-emacs
+ ;;   (setq doom-themes-treemacs-theme "doom-colors"))
 
 (setq truncate-string-ellipsis "…")
 
@@ -193,24 +246,42 @@
 (setq ispell-dictionary "en_GB"
       langtool-default-language "en-GB")
 
-(setq org-use-property-inheritance t
-      org-log-done 'time ; matches behaviour of orgzly
-      org-log-into-drawer t
-      org-list-allow-alphabetical t
-      org-export-in-background t
-      org-re-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js")
+(after! doom-modeline (setq doom-modeline-major-mode-icon t))
 
-(add-hook! 'org-mode-hook #'+org-pretty-mode)
-(setq org-ellipsis " ▾ ")
+(global-subword-mode 1)                           ; Iterate through CamelCase words
+(setq undo-limit 80000000                         ; Raise undo-limit to 80Mb
+      evil-want-fine-undo t                       ; By default while in insert all changes are one big blob. Be more granular
+      auto-save-default t)                        ; Nobody likes to loose work, I certainly don't
 
-(use-package! org-appear
-  :hook (org-mode . org-appear-mode)
-  :config
-  (setq org-appear-autoemphasis t
-        org-appear-autosubmarkers t
-        org-appear-autolinks t)
-  ;; for proper first-time setup, `org-appear--set-fragments'
-  ;; needs to be run after other hooks have acted.
-  (run-at-time nil nil #'org-appear--set-fragments))
+(setq-default x-stretch-cursor t)
 
-(use-package! org-pandoc-import)
+(after! company
+  (setq company-idle-delay 0.5
+        company-minimum-prefix-length 2
+        company-show-quick-access t))
+
+(setq-default history-length 1000)
+(setq-default prescient-history-length 1000)
+
+;; From trevoke (org-gtd author) https://github.com/Trevoke/.emacs.d/blob/master/aldric.org
+;; Activate UTF-8 mode:
+(setq locale-coding-system 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(set-selection-coding-system 'utf-8)
+(prefer-coding-system 'utf-8)
+
+;; 2013-12-10 IRC #Emacs
+(set-clipboard-coding-system 'utf-8)
+
+;; http://www.masteringemacs.org/articles/2012/08/09/working-coding-systems-unicode-emacs/
+;; in addition to the lines above:
+
+(set-default-coding-systems 'utf-8)
+;; backwards compatibility as default-buffer-file-coding-system
+;; is deprecated in 23.2.
+(if (boundp 'buffer-file-coding-system)
+    (setq-default buffer-file-coding-system 'utf-8)
+  (setq default-buffer-file-coding-system 'utf-8))
+;; Treat clipboard input as UTF-8 string first; compound text next, etc.
+(setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))

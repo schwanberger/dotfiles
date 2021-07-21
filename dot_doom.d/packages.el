@@ -58,3 +58,4 @@
            :repo "tecosaur/org-pandoc-import"
            :files ("*.el" "filters" "preprocessors")))
 (package! ox-gfm)
+(unpin! company-box)

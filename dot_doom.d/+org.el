@@ -13,7 +13,7 @@
   :after org
   :config
   ;; where org-gtd will put its files. This value is also the default one.
-  (setq org-gtd-directory "~/gtd/")
+  (setq org-gtd-directory "~/org/gtd/")
   ;; package: https://github.com/Malabarba/org-agenda-property
   ;; this is so you can see who an item was delegated to in the agenda
   (setq org-agenda-property-list '("DELEGATED_TO"))
