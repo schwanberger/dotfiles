@@ -22,17 +22,15 @@
 ;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
 ;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
 (setq doom-font (font-spec :family "JetBrains Mono" :size 17 :weight 'light)
-      doom-variable-pitch-font (font-spec :family "Overpass")
-      ivy-posframe-font (font-spec :family "JetBrains Mono" :size 17 :weight 'light)
-      ;;doom-unicode-font (font-spec :family "Noto Sans Mono")
+      doom-variable-pitch-font (font-spec :family "Overpass" :size 17)
       doom-big-font (font-spec :family "Iosevka Etoile" :size 30)
       )
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-;;(setq doom-theme 'doom-vibrant-dark)
-(setq doom-theme 'doom-one)
+(setq doom-theme 'doom-vibrant-dark)
+;;(setq doom-theme 'doom-one)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -40,7 +38,7 @@
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setq display-line-numbers-type 't)
+(setq display-line-numbers-type 'visual)
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
@@ -58,12 +56,6 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
-;; set-locale to DA_DK
-;;(set-locale-environment "DA_DK")
-;;(set-language-environment 'utf-8)
-;;(set-default-coding-systems 'utf-8)
-;;(set-selection-coding-system 'utf-8)
-;;(prefer-coding-system 'utf-8)
 
 (setq confirm-kill-emacs nil)
 ;; WINDOWS SPECIFIC
@@ -104,17 +96,30 @@
 ;;   ))
 
 (after! org
+  (require 'org-indent)
+  (setq org-agenda-files '("~/org/gtd/actionable.org" "~/org/todo/new_todo.org"))
   (custom-set-faces!
     ;; Make org elements larger
-    `(org-document-title :font ,doom-variable-pitch-font :weight bold :height 2.0)
-    `(outline-1 :font ,doom-variable-pitch-font :weight bold :height 1.75)
-    `(outline-2 :font ,doom-variable-pitch-font :weight bold :height 1.50)
-    `(outline-3 :font ,doom-variable-pitch-font :weight bold :height 1.25)
-    `(outline-4 :font ,doom-variable-pitch-font :weight bold :height 1.10)
-    `(outline-5 :font ,doom-variable-pitch-font :weight bold :height 1.00)
-    `(outline-6 :font ,doom-variable-pitch-font :weight bold :height 0.90)
-    `(outline-7 :font ,doom-variable-pitch-font :weight bold :height 0.80)
-    `(outline-8 :font ,doom-variable-pitch-font :weight bold :height 0.70)
+    ;; `(org-document-title :font ,doom-variable-pitch-font :weight bold :height 2.0)
+    ;; `(outline-1 :font ,doom-variable-pitch-font :weight bold :height 1.75)
+    ;; `(outline-2 :font ,doom-variable-pitch-font :weight bold :height 1.50)
+    ;; `(outline-3 :font ,doom-variable-pitch-font :weight bold :height 1.25)
+    ;; `(outline-4 :font ,doom-variable-pitch-font :weight bold :height 1.10)
+    ;; `(outline-5 :font ,doom-variable-pitch-font :weight bold :height 1.00)
+    ;; `(outline-6 :font ,doom-variable-pitch-font :weight bold :height 0.90)
+    ;; `(outline-7 :font ,doom-variable-pitch-font :weight bold :height 0.80)
+    ;; `(outline-8 :font ,doom-variable-pitch-font :weight bold :height 0.70)
+    ;; Try out tecosaur sizing
+    (custom-set-faces!
+      '(org-document-title :height 1.2)
+      '(outline-1 :weight extra-bold :height 1.25)
+      '(outline-2 :weight bold :height 1.15)
+      '(outline-3 :weight bold :height 1.12)
+      '(outline-4 :weight semi-bold :height 1.09)
+      '(outline-5 :weight semi-bold :height 1.06)
+      '(outline-6 :weight semi-bold :height 1.03)
+      '(outline-8 :weight semi-bold)
+      '(outline-9 :weight semi-bold))
     ;; Get rid of the background on column views
     `(org-column :background nil)
     `(org-column-title :background nil)
@@ -122,6 +127,8 @@
   (after! org-superstar
     (setq org-superstar-headline-bullets-list '("◉" "○" "●" "○" "●" "○" "●")
           org-superstar-prettify-item-bullets t
+          org-hide-emphasis-markers t
+          org-superstar-remove-leading-stars t
           ))
   (setq org-fontify-quote-and-verse-blocks t)
   (setq org-pandoc-options-for-docx '(
@@ -134,6 +141,8 @@
                                        (self-contained . t)
                                         ;(template . "C:/Projects/todo/easy_template.html")
                                        (template . "C:/Projects/todo/pandoc/html5/github/GitHub.html5")
+
+
                                        ;;(template . "C:/Projects/todo/pandoc/html5/kjhealy/html.template")
                                        ))
 
@@ -143,12 +152,15 @@
                                            (template . "C:/Projects/todo/eisvogel.tex")
                                            (pdf-engine . "lualatex")
                                            ))
+  (require 'org-id)
   (setq org-use-property-inheritance t
         org-log-done 'time ; matches behaviour of orgzly
         org-log-into-drawer t
         org-list-allow-alphabetical t
         org-export-in-background t
-        org-re-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js")
+        org-re-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js"
+        org-id-link-to-org-use-id 'create-if-interactive
+        )
 
   ;;(add-hook! 'org-mode-hook #'+org-pretty-mode)
   (setq org-ellipsis " ▾ ")
@@ -174,68 +186,69 @@
     )
 
   (add-hook! 'org-tree-slide-mode-hook '+thsc/org-tree-slide-mode-hook)
-  (setq +ligatures-in-modes '(org-mode)
-        +ligatures-extras-in-modes '(org-mode))
-
-  (setq +ligatures-extra-symbols
-        '(;; org
-          ;;:name          "»"
-          :src_block     "»"
-          :src_block_end "«"
-          :quote         "“"
-          :quote_end     "”"))
-
-  (defun locally-defer-font-lock ()
-    "Set jit-lock defer and stealth, when buffer is over a certain size."
-    (when (> (buffer-size) 50000)
-      (setq-local jit-lock-defer-time 0.05
-                  jit-lock-stealth-time 1)))
-
-  (add-hook! 'org-mode-hook #'locally-defer-font-lock)
-
-  (add-hook! 'org-mode-hook #'solaire-mode)
-
-  (setq org-hide-emphasis-markers t)
-
-  (load! "+org")
   )
-;; (add-hook! 'org-tree-slide-mode-hook ;:append t
-;;            ;; (call-interactively 'mixed-pitch-mode nil (vector org-tree-slide-mode))
-;;            ;;(setq display-line-numbers (not org-tree-slide-mode))
-;;            ;;(call-interactively 'mixed-pitch-mode ('org-tree-slide-mode))
-;;            ;; #'lambda()
-;;            ;; `(
-;;            ;;  ,(setq display-line-numbers (not org-tree-slide-mode))
-;;            ;;  ;;,(mixed-pitch-mode (not org-tree-slide-mode))
-;;            ;;  ,(mixed-pitch-mode '(org-tree-slide-mode))
-;;            #'lambda ()
-;;            (mixed-pitch-mode (if org-tree-slide-mode 't))
-;;            )
-;;
-;;(require 'org-indent)
 
+(load! "+org")
+
+(defun locally-defer-font-lock ()
+  "Set jit-lock defer and stealth, when buffer is over a certain size."
+  (when (> (buffer-size) 50000)
+    (setq-local jit-lock-defer-time 0.05
+                jit-lock-stealth-time 1)))
+
+(add-hook! 'org-mode-hook #'locally-defer-font-lock)
+
+;; Remove some ligatures in local variable for org-mode
+(setq-hook! 'org-mode-hook +ligatures-composition-alist
+            '((?!  . "\\(?:!\\(?:==\\|[!=]\\)\\)")                                      ; (regexp-opt '("!!" "!=" "!=="))
+              (?#  . "\\(?:#\\(?:###?\\|_(\\|[#(:=?[_{]\\)\\)")                         ; (regexp-opt '("##" "###" "####" "#(" "#:" "#=" "#?" "#[" "#_" "#_(" "#{"))
+              (?$  . "\\(?:\\$>>?\\)")                                                  ; (regexp-opt '("$>" "$>>"))
+              (?%  . "\\(?:%%%?\\)")                                                    ; (regexp-opt '("%%" "%%%"))
+              (?&  . "\\(?:&&&?\\)")                                                    ; (regexp-opt '("&&" "&&&"))
+              ;;(?*  . "\\(?:\\*\\(?:\\*[*/]\\|[)*/>]\\)?\\)")                            ; (regexp-opt '("*" "**" "***" "**/" "*/" "*>" "*)"))
+              (?+  . "\\(?:\\+\\(?:\\+\\+\\|[+:>]\\)?\\)")                              ; (regexp-opt '("+" "++" "+++" "+>" "+:"))
+              (?-  . "\\(?:-\\(?:-\\(?:->\\|[>-]\\)\\|<[<-]\\|>[>-]\\|[:<>|}~-]\\)\\)") ; (regexp-opt '("--" "---" "-->" "--->" "->-" "-<" "-<-" "-<<" "->" "->>" "-}" "-~" "-:" "-|"))
+              (?.  . "\\(?:\\.\\(?:\\.[.<]\\|[.=>-]\\)\\)")                             ; (regexp-opt '(".-" ".." "..." "..<" ".=" ".>"))
+              ;;(?/  . "\\(?:/\\(?:\\*\\*\\|//\\|==\\|[*/=>]\\)\\)")                      ; (regexp-opt '("/*" "/**" "//" "///" "/=" "/==" "/>"))
+              (?:  . "\\(?::\\(?:::\\|[+:<=>]\\)?\\)")                                  ; (regexp-opt '(":" "::" ":::" ":=" ":<" ":=" ":>" ":+"))
+              (?\; . ";;")                                                              ; (regexp-opt '(";;"))
+              (?0  . "0\\(?:\\(x[a-fA-F0-9]\\).?\\)") ; Tries to match the x in 0xDEADBEEF
+              ;; (?x . "x") ; Also tries to match the x in 0xDEADBEEF
+              ;; (regexp-opt '("<!--" "<$" "<$>" "<*" "<*>" "<**>" "<+" "<+>" "<-" "<--" "<---" "<->" "<-->" "<--->" "</" "</>" "<<" "<<-" "<<<" "<<=" "<=" "<=<" "<==" "<=>" "<===>" "<>" "<|" "<|>" "<~" "<~~" "<." "<.>" "<..>"))
+              (?<  . "\\(?:<\\(?:!--\\|\\$>\\|\\*\\(?:\\*?>\\)\\|\\+>\\|-\\(?:-\\(?:->\\|[>-]\\)\\|[>-]\\)\\|\\.\\(?:\\.?>\\)\\|/>\\|<[<=-]\\|=\\(?:==>\\|[<=>]\\)\\||>\\|~~\\|[$*+./<=>|~-]\\)\\)")
+              (?=  . "\\(?:=\\(?:/=\\|:=\\|<<\\|=[=>]\\|>>\\|[=>]\\)\\)")               ; (regexp-opt '("=/=" "=:=" "=<<" "==" "===" "==>" "=>" "=>>"))
+              (?>  . "\\(?:>\\(?:->\\|=>\\|>[=>-]\\|[:=>-]\\)\\)")                      ; (regexp-opt '(">-" ">->" ">:" ">=" ">=>" ">>" ">>-" ">>=" ">>>"))
+              (??  . "\\(?:\\?[.:=?]\\)")                                               ; (regexp-opt '("??" "?." "?:" "?="))
+              (?\[ . "\\(?:\\[\\(?:|]\\|[]|]\\)\\)")                                    ; (regexp-opt '("[]" "[|]" "[|"))
+              (?\\ . "\\(?:\\\\\\\\[\\n]?\\)")                                          ; (regexp-opt '("\\\\" "\\\\\\" "\\\\n"))
+              (?^  . "\\(?:\\^==?\\)")                                                  ; (regexp-opt '("^=" "^=="))
+              ;;(?w  . "\\(?:wwww?\\)")                                                   ; (regexp-opt '("www" "wwww"))
+              (?{  . "\\(?:{\\(?:|\\(?:|}\\|[|}]\\)\\|[|-]\\)\\)")                      ; (regexp-opt '("{-" "{|" "{||" "{|}" "{||}"))
+              (?|  . "\\(?:|\\(?:->\\|=>\\||=\\|[]=>|}-]\\)\\)")                        ; (regexp-opt '("|=" "|>" "||" "||=" "|->" "|=>" "|]" "|}" "|-"))
+              (?_  . "\\(?:_\\(?:|?_\\)\\)")                                            ; (regexp-opt '("_|_" "__"))
+              (?\( . "\\(?:(\\*\\)")                                                    ; (regexp-opt '("(*"))
+              (?~  . "\\(?:~\\(?:~>\\|[=>@~-]\\)\\)")                                  ; (regexp-opt '("~-" "~=" "~>" "~@" "~~" "~~>"))
+              )
+            )
 
 (setq +treemacs-git-mode 'deferred)
 
 ;; From lunik1 config https://github.com/lunik1/.doom.d/blob/master/config.org
 ;; In general, limit ligatures
 ;; Test move
-;; (setq +ligatures-in-modes '(org-mode)
-;;       +ligatures-extras-in-modes '(org-mode))
+;;(setq +ligatures-in-modes '(org-mode)
+(setq +ligatures-in-modes '(org-mode)
+      +ligatures-extras-in-modes '(org-mode))
 
-;; (setq +ligatures-extra-symbols
-;;       '(;; org
-;;         ;;:name          "»"
-;;         :src_block     "»"
-;;         :src_block_end "«"
-;;         :quote         "“"
-;;         :quote_end     "”"))
-
-;; This mixed-pitch-mode should be used more sparsely
-;;(add-hook! 'text-mode-hook #'mixed-pitch-mode)
-
- ;; (after! doom-emacs
- ;;   (setq doom-themes-treemacs-theme "doom-colors"))
+(setq +ligatures-extra-symbols
+      '(;; org
+        ;;:name          "»"
+        :src_block     "»"
+        :src_block_end "«"
+        :quote         "❝"
+        :quote_end     "❞"
+        )
+      )
 
 (setq truncate-string-ellipsis "…")
 
