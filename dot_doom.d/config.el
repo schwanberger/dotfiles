@@ -98,31 +98,31 @@
 (after! org
   (require 'org-indent)
   (setq org-agenda-files '("~/org/gtd/actionable.org" "~/org/todo/new_todo.org"))
+  ;;(custom-set-faces!
+  ;; Make org elements larger
+  ;; `(org-document-title :font ,doom-variable-pitch-font :weight bold :height 2.0)
+  ;; `(outline-1 :font ,doom-variable-pitch-font :weight bold :height 1.75)
+  ;; `(outline-2 :font ,doom-variable-pitch-font :weight bold :height 1.50)
+  ;; `(outline-3 :font ,doom-variable-pitch-font :weight bold :height 1.25)
+  ;; `(outline-4 :font ,doom-variable-pitch-font :weight bold :height 1.10)
+  ;; `(outline-5 :font ,doom-variable-pitch-font :weight bold :height 1.00)
+  ;; `(outline-6 :font ,doom-variable-pitch-font :weight bold :height 0.90)
+  ;; `(outline-7 :font ,doom-variable-pitch-font :weight bold :height 0.80)
+  ;; `(outline-8 :font ,doom-variable-pitch-font :weight bold :height 0.70)
+  ;; Try out tecosaur sizing
   (custom-set-faces!
-    ;; Make org elements larger
-    ;; `(org-document-title :font ,doom-variable-pitch-font :weight bold :height 2.0)
-    ;; `(outline-1 :font ,doom-variable-pitch-font :weight bold :height 1.75)
-    ;; `(outline-2 :font ,doom-variable-pitch-font :weight bold :height 1.50)
-    ;; `(outline-3 :font ,doom-variable-pitch-font :weight bold :height 1.25)
-    ;; `(outline-4 :font ,doom-variable-pitch-font :weight bold :height 1.10)
-    ;; `(outline-5 :font ,doom-variable-pitch-font :weight bold :height 1.00)
-    ;; `(outline-6 :font ,doom-variable-pitch-font :weight bold :height 0.90)
-    ;; `(outline-7 :font ,doom-variable-pitch-font :weight bold :height 0.80)
-    ;; `(outline-8 :font ,doom-variable-pitch-font :weight bold :height 0.70)
-    ;; Try out tecosaur sizing
-    (custom-set-faces!
-      '(org-document-title :height 1.2)
-      '(outline-1 :weight extra-bold :height 1.25)
-      '(outline-2 :weight bold :height 1.15)
-      '(outline-3 :weight bold :height 1.12)
-      '(outline-4 :weight semi-bold :height 1.09)
-      '(outline-5 :weight semi-bold :height 1.06)
-      '(outline-6 :weight semi-bold :height 1.03)
-      '(outline-8 :weight semi-bold)
-      '(outline-9 :weight semi-bold))
+    '(org-document-title :height 1.2)
+    '(outline-1 :weight extra-bold :height 1.25)
+    '(outline-2 :weight bold :height 1.15)
+    '(outline-3 :weight bold :height 1.12)
+    '(outline-4 :weight semi-bold :height 1.09)
+    '(outline-5 :weight semi-bold :height 1.06)
+    '(outline-6 :weight semi-bold :height 1.03)
+    '(outline-8 :weight semi-bold)
+    '(outline-9 :weight semi-bold)
     ;; Get rid of the background on column views
-    `(org-column :background nil)
-    `(org-column-title :background nil)
+    '(org-column :background nil)
+    '(org-column-title :background nil)
     )
   (after! org-superstar
     (setq org-superstar-headline-bullets-list '("◉" "○" "●" "○" "●" "○" "●")
