@@ -22,7 +22,7 @@
 ;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
 ;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
 (setq doom-font (font-spec :family "JetBrains Mono" :size 17 :weight 'light)
-      doom-variable-pitch-font (font-spec :family "Overpass" :size 17)
+      doom-variable-pitch-font (font-spec :family "Overpass")
       doom-big-font (font-spec :family "Iosevka Etoile" :size 30)
       )
 
