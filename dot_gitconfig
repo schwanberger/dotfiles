@@ -1,0 +1,7 @@
+[user]
+	name = Thomas Schwanberger
+	email = schwanberger@gmx.com
+[merge]
+	conflictstyle=diff3
+[github]
+	user = schwanberger
