@@ -70,7 +70,7 @@
 ;; (add-to-list 'exec-path "C:/WINDOWS/system32")
 ;;(add-to-list 'exec-path "C:/tools/msys64/mingw64/bin")
 
-(setq select-enable-clipboard nil)
+;;(setq select-enable-clipboard nil)
 ;; (after! org-superstar
 ;;   (setq org-superstar-headline-bullets-list '("◉" "○" "●" "○" "●" "○" "●")
 ;;         org-superstar-prettify-item-bullets t
