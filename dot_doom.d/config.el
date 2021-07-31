@@ -170,7 +170,7 @@
     :config
     (setq org-appear-autoemphasis t
           org-appear-autosubmarkers t
-          org-appear-autolinks t)
+          org-appear-autolinks nil)
     ;; for proper first-time setup, `org-appear--set-fragments'
     ;; needs to be run after other hooks have acted.
     (run-at-time nil nil #'org-appear--set-fragments))
