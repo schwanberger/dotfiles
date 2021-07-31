@@ -19,7 +19,7 @@
 ;;                                     (native-comp-available-p)))
 ;; (setq native-comp-deferred-compilation t)
 ;; (setq native-comp-async-query-on-exit t)
-;; (setq native-comp-async-jobs-number 8)
+(setq native-comp-async-jobs-number 4)
 ;; (setq native-comp-async-report-warnings-errors nil)
 
 (doom! :input
@@ -31,8 +31,8 @@
        (company +childframe)           ; the ultimate code completion backend
        ;;helm              ; the *other* search engine for love and life
        ;;ido               ; the other *other* search engine...
-       (ivy +icons +prescient) ;; a search engine for love and life
-
+       ;;(ivy +icons +prescient) ;; a search engine for love and life
+       (vertico +icons)
        :ui
        ;;deft              ; notational velocity for Emacs
        doom              ; what makes DOOM look the way it does
@@ -171,7 +171,7 @@
        ;;rust              ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
        ;;scala             ; java, but good
        ;;(scheme +guile)   ; a fully conniving family of lisps
-       (sh +lsp +powershell +fish)                ; she sells {ba,z,fi}sh shells on the C xor
+       (sh +lsp)                ; she sells {ba,z,fi}sh shells on the C xor
        ;;sml
        ;;solidity          ; do you need a blockchain? No.
        ;;swift             ; who asked for emoji variables?
