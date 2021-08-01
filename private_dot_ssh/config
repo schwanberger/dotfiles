@@ -2,4 +2,4 @@ Host github.com
         User git
         Hostname github.com
         PreferredAuthentications publickey
-        IdentityFile /home/vagrant/.ssh/w10-home
+        IdentityFile ~/.ssh/w10-home
