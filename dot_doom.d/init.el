@@ -17,7 +17,7 @@
 ;; IGNORE FOR NOW, native comp specific
 ;; (defconst dd/using-native-comp (and (fboundp 'native-comp-available-p)
 ;;                                     (native-comp-available-p)))
-;; (setq native-comp-deferred-compilation t)
+(setq native-comp-deferred-compilation t)
 ;; (setq native-comp-async-query-on-exit t)
 (setq native-comp-async-jobs-number 4)
 ;; (setq native-comp-async-report-warnings-errors nil)

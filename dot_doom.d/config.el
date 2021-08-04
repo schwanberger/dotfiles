@@ -21,15 +21,44 @@
 ;; font string. You generally only need these two:
 ;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
 ;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
-(setq doom-font (font-spec :family "JetBrains Mono" :size 17 :weight 'light)
-      doom-variable-pitch-font (font-spec :family "Overpass")
-      doom-big-font (font-spec :family "Iosevka Etoile" :size 30)
+(setq doom-font (font-spec :family "JetBrains Mono" :size 16 :weight 'light)
+      ;;(setq doom-font (font-spec :family "Roboto Mono" :size 17 :weight 'light)
+      ;;doom-variable-pitch-font (font-spec :family "Overpass" :weight 'regular)
+      ;;doom-variable-pitch-font (font-spec :family "Roboto" :weight 'regular)
+      doom-variable-pitch-font (font-spec :family "Noto Serif" :size 16)
+      doom-serif-font doom-variable-pitch-font
+      ;;doom-big-font (font-spec :family "Iosevka Etoile" :size 30)
       )
+
+
+(use-package! modus-themes
+;;   ;;:hook (modus-themes-after-load-theme . lc/fix-fill-column-indicator)
+;;   :hook (modus-themes-after-load-theme)
+  :init
+  (setq modus-themes-org-blocks 'gray-background
+        ;;modus-themes-slanted-constructs t
+        modus-themes-bold-constructs t
+        modus-themes-italic-constructs t
+        ;;org-fontify-whole-block-delimiter-line t
+        ;;org-fontify-quote-and-verse-blocks nil
+        modus-themes-region '(bg-only no-extend)
+        )
+    (modus-themes-load-themes)
+    :config
+    (modus-themes-load-operandi)
+  )
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-vibrant-dark)
+;;(setq doom-theme 'doom-vibrant-dark)
+;;(setq doom-theme 'doom-homage-black)
+
+;; (setq modus-themes-org-blocks 'gray-background
+;;       modus-themes-bold-constructs 't
+;;       modus-themes-italic-constructs 't)
+;;(setq doom-theme 'modus-vivendi)
+;;(setq doom-theme 'modus-operandi)
 ;;(setq doom-theme 'doom-one)
 
 ;; If you use `org' and don't want your org files in the default location below,
@@ -70,7 +99,11 @@
 ;; (add-to-list 'exec-path "C:/WINDOWS/system32")
 ;;(add-to-list 'exec-path "C:/tools/msys64/mingw64/bin")
 
-;;(setq select-enable-clipboard nil)
+;; Keep Emacs seperate from clipboard
+;; To yank/paste to/from clipboard, use register "+"
+(setq select-enable-clipboard nil)
+(setq select-enable-primary nil)
+
 ;; (after! org-superstar
 ;;   (setq org-superstar-headline-bullets-list '("◉" "○" "●" "○" "●" "○" "●")
 ;;         org-superstar-prettify-item-bullets t
@@ -94,6 +127,12 @@
 ;;   ;;         org-fontify-quote-and-verse-blocks t)
 
 ;;   ))
+
+;; Startup maximised
+;;(add-to-list 'initial-frame-alist '(fullscreen . maximized))
+
+;; Prevents some cases of Emacs flickering
+;;(add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
 
 (after! org
   (require 'org-indent)
@@ -131,27 +170,27 @@
           org-superstar-remove-leading-stars t
           ))
   (setq org-fontify-quote-and-verse-blocks t)
-  (setq org-pandoc-options-for-docx '(
-                                      (reference-doc . "C:/Projects/todo/pandoc/nc_ref.docx")
-                                      ))
+  ;; (setq org-pandoc-options-for-docx '(
+  ;;                                     (reference-doc . "C:/Projects/todo/pandoc/nc_ref.docx")
+  ;;                                     ))
 
-  (setq org-pandoc-options-for-html5 '(
-                                       (number-sections . t)
-                                       (toc . t)
-                                       (self-contained . t)
-                                        ;(template . "C:/Projects/todo/easy_template.html")
-                                       (template . "C:/Projects/todo/pandoc/html5/github/GitHub.html5")
+  ;; (setq org-pandoc-options-for-html5 '(
+  ;;                                      (number-sections . t)
+  ;;                                      (toc . t)
+  ;;                                      (self-contained . t)
+  ;;                                       ;(template . "C:/Projects/todo/easy_template.html")
+  ;;                                      (template . "C:/Projects/todo/pandoc/html5/github/GitHub.html5")
 
 
-                                       ;;(template . "C:/Projects/todo/pandoc/html5/kjhealy/html.template")
-                                       ))
+  ;;                                      ;;(template . "C:/Projects/todo/pandoc/html5/kjhealy/html.template")
+  ;;                                      ))
 
-  (setq org-pandoc-options-for-latex-pdf '(
-                                           (number-sections . t)
-                                           (toc . t)
-                                           (template . "C:/Projects/todo/eisvogel.tex")
-                                           (pdf-engine . "lualatex")
-                                           ))
+  ;; (setq org-pandoc-options-for-latex-pdf '(
+  ;;                                          (number-sections . t)
+  ;;                                          (toc . t)
+  ;;                                          (template . "C:/Projects/todo/eisvogel.tex")
+  ;;                                          (pdf-engine . "lualatex")
+  ;;                                          ))
   (require 'org-id)
   (setq org-use-property-inheritance t
         org-log-done 'time ; matches behaviour of orgzly
@@ -190,13 +229,13 @@
 
 (load! "+org")
 
-(defun locally-defer-font-lock ()
-  "Set jit-lock defer and stealth, when buffer is over a certain size."
-  (when (> (buffer-size) 50000)
-    (setq-local jit-lock-defer-time 0.05
-                jit-lock-stealth-time 1)))
-
-(add-hook! 'org-mode-hook #'locally-defer-font-lock)
+;;(defun locally-defer-font-lock ()
+;;  "Set jit-lock defer and stealth, when buffer is over a certain size."
+;;  (when (> (buffer-size) 50000)
+;;    (setq-local jit-lock-defer-time 0.05
+;;                jit-lock-stealth-time 1)))
+;;
+;;(add-hook! 'org-mode-hook #'locally-defer-font-lock)
 
 (setq +treemacs-git-mode 'deferred)
 
@@ -313,3 +352,15 @@
        (car char-regexp) `([,(cdr char-regexp) 0 font-shape-gstring])))
     (set-char-table-parent +ligature--composition-table composition-function-table))
   )
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Emacs on WSL open links in Windows web browser
+;; https://adam.kruszewski.name/2017/09/emacs-in-wsl-and-opening-links/
+(when (getenv "WSLENV")
+  (let ((cmd-exe "/mnt/c/Windows/System32/cmd.exe")
+	(cmd-args '("/c" "start")))
+    (when (file-exists-p cmd-exe)
+      (setq browse-url-generic-program  cmd-exe
+	    browse-url-generic-args     cmd-args
+	    browse-url-browser-function 'browse-url-generic
+	    search-web-default-browser 'browse-url-generic))))

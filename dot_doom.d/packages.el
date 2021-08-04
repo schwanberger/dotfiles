@@ -59,3 +59,5 @@
            :files ("*.el" "filters" "preprocessors")))
 (package! ox-gfm)
 (unpin! company-box)
+
+(package! modus-themes)
