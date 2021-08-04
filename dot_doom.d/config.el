@@ -27,79 +27,28 @@
       ;;doom-variable-pitch-font (font-spec :family "Roboto" :weight 'regular)
       doom-variable-pitch-font (font-spec :family "Noto Serif" :size 17 :weight 'regular)
       ;;doom-serif-font doom-variable-pitch-font
-      ;;doom-big-font (font-spec :family "Iosevka Etoile" :size 30)
+      doom-big-font (font-spec :family "Noto Serif" :size 30)
       )
 
 
 (use-package! modus-themes
-  ;;   ;;:hook (modus-themes-after-load-theme . lc/fix-fill-column-indicator)
   :init
   (setq modus-themes-org-blocks 'gray-background
         modus-themes-bold-constructs t
         modus-themes-italic-constructs t
         )
-  (custom-set-faces!
-                                        ;`((fixed-pitch ((t (:font ,doom-font ,@attrs)))))
-                                        ;`((fixed-pitch-serif ((t (:font ,doom-serif-font ,@attrs)))))
-                                        ;`((variable-pitch ((t (:font ,doom-variable-pitch-font ,@attrs)))))
-    ;;`((fixed-pitch ((t (:font ,doom-font)))))
-    ;;`((fixed-pitch-serif ((t (:font ,doom-serif-font)))))
-    ;;`((variable-pitch ((t (:font ,doom-variable-pitch-font)))))
-    ;; `((fixed-pitch ((t (:font ,doom-font)))))
-    ;; `((fixed-pitch-serif ((t (:font ,doom-serif-font)))))
-    ;; `((variable-pitch ((t (:font ,doom-variable-pitch-font)))))
-    )
-   ;; (custom-theme-set-faces! 'modus-operandi
-   ;;   `((fixed-pitch ((t (:font ,doom-font)))))
-   ;;   `((fixed-pitch-serif ((t (:font ,doom-serif-font)))))
-   ;;   `((variable-pitch ((t (:font ,doom-variable-pitch-font)))))
-   ;;   )
-  ;;(custom-set-faces '(org-quote ((nil (:slant italic :weight regular)))))
   (modus-themes-load-themes)
-  :config
-  ;;(custom-set-faces '(org-quote ((nil (:slant italic :weight regular)))))
   )
 
-  ;; (custom-theme-set-faces! 'modus-operandi
-  ;;   ;;`((org-quote ((nil (:font ,doom-variable-pitch-font :slant 'italic :weight 'regular)))))
-  ;;   '((org-quote ((nil (:inherit 'org-quote :slant 'italic :weight 'regular)))))
-  ;;   `((fixed-pitch ((t (:font ,doom-font)))))
-  ;;   `((fixed-pitch-serif ((t (:font ,doom-serif-font)))))
-  ;;   `((variable-pitch ((t (:font ,doom-variable-pitch-font)))))
-  ;;   )
-
-
-;; (defun my-modus-themes-custom-faces ()
-;;   (modus-themes-with-colors
-;;     (custom-set-faces
-;;      ;;     `((fixed-pitch ((t (:font ,doom-font)))))
-;;      ;;     `((fixed-pitch-serif ((t (:font ,doom-serif-font)))))
-;;      ;;     `((variable-pitch ((t (:font ,doom-variable-pitch-font)))))
-;;      `(org-quote ((,class :slant italic)))
-;;      )
-;;     )
-;;   )
-
-;;(add-hook 'modus-themes-after-load-theme-hook #'my-modus-themes-custom-faces)
 (add-hook! 'modus-themes-after-load-theme-hook
   (defun my-modus-themes-custom-faces ()
     (modus-themes-with-colors
       (custom-set-faces
-       ;;       `((fixed-pitch ((t (:font ,doom-font)))))
-       ;;       `((fixed-pitch-serif ((t (:font ,doom-serif-font)))))
-       ;;       `((variable-pitch ((t (:font ,doom-variable-pitch-font)))))
-       ;; `(fixed-pitch ((,class :font ,doom-font)))
-       ;; `(fixed-pitch-serif ((,class :font ,doom-serif-font)))
-       ;; `(variable-pitch ((,class :font ,doom-variable-pitch-font)))
+       ;;",class" found by looking into modus-theme source code in .../straight...
        `(org-quote ((,class :slant italic)))
-       ;;`(default ((t (:font ,doom-font))))
+       ;; Only these two needs to be defined for mixed-pitch-mode working in both states
        `(default ((nil (,doom-font))))
        `(fixed-pitch ((nil (,doom-font))))
-;;       `(fixed-pitch-serif ((nil (,doom-serif-font))))
-;;       `(variable-pitch ((nil (,doom-variable-pitch-font))))
-;;       `(fixed-pitch ((t (:font ,doom-font))))
-;;       `(fixed-pitch-serif ((t (:font ,doom-serif-font))))
-;;       `(variable-pitch ((t (:font ,doom-variable-pitch-font))))
        )
       )
     )
@@ -109,14 +58,6 @@
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 (setq doom-theme 'doom-vibrant-dark)
-;;(setq doom-theme 'doom-homage-black)
-
-;; (setq modus-themes-org-blocks 'gray-background
-;;       modus-themes-bold-constructs 't
-;;       modus-themes-italic-constructs 't)
-;;(setq doom-theme 'modus-vivendi)
-;;(setq doom-theme 'modus-operandi)
-;;(setq doom-theme 'doom-one)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -144,68 +85,21 @@
 ;; they are implemented.
 
 (setq confirm-kill-emacs nil)
-;; WINDOWS SPECIFIC
-;;(setq ispell-program-name "C:/tools/msys64/mingw64/bin/aspell.exe")
-;; (setq plantuml-jar-path "C:/ProgramData/chocolatey/lib/plantuml/tools/plantuml.jar")
-;; (setq org-plantuml-jar-path "C:/ProgramData/chocolatey/lib/plantuml/tools/plantuml.jar")
-;; (setq plantuml-default-exec-mode 'jar)
-;; (setq grip-binary-path "C:/Python39/Scripts/grip.exe")
-
-;; (setq explicit-shell-file-name "C:/WINDOWS/system32/bash.exe")
-;; (setq shell-file-name explicit-shell-file-name)
-;; (add-to-list 'exec-path "C:/WINDOWS/system32")
-;;(add-to-list 'exec-path "C:/tools/msys64/mingw64/bin")
 
 ;; Keep Emacs seperate from clipboard
 ;; To yank/paste to/from clipboard, use register "+"
 (setq select-enable-clipboard nil)
 (setq select-enable-primary nil)
 
-;; (after! org-superstar
-;;   (setq org-superstar-headline-bullets-list '("◉" "○" "●" "○" "●" "○" "●")
-;;         org-superstar-prettify-item-bullets t
-;;         )
-;;   ;;(setq org-superstar-headline-bullets-list '("■" "◆" "▲")
-;;   ;;(setq org-superstar-headline-bullets-list '("■" "□" "▣" "◆" "◇" "◈")
-;;   ;;(setq org-superstar-headline-bullets-list '("◳" "◰" "◱" "◲" "◈" "◇" "◆" )
-;;   ;;(setq org-superstar-headline-bullets-list '("□" "▣" "■" "◇" "◈" "◆")
-;;   ;;(setq org-superstar-headline-bullets-list '("■" "◆" "▲" "□" "◇" "△")
-;;   ;;(setq org-superstar-headline-bullets-list '("∷" "∴" "∵")
-;;   ;;(setq org-superstar-headline-bullets-list '("∮" "∯" "∰" "∎")
-;;   ;;         org-pretty-entities t
-;;   ;; ;;        org-hide-emphasis-markers t ;; show actually italicized text instead of /italicized text/
-;;   ;;         org-agenda-block-separator ""
-;;   ;;         org-fontify-whole-heading-line t
-;;   ;;         org-fontify-done-headline t
-;;   ;;         org-superstar-remove-leading-stars t
-;;   ;;         ;; For some odd reason, this works on windows but not on linux
-;;   ;;         org-superstar-item-bullet-alist '((?- . ?‐)
-;;   ;;                                           (?- . ?‐))
-;;   ;;         org-fontify-quote-and-verse-blocks t)
-
-;;   ))
-
 ;; Startup maximised
-;;(add-to-list 'initial-frame-alist '(fullscreen . maximized))
+(add-to-list 'initial-frame-alist '(fullscreen . maximized))
 
-;; Prevents some cases of Emacs flickering
+;; Prevents some cases of Emacs flickering - from hlissner config, makes performance worse in my setup
 ;;(add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
 
 (after! org
   (require 'org-indent)
   (setq org-agenda-files '("~/org/gtd/actionable.org" "~/org/todo/new_todo.org"))
-  ;;(custom-set-faces!
-  ;; Make org elements larger
-  ;; `(org-document-title :font ,doom-variable-pitch-font :weight bold :height 2.0)
-  ;; `(outline-1 :font ,doom-variable-pitch-font :weight bold :height 1.75)
-  ;; `(outline-2 :font ,doom-variable-pitch-font :weight bold :height 1.50)
-  ;; `(outline-3 :font ,doom-variable-pitch-font :weight bold :height 1.25)
-  ;; `(outline-4 :font ,doom-variable-pitch-font :weight bold :height 1.10)
-  ;; `(outline-5 :font ,doom-variable-pitch-font :weight bold :height 1.00)
-  ;; `(outline-6 :font ,doom-variable-pitch-font :weight bold :height 0.90)
-  ;; `(outline-7 :font ,doom-variable-pitch-font :weight bold :height 0.80)
-  ;; `(outline-8 :font ,doom-variable-pitch-font :weight bold :height 0.70)
-  ;; Try out tecosaur sizing
   (custom-set-faces!
     '(org-document-title :height 1.2)
     '(outline-1 :weight extra-bold :height 1.25)
@@ -227,6 +121,7 @@
           org-superstar-remove-leading-stars t
           ))
   (setq org-fontify-quote-and-verse-blocks t)
+  ;; FIXME this will have to be done for WSL
   ;; (setq org-pandoc-options-for-docx '(
   ;;                                     (reference-doc . "C:/Projects/todo/pandoc/nc_ref.docx")
   ;;                                     ))
@@ -258,7 +153,7 @@
         org-id-link-to-org-use-id 'create-if-interactive
         )
 
-  ;;(add-hook! 'org-mode-hook #'+org-pretty-mode)
+  (add-hook! 'org-mode-hook #'+org-pretty-mode)
   (setq org-ellipsis " ▾ ")
 
   (use-package! org-appear
@@ -286,6 +181,7 @@
 
 (load! "+org")
 
+;; This messes with org-tree-slide-mode
 ;;(defun locally-defer-font-lock ()
 ;;  "Set jit-lock defer and stealth, when buffer is over a certain size."
 ;;  (when (> (buffer-size) 50000)
@@ -321,6 +217,7 @@
 (setq ispell-dictionary "en_GB"
       langtool-default-language "en-GB")
 
+;; Add icons to modeline
 (after! doom-modeline (setq doom-modeline-major-mode-icon t))
 
 (global-subword-mode 1)                           ; Iterate through CamelCase words
@@ -361,10 +258,7 @@
 ;; Treat clipboard input as UTF-8 string first; compound text next, etc.
 (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
 
- ;; (add-hook! 'org-mode-hook :append
- ;;   (defun +ligatures-init-h ()
- ;;     (add-hook 'after-change-major-mode-hook #'+ligatures-init-buffer-h)))
-
+;; Dirty hack to rebuild ligature table such that it excludes some ligatures that I don't want
 (add-hook! 'org-mode-hook :append
   (defun +thsc/ligature-init-composition-table-h ()
     (setq-local +ligature--composition-table (make-char-table nil))
