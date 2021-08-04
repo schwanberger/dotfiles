@@ -21,37 +21,94 @@
 ;; font string. You generally only need these two:
 ;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
 ;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
-(setq doom-font (font-spec :family "JetBrains Mono" :size 16 :weight 'light)
+(setq doom-font (font-spec :family "JetBrains Mono" :size 17 :weight 'light)
       ;;(setq doom-font (font-spec :family "Roboto Mono" :size 17 :weight 'light)
       ;;doom-variable-pitch-font (font-spec :family "Overpass" :weight 'regular)
       ;;doom-variable-pitch-font (font-spec :family "Roboto" :weight 'regular)
-      doom-variable-pitch-font (font-spec :family "Noto Serif" :size 16)
-      doom-serif-font doom-variable-pitch-font
+      doom-variable-pitch-font (font-spec :family "Noto Serif" :size 17 :weight 'regular)
+      ;;doom-serif-font doom-variable-pitch-font
       ;;doom-big-font (font-spec :family "Iosevka Etoile" :size 30)
       )
 
 
 (use-package! modus-themes
-;;   ;;:hook (modus-themes-after-load-theme . lc/fix-fill-column-indicator)
-;;   :hook (modus-themes-after-load-theme)
+  ;;   ;;:hook (modus-themes-after-load-theme . lc/fix-fill-column-indicator)
   :init
   (setq modus-themes-org-blocks 'gray-background
-        ;;modus-themes-slanted-constructs t
         modus-themes-bold-constructs t
         modus-themes-italic-constructs t
-        ;;org-fontify-whole-block-delimiter-line t
-        ;;org-fontify-quote-and-verse-blocks nil
-        modus-themes-region '(bg-only no-extend)
         )
-    (modus-themes-load-themes)
-    :config
-    (modus-themes-load-operandi)
+  (custom-set-faces!
+                                        ;`((fixed-pitch ((t (:font ,doom-font ,@attrs)))))
+                                        ;`((fixed-pitch-serif ((t (:font ,doom-serif-font ,@attrs)))))
+                                        ;`((variable-pitch ((t (:font ,doom-variable-pitch-font ,@attrs)))))
+    ;;`((fixed-pitch ((t (:font ,doom-font)))))
+    ;;`((fixed-pitch-serif ((t (:font ,doom-serif-font)))))
+    ;;`((variable-pitch ((t (:font ,doom-variable-pitch-font)))))
+    ;; `((fixed-pitch ((t (:font ,doom-font)))))
+    ;; `((fixed-pitch-serif ((t (:font ,doom-serif-font)))))
+    ;; `((variable-pitch ((t (:font ,doom-variable-pitch-font)))))
+    )
+   ;; (custom-theme-set-faces! 'modus-operandi
+   ;;   `((fixed-pitch ((t (:font ,doom-font)))))
+   ;;   `((fixed-pitch-serif ((t (:font ,doom-serif-font)))))
+   ;;   `((variable-pitch ((t (:font ,doom-variable-pitch-font)))))
+   ;;   )
+  ;;(custom-set-faces '(org-quote ((nil (:slant italic :weight regular)))))
+  (modus-themes-load-themes)
+  :config
+  ;;(custom-set-faces '(org-quote ((nil (:slant italic :weight regular)))))
+  )
+
+  ;; (custom-theme-set-faces! 'modus-operandi
+  ;;   ;;`((org-quote ((nil (:font ,doom-variable-pitch-font :slant 'italic :weight 'regular)))))
+  ;;   '((org-quote ((nil (:inherit 'org-quote :slant 'italic :weight 'regular)))))
+  ;;   `((fixed-pitch ((t (:font ,doom-font)))))
+  ;;   `((fixed-pitch-serif ((t (:font ,doom-serif-font)))))
+  ;;   `((variable-pitch ((t (:font ,doom-variable-pitch-font)))))
+  ;;   )
+
+
+;; (defun my-modus-themes-custom-faces ()
+;;   (modus-themes-with-colors
+;;     (custom-set-faces
+;;      ;;     `((fixed-pitch ((t (:font ,doom-font)))))
+;;      ;;     `((fixed-pitch-serif ((t (:font ,doom-serif-font)))))
+;;      ;;     `((variable-pitch ((t (:font ,doom-variable-pitch-font)))))
+;;      `(org-quote ((,class :slant italic)))
+;;      )
+;;     )
+;;   )
+
+;;(add-hook 'modus-themes-after-load-theme-hook #'my-modus-themes-custom-faces)
+(add-hook! 'modus-themes-after-load-theme-hook
+  (defun my-modus-themes-custom-faces ()
+    (modus-themes-with-colors
+      (custom-set-faces
+       ;;       `((fixed-pitch ((t (:font ,doom-font)))))
+       ;;       `((fixed-pitch-serif ((t (:font ,doom-serif-font)))))
+       ;;       `((variable-pitch ((t (:font ,doom-variable-pitch-font)))))
+       ;; `(fixed-pitch ((,class :font ,doom-font)))
+       ;; `(fixed-pitch-serif ((,class :font ,doom-serif-font)))
+       ;; `(variable-pitch ((,class :font ,doom-variable-pitch-font)))
+       `(org-quote ((,class :slant italic)))
+       ;;`(default ((t (:font ,doom-font))))
+       `(default ((nil (,doom-font))))
+       `(fixed-pitch ((nil (,doom-font))))
+;;       `(fixed-pitch-serif ((nil (,doom-serif-font))))
+;;       `(variable-pitch ((nil (,doom-variable-pitch-font))))
+;;       `(fixed-pitch ((t (:font ,doom-font))))
+;;       `(fixed-pitch-serif ((t (:font ,doom-serif-font))))
+;;       `(variable-pitch ((t (:font ,doom-variable-pitch-font))))
+       )
+      )
+    )
   )
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-;;(setq doom-theme 'doom-vibrant-dark)
+(setq doom-theme 'doom-vibrant-dark)
 ;;(setq doom-theme 'doom-homage-black)
 
 ;; (setq modus-themes-org-blocks 'gray-background
@@ -358,9 +415,9 @@
 ;; https://adam.kruszewski.name/2017/09/emacs-in-wsl-and-opening-links/
 (when (getenv "WSLENV")
   (let ((cmd-exe "/mnt/c/Windows/System32/cmd.exe")
-	(cmd-args '("/c" "start")))
+        (cmd-args '("/c" "start")))
     (when (file-exists-p cmd-exe)
       (setq browse-url-generic-program  cmd-exe
-	    browse-url-generic-args     cmd-args
-	    browse-url-browser-function 'browse-url-generic
-	    search-web-default-browser 'browse-url-generic))))
+            browse-url-generic-args     cmd-args
+            browse-url-browser-function 'browse-url-generic
+            search-web-default-browser 'browse-url-generic))))
