@@ -21,11 +21,11 @@
 ;; font string. You generally only need these two:
 ;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
 ;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
-(setq doom-font (font-spec :family "JetBrains Mono" :size 17 :weight 'light)
+(setq doom-font (font-spec :family "JetBrains Mono" :size 16 :weight 'light)
       ;;(setq doom-font (font-spec :family "Roboto Mono" :size 17 :weight 'light)
       ;;doom-variable-pitch-font (font-spec :family "Overpass" :weight 'regular)
       ;;doom-variable-pitch-font (font-spec :family "Roboto" :weight 'regular)
-      doom-variable-pitch-font (font-spec :family "Noto Serif" :size 17 :weight 'regular)
+      doom-variable-pitch-font (font-spec :family "Noto Serif" :size 16 :weight 'regular)
       ;;doom-serif-font doom-variable-pitch-font
       doom-big-font (font-spec :family "Noto Serif" :size 30)
       )
