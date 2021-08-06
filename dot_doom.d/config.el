@@ -177,6 +177,9 @@
     )
 
   (add-hook! 'org-tree-slide-mode-hook '+thsc/org-tree-slide-mode-hook)
+
+  ;; Don't break evil navigation in org-super-agenda
+  (setq org-super-agenda-header-map 'evil-org-agenda-mode-map)
   )
 
 (load! "+org")
@@ -315,3 +318,6 @@
             browse-url-generic-args     cmd-args
             browse-url-browser-function 'browse-url-generic
             search-web-default-browser 'browse-url-generic))))
+
+(use-package! org-pretty-table
+  :commands (org-pretty-table-mode global-org-pretty-table-mode))

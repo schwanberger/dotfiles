@@ -61,3 +61,6 @@
 (unpin! company-box)
 
 (package! modus-themes)
+
+(package! org-pretty-table
+  :recipe (:host github :repo "Fuco1/org-pretty-table") :pin "87772a9469d91770f87bfa788580fca69b9e697a")
