@@ -52,6 +52,8 @@
 (after! org-agenda
   (setq org-agenda-start-on-weekday nil)
   (setq org-agenda-start-day "0d")
+  ;; Need to see deadline long in advance in some views
+  (setq org-deadline-warning-days 365)
   (setq org-duration-format (quote h:mm))
   (add-to-list 'org-agenda-custom-commands '("g" "Scheduled today and all NEXT items" ((agenda "" ((org-agenda-span 1))) (todo "NEXT")))))
 
