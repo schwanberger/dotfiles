@@ -22,10 +22,12 @@
 ;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
 ;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
 (setq doom-font (font-spec :family "JetBrains Mono" :size 16 :weight 'light)
+;;(setq doom-font (font-spec :family "Iosevka Fixed" :size 16)
       ;;(setq doom-font (font-spec :family "Roboto Mono" :size 17 :weight 'light)
       ;;doom-variable-pitch-font (font-spec :family "Overpass" :weight 'regular)
       ;;doom-variable-pitch-font (font-spec :family "Roboto" :weight 'regular)
       doom-variable-pitch-font (font-spec :family "Noto Serif" :size 16 :weight 'regular)
+      ;;doom-variable-pitch-font (font-spec :family "ETBembo")
       ;;doom-serif-font doom-variable-pitch-font
       doom-big-font (font-spec :family "Noto Serif" :size 30)
       )
@@ -321,3 +323,33 @@
 
 (use-package! org-pretty-table
   :commands (org-pretty-table-mode global-org-pretty-table-mode))
+
+(use-package! org-rich-yank)
+
+(use-package! groovy-mode)
+
+
+;; -- TRAMP TWEAKS
+;; This makes terminal prettier when switching users
+(setq tramp-terminal-type "tramp")
+
+;; -- Oracle sql mode
+(defun +thsc-plsql-mode ()
+  "Programming support mode for PL/SQL code."
+
+  (interactive)
+  ;;  (require 'sql)
+  (sql-mode)
+  (sql-set-product "oracle")
+  )
+
+;;(load! "+tramp_hack")
+;; (use-package! tramp-auto-auth
+;;   :config
+;;   (add-to-list
+;;    'tramp-auto-auth-alist
+;;    '("\\.\\*@\\.\\*" . (:host "test" :user "thsc" :port "ssh"))
+;;    '()
+;;    )
+;;   (tramp-auto-auth-mode)
+;;   )

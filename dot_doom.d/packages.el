@@ -64,3 +64,17 @@
 
 (package! org-pretty-table
   :recipe (:host github :repo "Fuco1/org-pretty-table") :pin "87772a9469d91770f87bfa788580fca69b9e697a")
+
+
+(package! org-rich-yank)
+(package! groovy-mode)
+
+(package! sqlplus)
+(package! plsql)
+(package! vterm-toggle)
+
+;; (package! tramp
+;;   :recipe (:host github :repo "emacs-mirror/emacs")
+;;   :pin nil
+;;   )
+(package! tramp-auto-auth)
