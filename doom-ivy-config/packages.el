@@ -48,33 +48,27 @@
 ;(unpin! pinned-package another-pinned-package)
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
+(package! groovy-mode)
+(package! puppet-mode)
 
+(package! sqlplus)
+(package! plsql)
+(package! modus-themes)
 (package! org-super-agenda)
 (package! org-gtd)
-(package! spacemacs-theme)
-(package! org-appear :recipe (:host github :repo "awth13/org-appear"))
+(package! shell-pop)
+(package! puppet-mode)
+(package! ox-gfm)
+(package! ox-pandoc)
+(package! counsel-tramp)
 (package! org-pandoc-import
   :recipe (:host github
            :repo "tecosaur/org-pandoc-import"
            :files ("*.el" "filters" "preprocessors")))
-(package! ox-gfm)
-(unpin! company-box)
+(package! org-appear :recipe (:host github :repo "awth13/org-appear"))
+(unpin! (:term eshell shell term vterm))
 
-(package! modus-themes)
+;; (package! vterm
+;; 	  :recipe (:host github :repo "akermu/emacs-libvterm") :pin "9e5a208d8871293a23a2734591fac97a584a41c2")
 
-(package! org-pretty-table
-  :recipe (:host github :repo "Fuco1/org-pretty-table") :pin "87772a9469d91770f87bfa788580fca69b9e697a")
-
-
-(package! org-rich-yank)
-(package! groovy-mode)
-
-(package! sqlplus)
-(package! plsql)
-(package! vterm-toggle)
-
-;; (package! tramp
-;;   :recipe (:host github :repo "emacs-mirror/emacs")
-;;   :pin nil
-;;   )
-(package! tramp-auto-auth)
+(package! xterm-color)

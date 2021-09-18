@@ -1,0 +1,12 @@
+(
+("doom" . ((user-emacs-directory . "~/doom-emacs")
+           (env . (("DOOMDIR" . "~/doom-config")))))
+("doom-test" . ((user-emacs-directory . "~/doom-test")
+           (env . (("DOOMDIR" . "~/doom-test-config")))))
+("doom-minimal" . ((user-emacs-directory . "~/doom-minimal")
+                 (env . (("DOOMDIR" . "~/doom-minimal-config")))))
+("doom-ivy" . ((user-emacs-directory . "~/doom-ivy")
+                 (env . (("DOOMDIR" . "~/doom-ivy-config")))))
+("spacemacs-develop" . ((user-emacs-directory . "~/spacemacs-develop")
+                 (env . (("SPACEMACSDIR" . "~/spacemacs-develop-config")))))
+)
