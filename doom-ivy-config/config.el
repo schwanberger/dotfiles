@@ -22,12 +22,15 @@
 ;; font string. You generally only need these two:
 ;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
 ;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
-(setq doom-font (font-spec :family "JetBrains Mono" :size 16 :weight 'light)
-;;(setq doom-font (font-spec :family "Iosevka Fixed" :size 16)
+;;(setq doom-font (font-spec :family "JetBrains Mono" :size 16 :weight 'light)
+;;(setq doom-font (font-spec :family "Iosevka" :size 16 :weight 'light)
+(setq doom-font (font-spec :family "Iosevka" :size 17)
       ;;(setq doom-font (font-spec :family "Roboto Mono" :size 17 :weight 'light)
       ;;doom-variable-pitch-font (font-spec :family "Overpass" :weight 'regular)
       ;;doom-variable-pitch-font (font-spec :family "Roboto" :weight 'regular)
-      doom-variable-pitch-font (font-spec :family "Noto Serif" :weight 'regular)
+      ;;doom-variable-pitch-font (font-spec :family "Noto Serif" :weight 'regular)
+      ;;doom-variable-pitch-font (font-spec :family "Iosevka Aile")
+      doom-variable-pitch-font (font-spec :family "Iosevka Etoile")
       ;;doom-variable-pitch-font (font-spec :family "ETBembo")
       ;;doom-serif-font doom-variable-pitch-font
       doom-big-font (font-spec :family "Noto Serif" :size 30)
@@ -356,3 +359,11 @@
 
 (remove-hook! '(shell-mode-hook vterm-mode-hook eshell-mode-hook) #'hide-mode-line-mode)
 (add-hook! (shell-mode vterm-mode eshell-mode dired-mode) (solaire-mode -1))
+
+(use-package! eshell-vterm
+  :defer t
+  :after eshell
+  :config
+  (eshell-vterm-mode)
+  (defalias 'eshell/v 'eshell-exec-visual)
+  )

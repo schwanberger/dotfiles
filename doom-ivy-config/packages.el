@@ -72,3 +72,5 @@
 ;; 	  :recipe (:host github :repo "akermu/emacs-libvterm") :pin "9e5a208d8871293a23a2734591fac97a584a41c2")
 
 (package! xterm-color)
+(package! eshell-vterm :recipe (:host github :repo "iostapyshyn/eshell-vterm"))
+
