@@ -367,3 +367,5 @@
   (eshell-vterm-mode)
   (defalias 'eshell/v 'eshell-exec-visual)
   )
+
+(setq kill-ring-max 5000)
