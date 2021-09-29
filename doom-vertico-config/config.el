@@ -359,7 +359,6 @@
 
 (remove-hook! '(shell-mode-hook vterm-mode-hook eshell-mode-hook) #'hide-mode-line-mode)
 (add-hook! (shell-mode vterm-mode eshell-mode dired-mode) (solaire-mode -1))
-(add-hook! (shell-mode vterm-mode eshell-mode) (persp-add-buffer (current-buffer)))
 
 (use-package! eshell-vterm
   :defer t
@@ -370,3 +369,13 @@
   )
 
 (setq kill-ring-max 5000)
+
+;; Create a shell with remote-process info in buffer-name - call interactively to spawn new shells with decent names
+(defun +thsc/shell ()
+    (interactive)
+  (shell (format "shell:%s" (concat (file-remote-p default-directory 'user) "@" (file-remote-p default-directory 'host))))
+  (rename-uniquely)
+  )
+
+;; Add new shells to perspective (workspace)
+(add-hook! (shell-mode vterm-mode eshell-mode) (persp-add-buffer (current-buffer)))
