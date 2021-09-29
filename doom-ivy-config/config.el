@@ -359,6 +359,7 @@
 
 (remove-hook! '(shell-mode-hook vterm-mode-hook eshell-mode-hook) #'hide-mode-line-mode)
 (add-hook! (shell-mode vterm-mode eshell-mode dired-mode) (solaire-mode -1))
+(add-hook! (shell-mode vterm-mode eshell-mode) (persp-add-buffer (current-buffer)))
 
 (use-package! eshell-vterm
   :defer t
