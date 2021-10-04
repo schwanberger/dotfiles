@@ -24,7 +24,7 @@
 ;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
 ;;(setq doom-font (font-spec :family "JetBrains Mono" :size 16 :weight 'light)
 ;;(setq doom-font (font-spec :family "Iosevka" :size 16 :weight 'light)
-(setq doom-font (font-spec :family "Iosevka" :size 16)
+(setq doom-font (font-spec :family "Iosevka" :size 17)
       ;;(setq doom-font (font-spec :family "Roboto Mono" :size 17 :weight 'light)
       ;;doom-variable-pitch-font (font-spec :family "Overpass" :weight 'regular)
       ;;doom-variable-pitch-font (font-spec :family "Roboto" :weight 'regular)
@@ -38,7 +38,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-one)
+(setq doom-theme 'doom-monokai-spectrum)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -372,15 +372,42 @@
 
 ;; Create a shell with remote-process info in buffer-name - call interactively to spawn new shells with decent names
 (defun +thsc/shell ()
-    (interactive)
+    (interactive "p")
   (shell (format "shell:%s" (concat (file-remote-p default-directory 'user) "@" (file-remote-p default-directory 'host))))
-  (rename-uniquely)
+  (rename-uniquely p)
   )
 
 ;; Add new shells to perspective (workspace)
 (add-hook! (shell-mode vterm-mode eshell-mode) (persp-add-buffer (current-buffer)))
 
-(use-package! plsql
-  :defer-incrementally t)
-(use-package! sqlplus
-  :defer-incrementally t)
+(defun basic-remote-try-completion (string table pred point)
+  (and (vertico--remote-p string)
+       (completion-basic-try-completion string table pred point)))
+
+(defun basic-remote-all-completions (string table pred point)
+  (and (vertico--remote-p string)
+       (completion-basic-all-completions string table pred point)))
+
+(add-to-list
+ 'completion-styles-alist
+ '(basic-remote basic-remote-try-completion basic-remote-all-completions nil))
+
+(setq completion-category-overrides '((file (styles basic-remote orderless))))
+
+(after! tramp
+  (defun tramp-remote-eshell (&optional arg)
+    "Prompt for a remote host to connect to, and open a dired
+there."
+    (interactive "p")
+    (let*
+        ((hosts
+          (cl-reduce 'append
+                     (mapcar
+                      (lambda (x)
+                        (cl-remove nil (mapcar 'cadr (apply (car x) (cdr x)))))
+                      '((tramp-parse-sconfig "/home/vagrant/.ssh/config")))))
+         (remote-host (completing-read "Remote host: " hosts)))
+      (with-temp-buffer
+        (cd (concat "/" (or tramp-default-method "ssh") ":" remote-host ":"))
+        (eshell default-directory))))
+  )
