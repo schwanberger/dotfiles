@@ -48,8 +48,8 @@
 ;(unpin! pinned-package another-pinned-package)
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
-(package! groovy-mode)
 (package! puppet-mode)
+(package! groovy-mode)
 
 (package! sqlplus)
 (package! plsql)
@@ -57,7 +57,6 @@
 (package! org-super-agenda)
 (package! org-gtd)
 (package! shell-pop)
-(package! puppet-mode)
 (package! ox-gfm)
 (package! ox-pandoc)
 ;;(package! counsel-tramp)

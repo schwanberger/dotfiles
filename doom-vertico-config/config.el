@@ -379,3 +379,8 @@
 
 ;; Add new shells to perspective (workspace)
 (add-hook! (shell-mode vterm-mode eshell-mode) (persp-add-buffer (current-buffer)))
+
+(use-package! plsql
+  :defer-incrementally t)
+(use-package! sqlplus
+  :defer-incrementally t)
