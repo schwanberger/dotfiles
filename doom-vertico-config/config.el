@@ -55,7 +55,8 @@
         modus-themes-bold-constructs t
         modus-themes-italic-constructs t
         ;;modus-themes-syntax '(faint alt-syntax)
-        modus-themes-syntax '(green-strings alt-syntax)
+        ;;modus-themes-syntax '(green-strings alt-syntax)
+        modus-themes-syntax '(green-strings)
         )
   (modus-themes-load-themes)
   )
@@ -90,7 +91,7 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
-(setq confirm-kill-emacs nil)
+;(setq confirm-kill-emacs nil)
 (setq select-enable-clipboard t)
 (after! org
   (require 'org-indent)
@@ -372,9 +373,8 @@
 
 ;; Create a shell with remote-process info in buffer-name - call interactively to spawn new shells with decent names
 (defun +thsc/shell ()
-    (interactive "p")
-  (shell (format "shell:%s" (concat (file-remote-p default-directory 'user) "@" (file-remote-p default-directory 'host))))
-  (rename-uniquely p)
+    (interactive)
+  (shell (generate-new-buffer-name (format "shell:%s" (concat (file-remote-p default-directory 'user) "@" (file-remote-p default-directory 'host)))))
   )
 
 ;; Add new shells to perspective (workspace)
@@ -394,6 +394,13 @@
 
 (setq completion-category-overrides '((file (styles basic-remote orderless))))
 
+(use-package! tramp
+  :defer-incrementally t)
+(use-package! plsql
+  :defer-incrementally t)
+(use-package! sqlplus
+  :defer-incrementally t)
+
 (after! tramp
   (defun tramp-remote-eshell (&optional arg)
     "Prompt for a remote host to connect to, and open a dired
@@ -411,3 +418,19 @@ there."
         (cd (concat "/" (or tramp-default-method "ssh") ":" remote-host ":"))
         (eshell default-directory))))
   )
+
+  (defun tramp-remote-sqlplus (&optional arg)
+    "Prompt for a remote host to connect to, and open sql-oracle
+there."
+    (interactive "p")
+    (let*
+        ((hosts
+          (cl-reduce 'append
+                     (mapcar
+                      (lambda (x)
+                        (cl-remove nil (mapcar 'cadr (apply (car x) (cdr x)))))
+                      '((tramp-parse-sconfig "/home/vagrant/.ssh/config")))))
+         (remote-host (completing-read "SQLPlus at remote host: " hosts)))
+      (with-temp-buffer
+        (cd (concat "/" (or tramp-default-method "ssh") ":" remote-host ":"))
+        (eshell-command (concat "sudo su - oracle; (sql-oracle \"" (generate-new-buffer-name (format "%s\"\)" remote-host)))))))
