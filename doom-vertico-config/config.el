@@ -434,3 +434,5 @@ there."
       (with-temp-buffer
         (cd (concat "/" (or tramp-default-method "ssh") ":" remote-host ":"))
         (eshell-command (concat "sudo su - oracle; (sql-oracle \"" (generate-new-buffer-name (format "%s\"\)" remote-host)))))))
+
+(setq auth-sources '("~/.emacs_authinfo.gpg"))
