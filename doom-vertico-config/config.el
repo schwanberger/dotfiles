@@ -315,8 +315,12 @@
                '("\\.+nchosting.dk" nil "/ssh:nc-jumpserver:"))
   (add-to-list 'tramp-remote-process-environment "HISTSIZE=10000")
   (add-to-list 'tramp-remote-process-environment "HISTFILESIZE=10000")
+  ;; (add-to-list 'backup-directory-alist
+  ;;              (cons tramp-file-name-regexp thsc/backup-dir))
   (add-to-list 'backup-directory-alist
-               (cons tramp-file-name-regexp "~/.emacs-saves/"))
+               (cons tramp-file-name-regexp nil))
+  ;;(setq tramp-auto-save-directory nil)
+  (setq tramp-auto-save-directory (replace-regexp-in-string tramp-file-name-regexp "" thsc/autosave-dir))
   )
 
 (use-package! org-appear
