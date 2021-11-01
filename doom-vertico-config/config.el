@@ -465,7 +465,7 @@
 
 (after! tramp
   (defun tramp-remote-eshell (&optional arg)
-    "Prompt for a remote host to connect to, and open a dired
+    "Prompt for a remote host to connect to, and open an eshell
 there."
     (interactive "p")
     (let*
