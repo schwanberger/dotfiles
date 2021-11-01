@@ -408,15 +408,15 @@
 ;; rarely. So opt for manual completion:
 (setq company-idle-delay nil)
 
-;;Autosave-tests
-(setq backup-by-copying t      ; don't clobber symlinks
-      backup-directory-alist '(("." . "~/.emacs-saves/"))    ; don't litter my fs tree
-      delete-old-versions t
-      kept-new-versions 6
-      kept-old-versions 2
-      version-control t)       ; use versioned backups
-(setq auto-save-file-name-transforms
-  `((".*" "~/.emacs-saves/" t)))
+;; ;;Autosave-tests
+;; (setq backup-by-copying t      ; don't clobber symlinks
+;;       backup-directory-alist '(("." . "~/.emacs-saves/"))    ; don't litter my fs tree
+;;       delete-old-versions t
+;;       kept-new-versions 6
+;;       kept-old-versions 2
+;;       version-control t)       ; use versioned backups
+;; (setq auto-save-file-name-transforms
+;;   `((".*" "~/.emacs-saves/" t)))
 
 ;;(setq tramp-backup-directory-alist backup-directory-alist)
 
@@ -498,3 +498,14 @@ there."
         (eshell-command (concat "sudo su - oracle; (sql-oracle \"" (generate-new-buffer-name (format "%s\"\)" remote-host)))))))
 
 (setq auth-sources '("~/.emacs_authinfo.gpg"))
+
+(use-package! hl-todo
+  :hook ((org-mode . hl-todo-mode)
+         (org-mode . (lambda ()
+         (setq-local hl-todo-highlight-punctuation ":"
+               hl-todo-keyword-faces
+               `(("FIXME"      error bold)
+                 ("HACK"       font-lock-constant-face bold)
+                 ("REVIEW"     font-lock-keyword-face bold)
+                 ("NOTE"       warning bold)
+                 ("DEPRECATED" font-lock-doc-face bold)))))))

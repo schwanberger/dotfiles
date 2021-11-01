@@ -73,4 +73,5 @@
 
 (package! xterm-color)
 (package! eshell-vterm :recipe (:host github :repo "iostapyshyn/eshell-vterm"))
-(package! selectrum)
+;;(package! selectrum)
+;;(package! real-auto-save)
