@@ -267,7 +267,7 @@
 (setq plantuml-default-exec-mode 'jar)
 (setq org-id-extra-files '(
                            (org-agenda-text-search-extra-files)
-                           (directory-files-recursively "/home/thsc/org" "org$")
+                           (directory-files-recursively "/home/vagrant/org" "org$")
                            )
       )
 (setq password-cache-expiry nil)
