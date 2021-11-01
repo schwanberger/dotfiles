@@ -289,7 +289,8 @@
             "RADIUS challenge")
           t)
          ".*:\0? *")
-        tramp-auto-save-directory my-auto-save-folder ; auto-save tramp files in local directory
+        ;;tramp-auto-save-directory my-auto-save-folder ; auto-save tramp files in local directory
+        tramp-auto-save-directory thsc/autosave-dir ; auto-save tramp files in local directory
         )
   ;; cache file-name forever
  (setq remote-file-name-inhibit-cache nil)
