@@ -305,6 +305,12 @@
  ;; not sure why we have this? just cargo-culting from an answer I saw
  ;; online.
  (setq tramp-verbose 1)
+ (setq tramp-ssh-controlmaster-options
+       (concat
+        ;; "-o ControlPath=/tmp/ssh-ControlPath-%%r@%%h:%%p "
+        ;;"-o ControlPath=/tmp/ssh-ControlPath/%%h:%%p "
+        "-o ControlPath=~/.ssh/control-%%C "
+        "-o ControlMaster=auto -o ControlPersist=yes"))
 
  ;; projectile has the fun side-effect of wanting to calculate the
  ;; project name, which makes tramp oh-so-much-slower.
