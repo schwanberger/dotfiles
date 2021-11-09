@@ -157,7 +157,8 @@
   (setq org-export-preserve-breaks t)
   (setq org-pandoc-options-for-docx '(
                                       ;;(reference-doc . "C:/Projects/todo/pandoc/nc_ref.docx")
-                                      (reference-doc . "~/org/todo/pandoc/nc_ref.docx")
+                                      ;;(reference-doc . "~/org/todo/pandoc/nc_ref.docx")
+                                      (reference-doc . "/c/Users/thsc/Desktop/nc_ref2.docx")
                                       ))
 
   (setq org-pandoc-options-for-html5 '(
