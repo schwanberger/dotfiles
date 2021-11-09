@@ -44,7 +44,11 @@
   :custom
   (setq doom-gruvbox-dark-variant "hard")
   :config
-  (load-theme 'doom-gruvbox t)
+  ;;(load-theme 'doom-gruvbox t)
+  ;;(load-theme 'doom-monokai-spectrum t)
+  ;;(load-theme 'doom-vibrant t)
+  (load-theme 'doom-one t)
+  ;;)
   (add-to-list 'solaire-mode-themes-to-face-swap "^doom-"))
 
 ;; If you use `org' and don't want your org files in the default location below,
@@ -63,7 +67,8 @@
         modus-themes-italic-constructs t
         ;;modus-themes-syntax '(faint alt-syntax)
         ;;modus-themes-syntax '(green-strings alt-syntax)
-        modus-themes-syntax '(green-strings)
+        ;;modus-themes-syntax '(green-strings)
+        modus-themes-syntax '(faint green-strings)
         )
   (modus-themes-load-themes)
   )
@@ -143,6 +148,7 @@
  version-control t       ; number backups
  vc-make-backup-files t  ; backup version controlled files
  savehist-file (concat thsc/backup-location "/" "savehist")
+ history-delete-duplicates t
  eshell-history-file-name (concat thsc/eshell-dir "/" "history")
  backup-directory-alist
  `((".*" . ,thsc/backup-dir))
