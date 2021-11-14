@@ -125,8 +125,11 @@
 (defun auto-save-file-name-p (filename) (string-match "^#.*#$" (file-name-nondirectory filename)))
 (defun make-auto-save-file-name ()
   (if buffer-file-name (concat thsc/autosave-dir "/" "#" (file-name-nondirectory buffer-file-name) "#")
+    ;;(expand-file-name (concat thsc/autosave-dir-nonfile "/" (format-time-string "%y_%m_%d") (format "%s" (shell-command "uuidgen" t)) "#%"
     (expand-file-name (concat thsc/autosave-dir-nonfile "/" (format-time-string "%y_%m_%d") "#%"
-                              (replace-regexp-in-string "[*]\\|/" "" (buffer-name)) "#"))))
+                              (replace-regexp-in-string "[*]\\|/" "" (buffer-name)) "_" (sha1 (format "%s" (current-time))) "#"))))
+;;                              (replace-regexp-in-string "[*]\\|/" "" (buffer-name)) (sha1 buffer-name) "#"))))
+
 
 (defadvice! thsc/make-backup-file-name (fn FILE)
     :around #'make-backup-file-name-1
@@ -445,7 +448,7 @@
   (defalias 'eshell/v 'eshell-exec-visual)
   )
 
-(setq kill-ring-max 5000)
+(setq kill-ring-max 500)
 
 ;; Create a shell with remote-process info in buffer-name - call interactively to spawn new shells with decent names
 (defun +thsc/shell ()
@@ -456,17 +459,17 @@
 ;; Add new shells to perspective (workspace)
 (add-hook! (shell-mode vterm-mode eshell-mode) (persp-add-buffer (current-buffer)))
 
-(defun basic-remote-try-completion (string table pred point)
-  (and (vertico--remote-p string)
-       (completion-basic-try-completion string table pred point)))
+;; (defun basic-remote-try-completion (string table pred point)
+;;   (and (vertico--remote-p string)
+;;        (completion-basic-try-completion string table pred point)))
 
-(defun basic-remote-all-completions (string table pred point)
-  (and (vertico--remote-p string)
-       (completion-basic-all-completions string table pred point)))
+;; (defun basic-remote-all-completions (string table pred point)
+;;   (and (vertico--remote-p string)
+;;        (completion-basic-all-completions string table pred point)))
 
-(add-to-list
- 'completion-styles-alist
- '(basic-remote basic-remote-try-completion basic-remote-all-completions nil))
+;; (add-to-list
+;;  'completion-styles-alist
+;;  '(basic-remote basic-remote-try-completion basic-remote-all-completions nil))
 
 (setq completion-category-overrides '((file (styles basic-remote orderless))))
 
@@ -523,3 +526,68 @@ there."
                  ("REVIEW"     font-lock-keyword-face bold)
                  ("NOTE"       warning bold)
                  ("DEPRECATED" font-lock-doc-face bold)))))))
+
+(defun thsc/oracle-file-path (file)
+  (let ((host (or (file-remote-p file 'host) "localhost")))
+    (concat "/" (when (file-remote-p file)
+                  (concat (file-remote-p file 'method) ":"
+                          (if-let (user (file-remote-p file 'user))
+                              (concat user "@" host)
+                            host)
+                          "|"))
+            "sudo:root@" "|" "su:oracle@" host
+            ":" (or (file-remote-p file 'localname)
+                    file))))
+
+(defun thsc/oracle-this-file ()
+  "Open the current file as oracle."
+  (interactive)
+  (find-file
+   (thsc/oracle-file-path
+    (or buffer-file-name
+        (when (or (derived-mode-p 'dired-mode)
+                  (derived-mode-p 'wdired-mode)
+                  (derived-mode-p 'eshell-mode))
+          default-directory)))))
+
+;; "/ssh:atp-fyv-db01|sudo:root@atp-fyv-db01|su:oracle@atp-fyv-db01:/home/oracle/"
+
+  (defun tramp-remote-dired (&optional arg)
+    "Prompt for a remote host to connect to, and open an eshell
+there."
+    (interactive "p")
+    (let*
+        ((hosts
+          (cl-reduce 'append
+                     (mapcar
+                      (lambda (x)
+                        (cl-remove nil (mapcar 'cadr (apply (car x) (cdr x)))))
+                      '((tramp-parse-sconfig "/home/vagrant/.ssh/config")))))
+         (remote-host (completing-read "Remote host: " hosts)))
+      (with-temp-buffer
+        (cd (concat "/" (or tramp-default-method "ssh") ":" remote-host ":/home"))
+        (dired default-directory))))
+
+(defun thsc/oracle-shell-this ()
+  "Open the current file as oracle."
+  (interactive)
+  (let
+   ((default-directory (thsc/oracle-file-path default-directory)))
+   (+thsc/shell)))
+
+  (defun tramp-remote-oracle-shell (&optional arg)
+    "Prompt for a remote host to connect to, and open an shell for user oracle
+there. Autosaving enabled"
+    (interactive "p")
+    (let*
+        ((hosts
+          (cl-reduce 'append
+                     (mapcar
+                      (lambda (x)
+                        (cl-remove nil (mapcar 'cadr (apply (car x) (cdr x)))))
+                      '((tramp-parse-sconfig "/home/vagrant/.ssh/config")))))
+         (remote-host (completing-read "Remote host: " hosts)))
+      (with-temp-buffer
+        (cd (concat "/" (or tramp-default-method "ssh") ":" remote-host "|" "sudo:root@" "|" "su:oracle@" remote-host ":"))
+        (+thsc/shell)
+        (auto-save-mode))))
