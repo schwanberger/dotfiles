@@ -589,3 +589,8 @@ there. Autosaving enabled"
         (cd (concat "/" (or tramp-default-method "ssh") ":" remote-host "|" "sudo:root@" "|" "su:oracle@" remote-host ":"))
         (+thsc/shell)
         (auto-save-mode))))
+
+(use-package! vlfi
+  :defer 2
+  :custom
+  (require 'vlf-setup))

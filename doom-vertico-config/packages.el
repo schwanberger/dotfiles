@@ -75,3 +75,5 @@
 (package! eshell-vterm :recipe (:host github :repo "iostapyshyn/eshell-vterm"))
 ;;(package! selectrum)
 ;;(package! real-auto-save)
+
+(package! vlf :recipe (:host github :repo "m00natic/vlfi"))
