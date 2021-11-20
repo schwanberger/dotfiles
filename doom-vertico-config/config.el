@@ -550,8 +550,6 @@ there."
                   (derived-mode-p 'eshell-mode))
           default-directory)))))
 
-;; "/ssh:atp-fyv-db01|sudo:root@atp-fyv-db01|su:oracle@atp-fyv-db01:/home/oracle/"
-
   (defun tramp-remote-dired (&optional arg)
     "Prompt for a remote host to connect to, and open an eshell
 there."
