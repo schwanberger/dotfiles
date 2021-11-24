@@ -170,15 +170,12 @@
                                       (reference-doc . "/c/Users/thsc/Desktop/nc_ref2.docx")
                                       ))
 
-  (setq org-pandoc-options-for-html5 '(
+  (setq org-pandoc-options-for-html5 `(
                                        (number-sections . t)
                                        (toc . t)
                                        (self-contained . t)
-                                        ;(template . "C:/Projects/todo/easy_template.html")
-                                       ;(template . "C:/Projects/todo/pandoc/html5/github/GitHub.html5")
-                                       (template . "~/org/todo/pandoc/html5/github/GitHub.html5")
-
-
+                                       ;;(template . "C:/Projects/todo/easy_template.html")
+                                       (template . ,(expand-file-name "~/org/todo/pandoc/html5/github/GitHub.html5"))
                                        ;;(template . "C:/Projects/todo/pandoc/html5/kjhealy/html.template")
                                        ))
 
@@ -440,13 +437,13 @@
 ;;(add-hook! (shell-mode vterm-mode eshell-mode dired-mode) (solaire-mode -1))
 (add-hook! (shell-mode eshell-mode dired-mode) (solaire-mode -1))
 
-(use-package! eshell-vterm
-  :defer t
-  :after eshell
-  :config
-  (eshell-vterm-mode)
-  (defalias 'eshell/v 'eshell-exec-visual)
-  )
+;; (use-package! eshell-vterm
+;;   :defer t
+;;   :after eshell
+;;   :config
+;;   (eshell-vterm-mode)
+;;   (defalias 'eshell/v 'eshell-exec-visual)
+;;   )
 
 (setq kill-ring-max 500)
 

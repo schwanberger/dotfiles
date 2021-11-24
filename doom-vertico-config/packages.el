@@ -56,10 +56,11 @@
 (package! modus-themes)
 (package! org-super-agenda)
 (package! org-gtd)
-(package! shell-pop)
+;;(package! shell-pop)
 (package! puppet-mode)
 (package! ox-gfm)
 (package! ox-pandoc)
+(package! org :built-in 'prefer)
 ;;(package! counsel-tramp)
 (package! org-pandoc-import
   :recipe (:host github
@@ -72,7 +73,7 @@
 ;; 	  :recipe (:host github :repo "akermu/emacs-libvterm") :pin "9e5a208d8871293a23a2734591fac97a584a41c2")
 
 (package! xterm-color)
-(package! eshell-vterm :recipe (:host github :repo "iostapyshyn/eshell-vterm"))
+;;(package! eshell-vterm :recipe (:host github :repo "iostapyshyn/eshell-vterm"))
 ;;(package! selectrum)
 ;;(package! real-auto-save)
 
