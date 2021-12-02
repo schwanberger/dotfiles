@@ -255,7 +255,9 @@
             browse-url-browser-function 'browse-url-generic
             search-web-default-browser 'browse-url-generic))))
 (use-package! groovy-mode
-  :defer t)
+  :defer t
+  :config
+  (setq groovy-indent-offset 4))
 (setq comint-input-ring-size 5000)
 (defun my-shell-mode-hook ()
   (interactive)
