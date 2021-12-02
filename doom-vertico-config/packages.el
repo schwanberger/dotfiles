@@ -60,7 +60,7 @@
 (package! puppet-mode)
 (package! ox-gfm)
 (package! ox-pandoc)
-(package! org :built-in 'prefer)
+;;(package! org :built-in 'prefer)
 ;;(package! counsel-tramp)
 (package! org-pandoc-import
   :recipe (:host github
