@@ -590,6 +590,6 @@ there. Autosaving enabled"
         (auto-save-mode))))
 
 (use-package! vlfi
-  :defer 2
+  :defer t
   :custom
-  (require 'vlf-setup))
+  (vlf-setup))
