@@ -60,7 +60,7 @@
 (setq display-line-numbers-type 'visual)
 
 (use-package! modus-themes
-  :defer t
+  :defer-incrementally t
   :init
   (setq modus-themes-org-blocks 'gray-background
         modus-themes-bold-constructs t
@@ -103,7 +103,7 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
-;(setq confirm-kill-emacs nil)
+                                        ;(setq confirm-kill-emacs nil)
 (setq select-enable-clipboard t)
 ;;
 
@@ -132,7 +132,7 @@
 
 
 (defadvice! thsc/make-backup-file-name (fn FILE)
-    :around #'make-backup-file-name-1
+  :around #'make-backup-file-name-1
   (let ((dirname (concat thsc/backup-dir
                          (format-time-string "/%y/%m/%d/"))))
     (if (not (file-exists-p dirname))
@@ -157,7 +157,7 @@
  `((".*" . ,thsc/backup-dir))
  auto-save-file-name-transforms
  `((".*" ,thsc/autosave-dir t)))
- ;;
+;;
 
 (after! org
   (require 'org-indent)
@@ -189,8 +189,8 @@
                                           (toc . t)
                                           ))
   (setq org-pandoc-options-for-gfm '(
-                                          (toc . t)
-                                          ))
+                                     (toc . t)
+                                     ))
   (require 'org-id)
   (setq org-use-property-inheritance t
         org-log-done 'time ; matches behaviour of orgzly
@@ -202,19 +202,19 @@
         )
   
   (use-package! org-pandoc-import
-    :defer t)
+    :defer-incrementally t)
   ;; Don't break evil navigation in org-super-agenda
   (setq org-super-agenda-header-map 'evil-org-agenda-mode-map)
   (setq org-catch-invisible-edits 'smart
         ;;org-export-with-sub-superscripts '{}
         org-export-with-sub-superscripts nil
         org-hide-emphasis-markers t
-	org-ellipsis " ▾ "
+        org-ellipsis " ▾ "
         )
 
- 
-(load! "+org")
-)
+
+  (load! "+org")
+  )
 ;; Add icons to modeline
 (after! doom-modeline (setq doom-modeline-major-mode-icon t))
 
@@ -255,24 +255,24 @@
             browse-url-browser-function 'browse-url-generic
             search-web-default-browser 'browse-url-generic))))
 (use-package! groovy-mode
-  :defer t
+  :defer-incrementally t
   :config
   (setq groovy-indent-offset 4))
 (setq comint-input-ring-size 5000)
 (defun my-shell-mode-hook ()
   (interactive)
   (setq comint-input-ring-file-name
-    (if (file-remote-p default-directory)
-        (with-parsed-tramp-file-name default-directory nil
-          (tramp-make-tramp-file-name
-           (tramp-file-name-method v)
-           (tramp-file-name-user v)
-           (tramp-file-name-domain v)
-           (tramp-file-name-host v)
-           (tramp-file-name-port v)
-           "~/.bash_history"))
-      "~/.bash_history"))
- (comint-read-input-ring t))
+        (if (file-remote-p default-directory)
+            (with-parsed-tramp-file-name default-directory nil
+              (tramp-make-tramp-file-name
+               (tramp-file-name-method v)
+               (tramp-file-name-user v)
+               (tramp-file-name-domain v)
+               (tramp-file-name-host v)
+               (tramp-file-name-port v)
+               "~/.bash_history"))
+          "~/.bash_history"))
+  (comint-read-input-ring t))
 (setq plantuml-default-exec-mode 'jar)
 (setq org-id-extra-files '(
                            (org-agenda-text-search-extra-files)
@@ -281,9 +281,9 @@
       )
 (setq password-cache-expiry nil)
 (use-package! sqlplus
-  :defer t)
-(use-package tramp
-  :defer t
+  :defer-incrementally t)
+(use-package! tramp
+  :defer-incrementally t
   :init
   (defvar my-auto-save-folder "~/.emacs-saves/"); folder for auto-saves
   (setq tramp-completion-reread-directory-timeout 180
@@ -302,31 +302,31 @@
         tramp-auto-save-directory thsc/autosave-dir ; auto-save tramp files in local directory
         )
   ;; cache file-name forever
- (setq remote-file-name-inhibit-cache nil)
+  (setq remote-file-name-inhibit-cache nil)
 
- ;; make sure vc stuff is not making tramp slower
- (setq vc-ignore-dir-regexp
-	(format "%s\\|%s"
-		vc-ignore-dir-regexp
-		tramp-file-name-regexp))
+  ;; make sure vc stuff is not making tramp slower
+  (setq vc-ignore-dir-regexp
+        (format "%s\\|%s"
+                vc-ignore-dir-regexp
+                tramp-file-name-regexp))
 
- ;; not sure why we have this? just cargo-culting from an answer I saw
- ;; online.
- (setq tramp-verbose 1)
- (setq tramp-ssh-controlmaster-options
-       (concat
-        ;; "-o ControlPath=/tmp/ssh-ControlPath-%%r@%%h:%%p "
-        ;;"-o ControlPath=/tmp/ssh-ControlPath/%%h:%%p "
-        "-o ControlPath=~/.ssh/control-%%C "
-        "-o ControlMaster=auto -o ControlPersist=yes"))
+  ;; not sure why we have this? just cargo-culting from an answer I saw
+  ;; online.
+  (setq tramp-verbose 1)
+  (setq tramp-ssh-controlmaster-options
+        (concat
+         ;; "-o ControlPath=/tmp/ssh-ControlPath-%%r@%%h:%%p "
+         ;;"-o ControlPath=/tmp/ssh-ControlPath/%%h:%%p "
+         "-o ControlPath=~/.ssh/control-%%C "
+         "-o ControlMaster=auto -o ControlPersist=yes"))
 
- ;; projectile has the fun side-effect of wanting to calculate the
- ;; project name, which makes tramp oh-so-much-slower.
- (setq projectile-mode-line "Projectile")
+  ;; projectile has the fun side-effect of wanting to calculate the
+  ;; project name, which makes tramp oh-so-much-slower.
+  (setq projectile-mode-line "Projectile")
   :config
   (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
   (add-to-list 'tramp-default-proxies-alist
-               ;'("\\.+atp.nchosting.dk" nil "/ssh:nc-jumpserver:"))
+                                        ;'("\\.+atp.nchosting.dk" nil "/ssh:nc-jumpserver:"))
                '("\\.+nchosting.dk" nil "/ssh:nc-jumpserver:"))
   (add-to-list 'tramp-remote-process-environment "HISTSIZE=10000")
   (add-to-list 'tramp-remote-process-environment "HISTFILESIZE=10000")
@@ -339,7 +339,7 @@
   )
 
 (use-package! org-appear
-  :defer t
+  :defer-incrementally t
   :hook (org-mode . org-appear-mode)
   :config
   (setq org-appear-autoemphasis t
@@ -347,59 +347,59 @@
         org-appear-autolinks nil))
 ;;ESHELL TWEAKS
 (defun eshell-exec-visual (&rest args)
-   "Run the specified PROGRAM in a terminal emulation buffer.
+  "Run the specified PROGRAM in a terminal emulation buffer.
  ARGS are passed to the program.  At the moment, no piping of input is
  allowed."
-   (let* (eshell-interpreter-alist
-	   (original-args args)
-	   (interp (eshell-find-interpreter (car args) (cdr args)))
-	   (in-ssh-tramp (and (tramp-tramp-file-p default-directory)
-			      (equal (tramp-file-name-method
-				      (tramp-dissect-file-name default-directory))
-				     "ssh")))
-	   (program (if in-ssh-tramp
-			"ssh"
-		      (car interp)))
-	   (args (if in-ssh-tramp
-		     (let ((dir-name (tramp-dissect-file-name default-directory)))
-		       (eshell-flatten-list
-			(list
-			 "-t"
-			 (tramp-file-name-host dir-name)
-			 (format
-			  "export TERM=xterm-256color; cd %s; exec %s"
-			  (tramp-file-name-localname dir-name)
-			  (string-join
-			   (append
-			    (list (tramp-file-name-localname (tramp-dissect-file-name (car interp))))
-			    (cdr args))
-			   " ")))))
-		   (eshell-flatten-list
-		    (eshell-stringify-list (append (cdr interp)
-						   (cdr args))))))
-	   (term-buf
-	    (generate-new-buffer
-	     (concat "*"
-		     (if in-ssh-tramp
-			 (format "%s %s" default-directory (string-join original-args " "))
-			 (file-name-nondirectory program))
-		     "*")))
-	   (eshell-buf (current-buffer)))
-     (save-current-buffer
-	(switch-to-buffer term-buf)
-	(term-mode)
-	(set (make-local-variable 'term-term-name) eshell-term-name)
-	(make-local-variable 'eshell-parent-buffer)
-	(setq eshell-parent-buffer eshell-buf)
-	(term-exec term-buf program program nil args)
-	(let ((proc (get-buffer-process term-buf)))
-	  (if (and proc (eq 'run (process-status proc)))
-	      (set-process-sentinel proc 'eshell-term-sentinel)
-	    (error "Failed to invoke visual command")))
-	(term-char-mode)
-	(if eshell-escape-control-x
-	    (term-set-escape-char ?\C-x))))
-   nil)
+  (let* (eshell-interpreter-alist
+         (original-args args)
+         (interp (eshell-find-interpreter (car args) (cdr args)))
+         (in-ssh-tramp (and (tramp-tramp-file-p default-directory)
+                            (equal (tramp-file-name-method
+                                    (tramp-dissect-file-name default-directory))
+                                   "ssh")))
+         (program (if in-ssh-tramp
+                      "ssh"
+                    (car interp)))
+         (args (if in-ssh-tramp
+                   (let ((dir-name (tramp-dissect-file-name default-directory)))
+                     (eshell-flatten-list
+                      (list
+                       "-t"
+                       (tramp-file-name-host dir-name)
+                       (format
+                        "export TERM=xterm-256color; cd %s; exec %s"
+                        (tramp-file-name-localname dir-name)
+                        (string-join
+                         (append
+                          (list (tramp-file-name-localname (tramp-dissect-file-name (car interp))))
+                          (cdr args))
+                         " ")))))
+                 (eshell-flatten-list
+                  (eshell-stringify-list (append (cdr interp)
+                                                 (cdr args))))))
+         (term-buf
+          (generate-new-buffer
+           (concat "*"
+                   (if in-ssh-tramp
+                       (format "%s %s" default-directory (string-join original-args " "))
+                     (file-name-nondirectory program))
+                   "*")))
+         (eshell-buf (current-buffer)))
+    (save-current-buffer
+      (switch-to-buffer term-buf)
+      (term-mode)
+      (set (make-local-variable 'term-term-name) eshell-term-name)
+      (make-local-variable 'eshell-parent-buffer)
+      (setq eshell-parent-buffer eshell-buf)
+      (term-exec term-buf program program nil args)
+      (let ((proc (get-buffer-process term-buf)))
+        (if (and proc (eq 'run (process-status proc)))
+            (set-process-sentinel proc 'eshell-term-sentinel)
+          (error "Failed to invoke visual command")))
+      (term-char-mode)
+      (if eshell-escape-control-x
+          (term-set-escape-char ?\C-x))))
+  nil)
 (setq eshell-history-size 1000000)
 
 ;; (setq comint-output-filter-functions
@@ -440,7 +440,7 @@
 (add-hook! (shell-mode eshell-mode dired-mode) (solaire-mode -1))
 
 ;; (use-package! eshell-vterm
-;;   :defer t
+;;   :defer-incrementally t
 ;;   :after eshell
 ;;   :config
 ;;   (eshell-vterm-mode)
@@ -451,7 +451,7 @@
 
 ;; Create a shell with remote-process info in buffer-name - call interactively to spawn new shells with decent names
 (defun +thsc/shell ()
-    (interactive)
+  (interactive)
   (shell (generate-new-buffer-name (format "shell:%s" (concat (file-remote-p default-directory 'user) "@" (file-remote-p default-directory 'host)))))
   )
 
@@ -495,7 +495,6 @@ there."
       (with-temp-buffer
         (cd (concat "/" (or tramp-default-method "ssh") ":" remote-host ":"))
         (eshell default-directory))))
-  )
 
   (defun tramp-remote-sqlplus (&optional arg)
     "Prompt for a remote host to connect to, and open sql-oracle
@@ -513,41 +512,31 @@ there."
         (cd (concat "/" (or tramp-default-method "ssh") ":" remote-host ":"))
         (eshell-command (concat "sudo su - oracle; (sql-oracle \"" (generate-new-buffer-name (format "%s\"\)" remote-host)))))))
 
-(setq auth-sources '("~/.emacs_authinfo.gpg"))
+  (setq auth-sources '("~/.emacs_authinfo.gpg"))
 
-(use-package! hl-todo
-  :hook ((org-mode . hl-todo-mode)
-         (org-mode . (lambda ()
-         (setq-local hl-todo-highlight-punctuation ":"
-               hl-todo-keyword-faces
-               `(("FIXME"      error bold)
-                 ("HACK"       font-lock-constant-face bold)
-                 ("REVIEW"     font-lock-keyword-face bold)
-                 ("NOTE"       warning bold)
-                 ("DEPRECATED" font-lock-doc-face bold)))))))
 
-(defun thsc/oracle-file-path (file)
-  (let ((host (or (file-remote-p file 'host) "localhost")))
-    (concat "/" (when (file-remote-p file)
-                  (concat (file-remote-p file 'method) ":"
-                          (if-let (user (file-remote-p file 'user))
-                              (concat user "@" host)
-                            host)
-                          "|"))
-            "sudo:root@" "|" "su:oracle@" host
-            ":" (or (file-remote-p file 'localname)
-                    file))))
+  (defun thsc/oracle-file-path (file)
+    (let ((host (or (file-remote-p file 'host) "localhost")))
+      (concat "/" (when (file-remote-p file)
+                    (concat (file-remote-p file 'method) ":"
+                            (if-let (user (file-remote-p file 'user))
+                                (concat user "@" host)
+                              host)
+                            "|"))
+              "sudo:root@" "|" "su:oracle@" host
+              ":" (or (file-remote-p file 'localname)
+                      file))))
 
-(defun thsc/oracle-this-file ()
-  "Open the current file as oracle."
-  (interactive)
-  (find-file
-   (thsc/oracle-file-path
-    (or buffer-file-name
-        (when (or (derived-mode-p 'dired-mode)
-                  (derived-mode-p 'wdired-mode)
-                  (derived-mode-p 'eshell-mode))
-          default-directory)))))
+  (defun thsc/oracle-this-file ()
+    "Open the current file as oracle."
+    (interactive)
+    (find-file
+     (thsc/oracle-file-path
+      (or buffer-file-name
+          (when (or (derived-mode-p 'dired-mode)
+                    (derived-mode-p 'wdired-mode)
+                    (derived-mode-p 'eshell-mode))
+            default-directory)))))
 
   (defun tramp-remote-dired (&optional arg)
     "Prompt for a remote host to connect to, and open an eshell
@@ -565,12 +554,12 @@ there."
         (cd (concat "/" (or tramp-default-method "ssh") ":" remote-host ":/home"))
         (dired default-directory))))
 
-(defun thsc/oracle-shell-this ()
-  "Open the current file as oracle."
-  (interactive)
-  (let
-   ((default-directory (thsc/oracle-file-path default-directory)))
-   (+thsc/shell)))
+  (defun thsc/oracle-shell-this ()
+    "Open the current file as oracle."
+    (interactive)
+    (let
+        ((default-directory (thsc/oracle-file-path default-directory)))
+      (+thsc/shell)))
 
   (defun tramp-remote-oracle-shell (&optional arg)
     "Prompt for a remote host to connect to, and open an shell for user oracle
@@ -588,8 +577,19 @@ there. Autosaving enabled"
         (cd (concat "/" (or tramp-default-method "ssh") ":" remote-host "|" "sudo:root@" "|" "su:oracle@" remote-host ":"))
         (+thsc/shell)
         (auto-save-mode))))
+  )
 
-(use-package! vlfi
-  :defer t
-  :custom
-  (vlf-setup))
+(use-package! vlf-setup
+  :defer-incrementally t
+  )
+
+(use-package! hl-todo
+  :hook ((org-mode . hl-todo-mode)
+         (org-mode . (lambda ()
+                       (setq-local hl-todo-highlight-punctuation ":"
+                                   hl-todo-keyword-faces
+                                   `(("FIXME"      error bold)
+                                     ("HACK"       font-lock-constant-face bold)
+                                     ("REVIEW"     font-lock-keyword-face bold)
+                                     ("NOTE"       warning bold)
+                                     ("DEPRECATED" font-lock-doc-face bold)))))))
