@@ -78,3 +78,4 @@
 ;;(package! real-auto-save)
 
 (package! vlf :recipe (:host github :repo "m00natic/vlfi"))
+(package! org-auto-tangle)
