@@ -27,10 +27,12 @@
 (setq doom-font (font-spec :family "Iosevka" :size 17)
       ;;(setq doom-font (font-spec :family "Roboto Mono" :size 17 :weight 'light)
       ;;doom-variable-pitch-font (font-spec :family "Overpass" :weight 'regular)
+      ;;doom-variable-pitch-font (font-spec :family "Overpass" :size 30)
       ;;doom-variable-pitch-font (font-spec :family "Roboto" :weight 'regular)
       ;;doom-variable-pitch-font (font-spec :family "Noto Serif" :weight 'regular)
       ;;doom-variable-pitch-font (font-spec :family "Iosevka Aile")
-      doom-variable-pitch-font (font-spec :family "Iosevka Etoile")
+      doom-variable-pitch-font (font-spec :family "Alegreya Sans" :size 30)
+      ;;doom-variable-pitch-font (font-spec :family "Alegreya" :size 30)
       ;;doom-variable-pitch-font (font-spec :family "ETBembo")
       ;;doom-serif-font doom-variable-pitch-font
       doom-big-font (font-spec :family "Noto Serif" :size 30)
@@ -65,10 +67,14 @@
   (setq modus-themes-org-blocks 'gray-background
         modus-themes-bold-constructs t
         modus-themes-italic-constructs t
+        modus-themes-deuteranopia t
         ;;modus-themes-syntax '(faint alt-syntax)
         ;;modus-themes-syntax '(green-strings alt-syntax)
         ;;modus-themes-syntax '(green-strings)
-        modus-themes-syntax '(faint green-strings)
+        ;;modus-themes-syntax '(faint green-strings)
+        ;;modus-themes-syntax '(alt-syntax green-strings yellow-comments)
+        modus-themes-syntax '(green-strings yellow-comments)
+        ;; modus-themes-syntax '(faint alt-syntax green-strings yellow-comments)
         )
   (modus-themes-load-themes)
   )
@@ -593,3 +599,24 @@ there. Autosaving enabled"
                                      ("REVIEW"     font-lock-keyword-face bold)
                                      ("NOTE"       warning bold)
                                      ("DEPRECATED" font-lock-doc-face bold)))))))
+
+;; FIXME writegood-mode hook from package overwrite to not start unless prompted
+(setq evil-vsplit-window-right t
+      evil-split-window-below t)
+
+(defadvice! prompt-for-buffer (&rest _)
+  :after '(evil-window-split evil-window-vsplit)
+  (consult-buffer))
+
+(use-package! org-auto-tangle
+  :defer t
+  :hook (org-mode . org-auto-tangle-mode)
+  :config
+  (setq org-auto-tangle-default t))
+
+;; writegood-mode will be activated when needed, not before
+(remove-hook! (org-mode markdown-mode rst-mode asciidoc-mode latex-mode LaTeX-mode) #'writegood-mode)
+
+
+;; spell-check will be activated when needed, not before
+(remove-hook! (org-mode markdown-mode TeX-mode rst-mode mu4e-compose-mode message-mode) #'flyspell-mode)
