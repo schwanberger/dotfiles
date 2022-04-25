@@ -1,6 +1,7 @@
 (
-("doom-ivy" . ((user-emacs-directory . "~/doom-ivy")
-                 (env . (("DOOMDIR" . "~/doom-ivy-config")))))
-("doom-vertico" . ((user-emacs-directory . "~/doom-vertico")
-                 (env . (("DOOMDIR" . "~/doom-vertico-config")))))
-)
+  ("doom-vertico" . ((user-emacs-directory . "~/doom-vertico")
+            (env . (("DOOMDIR" . "~/doom-vertico-config")))))
+
+  ("doom-vertico-alt" . ((user-emacs-directory . "~/doom-vertico-alt")
+            (env . (("DOOMDIR" . "~/doom-vertico-config")))))
+ )

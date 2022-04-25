@@ -10,48 +10,43 @@
 (setq user-full-name "Thomas Schwanberger"
       user-mail-address "thomas@schwanberger.dk")
 
-;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
-;; are the three important ones:
+;;(setq doom-font (font-spec :family "Iosevka" :size 17 :weight 'light)
+;;(setq doom-font (font-spec :family "Iosevka Comfy" :size 17 :weight 'light)
+;;(setq doom-font (font-spec :family "Iosevka Comfy" :height 120 :weight 'regular) ;; Height has no effect on Windows
+;;(setq doom-font (font-spec :family "Iosevka Comfy" :size 16 :weight 'regular)
 ;;
-;; + `doom-font'
-;; + `doom-variable-pitch-font'
-;; + `doom-big-font' -- used for `doom-big-font-mode'; use this for
-;;   presentations or streaming.
 ;;
-;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
-;; font string. You generally only need these two:
-;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
-;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
-;;(setq doom-font (font-spec :family "JetBrains Mono" :size 16 :weight 'light)
-;;(setq doom-font (font-spec :family "Iosevka" :size 16 :weight 'light)
-(setq doom-font (font-spec :family "Iosevka" :size 17)
-      ;;(setq doom-font (font-spec :family "Roboto Mono" :size 17 :weight 'light)
-      ;;doom-variable-pitch-font (font-spec :family "Overpass" :weight 'regular)
-      ;;doom-variable-pitch-font (font-spec :family "Overpass" :size 30)
-      ;;doom-variable-pitch-font (font-spec :family "Roboto" :weight 'regular)
-      ;;doom-variable-pitch-font (font-spec :family "Noto Serif" :weight 'regular)
-      ;;doom-variable-pitch-font (font-spec :family "Iosevka Aile")
-      doom-variable-pitch-font (font-spec :family "Alegreya Sans" :size 30)
-      ;;doom-variable-pitch-font (font-spec :family "Alegreya" :size 30)
-      ;;doom-variable-pitch-font (font-spec :family "ETBembo")
-      ;;doom-serif-font doom-variable-pitch-font
-      doom-big-font (font-spec :family "Noto Serif" :size 30)
-      )
-;; There are two ways to load a theme. Both assume the theme is installed and
-;; available. You can either set `doom-theme' or manually load a theme with the
-;; `load-theme' function. This is the default:
-;;(setq doom-theme 'doom-monokai-spectrum)
+;;
+;;
+;;
+;;(set-face-attribute 'default nil :font "Iosevka Comfy" :height 110 :weight 'regular)
+;;(set-face-attribute 'default nil :font "Iosevka Comfy" :height 115 :weight 'regular)
 
-(use-package! doom-themes
-  :custom
-  (setq doom-gruvbox-dark-variant "hard")
-  :config
-  ;;(load-theme 'doom-gruvbox t)
-  ;;(load-theme 'doom-monokai-spectrum t)
-  ;;(load-theme 'doom-vibrant t)
-  (load-theme 'doom-one t)
-  ;;)
-  (add-to-list 'solaire-mode-themes-to-face-swap "^doom-"))
+;;(ignore-errors
+;;;;(setq doom-font (font-spec :family "Iosevka Comfy" :size 12.0 :weight 'light)
+;;(setq doom-font (font-spec :family "Victor Mono" :size 12.0 :weight 'semi-light)
+;;;;(setq doom-font (font-spec :family "JetBrains Mono" :size 12.0 :weight 'semi-light)
+;;;;(setq doom-font (font-spec :family "Iosevka" :size 14.0 :weight 'semi-light)
+;;;;(setq doom-font (font-spec :family "Iosevka" :size 12.0 :weight 'Light)
+;;      ;;doom-variable-pitch-font (font-spec :family "Alegreya Sans")
+;;      ;;doom-variable-pitch-font (font-spec :family "Roboto" :style "Regular" :weight 'light)
+;;      doom-variable-pitch-font (font-spec :family "FiraGO" :weight 'regular)
+;;      ;;ivy-posframe-font (font-spec :family "Iosevka")
+;;      ))
+
+;;(setq doom-font (font-spec :family "DejaVu Sans Mono" :size 10 :weight 'light))
+;;(setq doom-font (font-spec :family "DejaVu Sans Mono" :size 10.0 :weight 'regular))
+
+(setq doom-font (font-spec :family "Victor Mono" :size 12.0 :weight 'semi-light ))
+;; (use-package! doom-themes
+;;   :defer-incrementally t
+;;   :config
+;;   (setq doom-gruvbox-dark-variant "hard")
+;;   )
+
+;; (after! solaire-mode
+;;   (add-to-list 'solaire-mode-themes-to-face-swap "^doom-")
+;;   )
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -61,37 +56,131 @@
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type 'visual)
 
+;; (use-package! modus-themes
+;;   :defer-incrementally t
+;;   :init
+;;   (setq modus-themes-org-blocks 'gray-background
+;;         modus-themes-bold-constructs t
+;;         modus-themes-italic-constructs t
+;;         ;;modus-themes-deuteranopia t
+;;         ;;modus-themes-syntax '(faint alt-syntax)
+;;         ;;modus-themes-syntax '(green-strings alt-syntax)
+;;         ;;modus-themes-syntax '(green-strings)
+;;         ;;modus-themes-syntax '(faint green-strings)
+;;         ;;modus-themes-syntax '(alt-syntax green-strings yellow-comments)
+;;         modus-themes-syntax '(green-strings yellow-comments)
+;;         ;; modus-themes-syntax '(faint alt-syntax green-strings yellow-comments)
+;;         )
+;;   (modus-themes-load-themes)
+;;   )
+
+;;LETS TRY
+;; (add-hook! 'modus-themes-after-load-theme-hook
+;;   (defun my-modus-themes-custom-faces ()
+;;     (modus-themes-with-colors
+;;       (custom-set-faces
+;;        ;;",class" found by looking into modus-theme source code in .../straight...
+;;        `(org-quote ((,class :slant italic)))
+;;        ;; Only these two needs to be defined for mixed-pitch-mode working in both states
+;;        `(default ((nil (,doom-font))))
+;;        `(fixed-pitch ((nil (,doom-font))))
+;;        )
+;;       )
+;;     )
+;;   )
+
+;;LETS TRY
+;; (use-package! modus-themes
+;;   :defer-incrementally t
+;;   :init
+;;   ;; Add all your customizations prior to loading the themes
+;;   (setq modus-themes-italic-constructs t
+;;         modus-themes-completions '((matches . (background intense))
+;;                                    (selection . (accented intense))
+;;                                    (popup . (accented intense)))
+;;         ;; modus-themes-variable-pitch-headings t
+;;         modus-themes-scale-headings t
+;;         ;; modus-themes-variable-pitch-ui t
+;;         modus-themes-org-agenda
+;;         '((header-block . (variable-pitch scale-title))
+;;           (header-date . (grayscale bold-all)))
+;;         modus-themes-org-blocks
+;;         'gray-background
+;;         modus-themes-mode-line
+;;         '(borderless)
+;;         ;; modus-themes-mixed-fonts t
+;;         ;; modus-themes-subtle-line-numbers t
+
+;;         modus-themes-region '(bg-only no-extend))
+
+;;   ;; Load the theme files before enabling a theme
+;;   (modus-themes-load-themes)
+;;   :config
+;;   (modus-themes-load-operandi)
+;;   )
+
+(setq doom-theme 'doom-vibrant
+      doom-themes-treemacs-theme 'doom-colors
+      doom-acario-dark-brighter-modeline t
+      doom-acario-light-brighter-modeline t
+      doom-nohl-light-brighter-comments t
+      doom-nohl-dark-brighter-comments t)
+
 (use-package! modus-themes
-  :defer-incrementally t
   :init
-  (setq modus-themes-org-blocks 'gray-background
+  (setq modus-themes-inhibit-reload t
+        ;;modus-themes-syntax '(faint green-strings alt-syntax yellow-comments)
         modus-themes-bold-constructs t
         modus-themes-italic-constructs t
-        modus-themes-deuteranopia t
-        ;;modus-themes-syntax '(faint alt-syntax)
-        ;;modus-themes-syntax '(green-strings alt-syntax)
-        ;;modus-themes-syntax '(green-strings)
-        ;;modus-themes-syntax '(faint green-strings)
-        ;;modus-themes-syntax '(alt-syntax green-strings yellow-comments)
-        modus-themes-syntax '(green-strings yellow-comments)
-        ;; modus-themes-syntax '(faint alt-syntax green-strings yellow-comments)
-        )
-  (modus-themes-load-themes)
-  )
+        modus-themes-prompts '(intense bold)
+        modus-themes-completions '((matches . (extrabold intense))
+                                   (selection . (semibold accented intense underline))
+                                   (popup . (accented)))
+        modus-themes-paren-match '(intense underline)))
 
-(add-hook! 'modus-themes-after-load-theme-hook
-  (defun my-modus-themes-custom-faces ()
-    (modus-themes-with-colors
-      (custom-set-faces
-       ;;",class" found by looking into modus-theme source code in .../straight...
-       `(org-quote ((,class :slant italic)))
-       ;; Only these two needs to be defined for mixed-pitch-mode working in both states
-       `(default ((nil (,doom-font))))
-       `(fixed-pitch ((nil (,doom-font))))
-       )
-      )
-    )
-  )
+  ;;;; LSP
+(unless (featurep! :checkers syntax)
+  (setq lsp-diagnostics-provider :flymake))
+(after! lsp-mode
+  (setq
+   lsp-auto-guess-root t
+   lsp-enable-semantic-tokens-enable nil
+   lsp-progress-via-spinner nil
+   lsp-idle-delay 0.47
+   lsp-completion-enable-additional-text-edit nil
+   lsp-signature-render-documentation t
+   lsp-signature-auto-activate t
+   lsp-signature-doc-lines 5
+   lsp-eldoc-enable-hover t
+   lsp-headerline-breadcrumb-enable t
+   lsp-enable-indentation t
+   lsp-enable-on-type-formatting nil
+   lsp-enable-symbol-highlighting nil
+   lsp-enable-links nil
+   lsp-log-io nil))
+
+(setq +lsp-company-backends '(company-capf :with company-yasnippet))
+
+(after! lsp-ui
+  (setq lsp-ui-sideline-enable t
+        lsp-ui-sideline-show-code-actions t
+        lsp-ui-sideline-show-symbol nil
+        lsp-ui-sideline-show-hover nil
+        lsp-ui-sideline-show-diagnostics nil
+        lsp-ui-doc-enable t
+        lsp-ui-doc-position 'top
+        lsp-ui-doc-delay 0.73
+        lsp-ui-doc-max-width 50
+        lsp-ui-doc-max-height 15
+        lsp-ui-doc-include-signature t
+        lsp-ui-doc-header t)
+
+  (add-hook! 'lsp-ui-mode-hook
+    (run-hooks (intern (format "%s-lsp-ui-hook" major-mode)))))
+
+;;;;; Flycheck
+(after! flycheck
+  (setq flycheck-display-errors-delay 0.1))
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
@@ -109,9 +198,8 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
-                                        ;(setq confirm-kill-emacs nil)
+
 (setq select-enable-clipboard t)
-;;
 
 ;; Backup and autosave revamp
 (defvar thsc/backup-location (expand-file-name "~/.emacs-saves")
@@ -166,61 +254,75 @@
 ;;
 
 (after! org
-  (require 'org-indent)
-  (setq org-agenda-files '("~/org/gtd/actionable.org" "~/org/todo/new_todo.org"))
-  ;; Linebreaks: WYSISYG
-  (setq org-export-preserve-breaks t)
-  (setq org-pandoc-options-for-docx '(
-                                      ;;(reference-doc . "C:/Projects/todo/pandoc/nc_ref.docx")
-                                      ;;(reference-doc . "~/org/todo/pandoc/nc_ref.docx")
-                                      (reference-doc . "/c/Users/thsc/Desktop/nc_ref2.docx")
-                                      ))
+  (load! "+org"))
 
-  (setq org-pandoc-options-for-html5 `(
-                                       (number-sections . t)
-                                       (toc . t)
-                                       (self-contained . t)
-                                       ;;(template . "C:/Projects/todo/easy_template.html")
-                                       (template . ,(expand-file-name "~/org/todo/pandoc/html5/github/GitHub.html5"))
-                                       ;;(template . "C:/Projects/todo/pandoc/html5/kjhealy/html.template")
-                                       ))
+;; (after! org
+;;   (require 'org-indent)
+;;   ;;(setq org-agenda-files '("~/org/gtd/actionable.org" "~/org/todo/new_todo.org"))
+;;   ;; Should have agenda view that shows only work related and a view that shows both work and private
+;;   ;; The "scheduled only view" should show both
+;;   (setq org-agenda-files '("~/org/gtd/actionable.org" "~/org/todo/new_todo.org" "~/org/private/practical.org"))
+;;   ;; Linebreaks: WYSISYG
+;;   (setq org-export-preserve-breaks t)
+;;   ;; Disable eval on export by default
+;;   (setq org-export-babel-evaluate nil)
+;;   (setq org-pandoc-options-for-docx `(
+;;                                       ;;(reference-doc . "C:/Projects/todo/pandoc/nc_ref.docx")
+;;                                       ;;(reference-doc . "~/org/todo/pandoc/nc_ref.docx")
+;;                                       ;;(reference-doc . "/c/Users/thsc/Desktop/nc_ref2.docx")
+;;                                       ;;(reference-doc . "C:/Users/thsc/Desktop/nc_ref2.docx")
+;;                                       (reference-doc . ,(expand-file-name "~/Desktop/nc_ref2.docx"))
+;;                                       ))
 
-  ;; (setq org-pandoc-options-for-latex-pdf '(
-  ;;                                          (number-sections . t)
-  ;;                                          (toc . t)
-  ;;                                          (template . "C:/Projects/todo/eisvogel.tex")
-  ;;                                          (pdf-engine . "lualatex")
-  ;;                                          ))
-  (setq org-pandoc-options-for-markdown '(
-                                          (toc . t)
-                                          ))
-  (setq org-pandoc-options-for-gfm '(
-                                     (toc . t)
-                                     ))
-  (require 'org-id)
-  (setq org-use-property-inheritance t
-        org-log-done 'time ; matches behaviour of orgzly
-        org-log-into-drawer t
-        org-list-allow-alphabetical t
-        org-export-in-background t
-        org-re-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js"
-        org-id-link-to-org-use-id 'create-if-interactive
-        )
-  
-  (use-package! org-pandoc-import
-    :defer-incrementally t)
-  ;; Don't break evil navigation in org-super-agenda
-  (setq org-super-agenda-header-map 'evil-org-agenda-mode-map)
-  (setq org-catch-invisible-edits 'smart
-        ;;org-export-with-sub-superscripts '{}
-        org-export-with-sub-superscripts nil
-        org-hide-emphasis-markers t
-        org-ellipsis " ▾ "
-        )
+;;   (setq org-pandoc-options-for-html5 `(
+;;                                        (number-sections . t)
+;;                                        (toc . t)
+;;                                        (self-contained . t)
+;;                                        ;;(template . "C:/Projects/todo/easy_template.html")
+;;                                        (template . ,(expand-file-name "~/org/todo/pandoc/html5/github/GitHub.html5"))
+;;                                        ;;(template . "C:/Projects/todo/pandoc/html5/kjhealy/html.template")
+;;                                        ))
+
+;;   ;; (setq org-pandoc-options-for-latex-pdf '(
+;;   ;;                                          (number-sections . t)
+;;   ;;                                          (toc . t)
+;;   ;;                                          (template . "C:/Projects/todo/eisvogel.tex")
+;;   ;;                                          (pdf-engine . "lualatex")
+;;   ;;                                          ))
+;;   (setq org-pandoc-options-for-markdown '(
+;;                                           (toc . t)
+;;                                           ))
+;;   (setq org-pandoc-options-for-gfm '(
+;;                                      (toc . t)
+;;                                      ))
+;;   (require 'org-id)
+;;   (setq org-use-property-inheritance t
+;;         org-log-done 'time ; matches behaviour of orgzly
+;;         org-log-into-drawer t
+;;         org-list-allow-alphabetical t
+;;         org-export-in-background t
+;;         org-re-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js"
+;;         org-id-link-to-org-use-id 'create-if-interactive
+;;         )
+;;   (setq org-clock-persist t)
+;;   (org-clock-persistence-insinuate)
 
 
-  (load! "+org")
-  )
+;;   (use-package! org-pandoc-import
+;;     :defer-incrementally t)
+;;   ;; Don't break evil navigation in org-super-agenda
+;;   (setq org-super-agenda-header-map 'evil-org-agenda-mode-map)
+;;   (setq org-catch-invisible-edits 'smart
+;;         ;;org-export-with-sub-superscripts '{}
+;;         org-export-with-sub-superscripts nil
+;;         org-hide-emphasis-markers t
+;;         org-ellipsis " ▾ "
+;;         )
+
+
+;;   ;; Trying out the latest and greatest GTD, therefore this should be commented out
+;;   ;; (load! "+org")
+;;   )
 ;; Add icons to modeline
 (after! doom-modeline (setq doom-modeline-major-mode-icon t))
 
@@ -229,26 +331,30 @@
       evil-want-fine-undo t                       ; By default while in insert all changes are one big blob. Be more granular
       auto-save-default t)                        ; Nobody likes to loose work, I certainly don't
 
-(setq locale-coding-system 'utf-8-unix)
-(set-terminal-coding-system 'utf-8-unix)
-(set-keyboard-coding-system 'utf-8-unix)
-(set-selection-coding-system 'utf-8-unix)
+;; [2022-02-14 Mon] Have uncommented most lines here, am unsure if necessary
+;; (setq locale-coding-system 'utf-8-unix)
+;; (set-terminal-coding-system 'utf-8-unix)
+;; (set-keyboard-coding-system 'utf-8-unix)
+;; (set-selection-coding-system 'utf-8-unix)
+;;;(setq selection-coding-system 'iso-latin-1-unix)
 (prefer-coding-system 'utf-8-unix)
 
 ;; 2013-12-10 IRC #Emacs
-(set-clipboard-coding-system 'utf-8-unix)
+;; [2022-02-14 Mon] Windows c/p issues fixed with this
+;; TODO create os pcase block for this to only allow on windows
+(set-clipboard-coding-system 'iso-latin-1-unix)
 
 ;; http://www.masteringemacs.org/articles/2012/08/09/working-coding-systems-unicode-emacs/
 ;; in addition to the lines above:
 
-(set-default-coding-systems 'utf-8-unix)
+;;(set-default-coding-systems 'utf-8-unix)
 ;; backwards compatibility as default-buffer-file-coding-system
-;; is deprecated in 23.2.
-(if (boundp 'buffer-file-coding-system)
-    (setq-default buffer-file-coding-system 'utf-8-unix)
-  (setq default-buffer-file-coding-system 'utf-8-unix))
-;; Treat clipboard input as UTF-8-UNIX string first; compound text next, etc.
-(setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
+;; ;; is deprecated in 23.2.
+;; (if (boundp 'buffer-file-coding-system)
+;;     (setq-default buffer-file-coding-system 'utf-8-unix)
+;;   (setq default-buffer-file-coding-system 'utf-8-unix))
+;; ;; Treat clipboard input as UTF-8-UNIX string first; compound text next, etc.
+;; (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Emacs on WSL open links in Windows web browser
 ;; https://adam.kruszewski.name/2017/09/emacs-in-wsl-and-opening-links/
@@ -260,32 +366,21 @@
             browse-url-generic-args     cmd-args
             browse-url-browser-function 'browse-url-generic
             search-web-default-browser 'browse-url-generic))))
+
 (use-package! groovy-mode
   :defer-incrementally t
   :config
   (setq groovy-indent-offset 4))
 (setq comint-input-ring-size 5000)
-(defun my-shell-mode-hook ()
-  (interactive)
-  (setq comint-input-ring-file-name
-        (if (file-remote-p default-directory)
-            (with-parsed-tramp-file-name default-directory nil
-              (tramp-make-tramp-file-name
-               (tramp-file-name-method v)
-               (tramp-file-name-user v)
-               (tramp-file-name-domain v)
-               (tramp-file-name-host v)
-               (tramp-file-name-port v)
-               "~/.bash_history"))
-          "~/.bash_history"))
-  (comint-read-input-ring t))
 (setq plantuml-default-exec-mode 'jar)
 (setq org-id-extra-files '(
                            (org-agenda-text-search-extra-files)
                            (directory-files-recursively "/home/vagrant/org" "org$")
                            )
       )
+
 (setq password-cache-expiry nil)
+
 (use-package! sqlplus
   :defer-incrementally t)
 (use-package! tramp
@@ -297,6 +392,7 @@
         tramp-password-prompt-regexp   ; Add verification code support.
         (concat
          "^.*"
+                  ;; "^\\(.*\\n?\\)*"
          (regexp-opt
           '("passphrase" "Passphrase"
             "password" "Password"
@@ -319,13 +415,14 @@
   ;; not sure why we have this? just cargo-culting from an answer I saw
   ;; online.
   (setq tramp-verbose 1)
-  (setq tramp-ssh-controlmaster-options
-        (concat
-         ;; "-o ControlPath=/tmp/ssh-ControlPath-%%r@%%h:%%p "
-         ;;"-o ControlPath=/tmp/ssh-ControlPath/%%h:%%p "
-         "-o ControlPath=~/.ssh/control-%%C "
-         "-o ControlMaster=auto -o ControlPersist=yes"))
-
+  ;; Below messes up fakecygpty cygwin ssh via tramp
+  ;; (setq tramp-ssh-controlmaster-options
+  ;;       (concat
+  ;; ;;        ;; "-o ControlPath=/tmp/ssh-ControlPath-%%r@%%h:%%p "
+  ;; ;;        ;;"-o ControlPath=/tmp/ssh-ControlPath/%%h:%%p "
+  ;;        "-o ControlPath=~/.ssh/cm_socket/%%C "
+  ;;        "-o ControlMaster=auto -o ControlPersist=yes"))
+  (setq tramp-use-ssh-controlmaster-options nil)
   ;; projectile has the fun side-effect of wanting to calculate the
   ;; project name, which makes tramp oh-so-much-slower.
   (setq projectile-mode-line "Projectile")
@@ -351,6 +448,7 @@
   (setq org-appear-autoemphasis t
         org-appear-autosubmarkers t
         org-appear-autolinks nil))
+
 ;;ESHELL TWEAKS
 (defun eshell-exec-visual (&rest args)
   "Run the specified PROGRAM in a terminal emulation buffer.
@@ -443,7 +541,7 @@
 
 (remove-hook! '(shell-mode-hook vterm-mode-hook eshell-mode-hook) #'hide-mode-line-mode)
 ;;(add-hook! (shell-mode vterm-mode eshell-mode dired-mode) (solaire-mode -1))
-(add-hook! (shell-mode eshell-mode dired-mode) (solaire-mode -1))
+;;(add-hook! (shell-mode eshell-mode dired-mode) (solaire-mode -1))
 
 ;; (use-package! eshell-vterm
 ;;   :defer-incrementally t
@@ -554,7 +652,7 @@ there."
                      (mapcar
                       (lambda (x)
                         (cl-remove nil (mapcar 'cadr (apply (car x) (cdr x)))))
-                      '((tramp-parse-sconfig "/home/vagrant/.ssh/config")))))
+                      '((tramp-parse-sconfig "~/.ssh/config")))))
          (remote-host (completing-read "Remote host: " hosts)))
       (with-temp-buffer
         (cd (concat "/" (or tramp-default-method "ssh") ":" remote-host ":/home"))
@@ -612,7 +710,7 @@ there. Autosaving enabled"
   :defer t
   :hook (org-mode . org-auto-tangle-mode)
   :config
-  (setq org-auto-tangle-default t))
+  (setq org-auto-tangle-default nil))
 
 ;; writegood-mode will be activated when needed, not before
 (remove-hook! (org-mode markdown-mode rst-mode asciidoc-mode latex-mode LaTeX-mode) #'writegood-mode)
@@ -620,3 +718,215 @@ there. Autosaving enabled"
 
 ;; spell-check will be activated when needed, not before
 (remove-hook! (org-mode markdown-mode TeX-mode rst-mode mu4e-compose-mode message-mode) #'flyspell-mode)
+
+;;(after! org
+;;(server-start)
+;;)
+
+  ;; (eval-after-load "tramp"
+  ;;   '(progn
+  ;;      (add-to-list 'tramp-methods
+  ;;                   (mapcar
+  ;;                    (lambda (x)
+  ;;                      (cond
+  ;;                       ((equal x "sshx") "cygssh")
+  ;;                       ;; ((eq (car x) 'tramp-login-program) (list 'tramp-login-program "fakecygpty c:\\cygwin64\\bin\\ssh\.exe"))
+  ;;                       ((eq (car x) 'tramp-login-program) (list 'tramp-login-program "/usr/bin/ssh"))
+  ;;                       (t x)))
+  ;;                    (assoc "sshx" tramp-methods)))
+  ;;      (setq tramp-default-method "cygssh")))
+
+  ;; (eval-after-load "tramp"
+  ;;   '(progn
+  ;;      (add-to-list 'tramp-methods
+  ;;                   (mapcar
+  ;;                    (lambda (x)
+  ;;                      (cond
+  ;;                       ((equal x "ssh") "cygssh2")
+  ;;                       ;; ((eq (car x) 'tramp-login-program) (list 'tramp-login-program "fakecygpty c:\\cygwin64\\bin\\ssh\.exe"))
+  ;;                       ((eq (car x) 'tramp-login-program) (list 'tramp-login-program "/usr/bin/ssh"))
+  ;;                       (t x)))
+  ;;                    (assoc "ssh" tramp-methods)))
+  ;;      (setq tramp-default-method "cygssh2")))
+
+(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
+
+(add-to-list 'load-path "~/doom-vertico-config/snippets")
+
+;; emacs-w32 outcomment
+;;(require 'fakecygpty)
+;;;(fakecygpty-activate)
+;;(setq tramp-encoding-shell "C:/cygwin64/bin/bash.exe")
+;; emacs-w32 outcomment
+
+;; Not required when setting W32 Environment variable SHELL (NOT $SHELL) to ...cygwin..bin..bash.exe-path
+;; This way, tramp is not weird when opening shells on remote
+;;(setq explicit-shell-file-name "C:/cygwin64/bin/bash.exe")
+
+(defun my-shell-mode-hook ()
+  ;;(interactive)
+  (setq comint-input-ring-file-name
+        (if (file-remote-p default-directory)
+            (with-parsed-tramp-file-name default-directory nil
+              (tramp-make-tramp-file-name
+               (tramp-file-name-method v)
+               (tramp-file-name-user v)
+               (tramp-file-name-domain v)
+               (tramp-file-name-host v)
+               (tramp-file-name-port v)
+               "~/.bash_history"))
+          "~/.bash_history"))
+  (comint-read-input-ring t))
+
+;; ;; I want an easy command for opening new shells:
+;; (defun new-shell (name)
+;;   "Opens a new shell buffer with the given name in
+;;     asterisks (*name*) in the current directory and changes the
+;;     prompt to 'name>'."
+;;   (interactive "sName: ")
+;;   ;;(pop-to-buffer (concat "*" name "*"))
+;;   (pop-to-buffer (generate-new-buffer-name (format "shell name %s" (concat (file-remote-p default-directory 'user) "at" (file-remote-p default-directory 'host)))))
+;;   (unless (eq major-mode 'shell-mode)
+;;     (shell (current-buffer))
+;;   ;;(shell (generate-new-buffer-name (format "shell:%s" (concat (file-remote-p default-directory 'user) "@" (file-remote-p default-directory 'host)))))
+;;     (auto-save-mode)
+;;     (sleep-for 0 200)
+;;     (delete-region (point-min) (point-max))
+;;     (comint-simple-send (get-buffer-process (current-buffer))
+;;                         (concat "export PS1=\"\033[33m" name "\033[0m:\033[35m\\W\033[0m>\"")))
+;;   )
+;; I want an easy command for opening new shells: GOOOOD
+;; (defun new-shell ()
+;;   "Opens a new shell buffer with the given name in
+;;     asterisks (*name*) in the current directory and changes the
+;;     prompt to 'name>'."
+;;   (interactive)
+;;   ;;(pop-to-buffer (concat "*" name "*"))
+;;   ;;(pop-to-buffer (generate-new-buffer-name (format "shell name %s" (concat (file-remote-p default-directory 'user) "at" (file-remote-p default-directory 'host)))))
+;;   (unless (eq major-mode 'shell-mode)
+;;     ;;(shell (current-buffer))
+;;   (shell (generate-new-buffer-name (format "shell %s" (concat (file-remote-p default-directory 'user) "@" (file-remote-p default-directory 'host)))))
+;;     (auto-save-mode)
+;;     (sleep-for 0 200)
+;;     (delete-region (point-min) (point-max))
+;;     (comint-simple-send (get-buffer-process (current-buffer))
+;;                         (concat "export PS1=\"\033[33m" "\033[0m:\033[35m\\W\033[0m>\"")))
+;;   )
+
+(defun new-shell ()
+  "Opens a new shell buffer with the given name in
+    asterisks (*name*) in the current directory and changes the
+    prompt to 'name>'."
+  (interactive)
+  ;;(pop-to-buffer (concat "*" name "*"))
+  ;;(pop-to-buffer (generate-new-buffer-name (format "shell name %s" (concat (file-remote-p default-directory 'user) "at" (file-remote-p default-directory 'host)))))
+  (unless (eq major-mode 'org-mode)
+    ;;(shell (current-buffer))
+  (shell (generate-new-buffer-name (format "shell %s" (concat
+                                                       (if (file-remote-p default-directory)
+                                                           (concat (file-remote-p default-directory 'user) "_" (file-remote-p default-directory 'host) "___" (sha1 (format "%s" (current-time))))
+                                                            (format "%s" (read-from-minibuffer "Name: "))
+                                                           )))))
+    (auto-save-mode)
+    (sleep-for 0 200)
+    (delete-region (point-min) (point-max))
+    (comint-simple-send (get-buffer-process (current-buffer))
+                        (concat "export PS1=\"\033[33m" "\033[0m:\033[35m\\W\033[0m>\"")))
+                        ;;(concat "export PS1=\"[\\d \\t \\u@\\h:\\w ] $ \"")))
+  )
+;;(global-set-key (kbd "C-c s") 'new-shell)
+(defun new-sudo-shell-as (user)
+  "Opens a new shell buffer with the given name in
+    asterisks (*name*) in the current directory and changes the
+    prompt to 'name>'."
+  (interactive "sUser: ")
+  ;;(pop-to-buffer (concat "*" name "*"))
+  ;;(pop-to-buffer (generate-new-buffer-name (format "shell name %s" (concat (file-remote-p default-directory 'user) "at" (file-remote-p default-directory 'host)))))
+  (unless (eq major-mode 'shell-mode)
+    ;;(shell (current-buffer))
+  (shell (generate-new-buffer-name (format "shell %s" (concat
+                                                       (if (file-remote-p default-directory)
+                                                           (concat (file-remote-p default-directory 'user) "_" (file-remote-p default-directory 'host) "___" (sha1 (format "%s" (current-time))))
+                                                            (format "%s" (read-from-minibuffer "Name: "))
+                                                           )))))
+    (auto-save-mode)
+    (sleep-for 0 200)
+    (delete-region (point-min) (point-max))
+    (comint-simple-send (get-buffer-process (current-buffer))
+                        (concat "export PS1=\"\033[33m" "\033[0m:\033[35m\\W\033[0m>\"")))
+                        ;;(concat "export PS1=\"[\\d \\t \\u@\\h:\\w ] $ \"")))
+  )
+
+(defun cygwin-shell ()
+  "Open a cygwin bash shell. Works best with fakecygpty."
+  (interactive)
+  (let ((explicit-shell-file-name "C:/cygwin64/bin/bash"))
+    (call-interactively 'shell)))
+
+;; (use-package! mixed-pitch
+;;   :hook (org-mode . mixed-pitch-mode)
+;;   :config
+;;   (setq mixed-pitch-set-heigth t
+;;         mixed-pitch-variable-pitch-cursor nil)
+;;   (set-face-attribute 'variable-pitch nil :height 5.3))
+
+
+
+(setq current-iso639-language 'en)
+;;
+;; System locale to use for formatting time values.
+(setq system-time-locale "C")         ; Make sure that the weekdays in the
+                                      ; time stamps of your Org mode files and
+                                      ; in the agenda appear in English.
+
+
+(setq org-agenda-prefix-format
+      '((agenda . " %i %-12:c%?-12t%-6e% s")
+       (todo . " %i %-12:c")
+       (tags . " %i %-12:c")
+       (search . " %i %-12:c"))
+      )
+
+;; set timeformat as 24H
+(setq display-time-24hr-format t)
+;; Display clock in emacs
+(display-time-mode 1)
+
+  ;; Trying out the latest and greatest GTD
+(use-package! org-gtd
+  :after org
+  :config
+  (setq org-gtd-directory "~/org/gtd/")
+  (setq org-gtd-default-file-name "actionable")
+  (org-edna-mode)
+  (setq org-edna-use-inheritance t)
+  (map! :leader
+        (:prefix ("d" . "org-gtd")
+         :desc "Capture"        "c"  #'org-gtd-capture
+         :desc "Engage"         "e"  #'org-gtd-engage
+         :desc "Process inbox"  "p"  #'org-gtd-process-inbox
+         :desc "Show all next"  "n"  #'org-gtd-show-all-next
+         :desc "Stuck projects" "s"  #'org-gtd-show-stuck-projects))
+  (map! :map org-gtd-process-map
+        :desc "Choose" "C-c c" #'org-gtd-choose))
+
+(use-package! olivetti
+  :after org
+  ;;:hook (olivetti-mode . double-header-line-mode)
+  :config
+  (setq olivetti-min-body-width 50
+        olivetti-body-width 120
+        ;;olivetti-style 'fancy ; fantastic new layout
+        ;; olivetti-margin-width 12
+        )
+  ;; (add-hook! 'olivetti-mode-hook (window-divider-mode -1))
+  ;; (add-hook! 'olivetti-mode-hook (set-face-attribute 'window-divider nil :foreground (face-background 'fringe) :background (face-background 'fringe)))
+  ;; (add-hook! 'olivetti-mode-hook (set-face-attribute 'vertical-border nil :foreground (face-background 'fringe) :background (face-background 'fringe)))
+  )
+
+(setq comint-password-prompt-regexp "\\(^ *\\|\\(Vault\\|SMB\\|'s\\|Bad\\|C\\(?:VS\\|urrent\\)\\|Enter\\(?: \\(?:Auth\\|\\(?:sam\\|th\\)e\\)\\)?\\|Kerberos\\|LDAP\\|New\\|Old\\|PEM\\|Re\\(?:peat\\|type\\)\\|SUDO\\|UNIX\\|Verify\\|\\[sudo]\\|doas\\|enter\\(?: \\(?:auth\\|\\(?:sam\\|th\\)e\\)\\)?\\|login\\|new\\|old\\) +.*\\)\\(?:\\(?:adgangskode\\|contrase\\(?:\\(?:ny\\|ñ\\)a\\)\\|decryption key\\|encryption key\\|geslo\\|h\\(?:\\(?:asł\\|esl\\)o\\)\\|iphasiwedi\\|jelszó\\|l\\(?:ozinka\\|ösenord\\)\\|m\\(?:ot de passe\\|ật khẩu\\)\\|p\\(?:a\\(?:rola\\|s\\(?:ahitza\\|s\\(?: phrase\\|code\\|ord\\|phrase\\|wor[dt]\\)\\|vorto\\)\\)\\|in\\)\\|s\\(?:alasana\\|enha\\|laptažodis\\)\\|wachtwoord\\|лозинка\\|пароль\\|ססמה\\|كلمة السر\\|गुप्तशब्द\\|शब्दकूट\\|গুপ্তশব্দ\\|পাসওয়ার্ড\\|ਪਾਸਵਰਡ\\|પાસવર્ડ\\|ପ୍ରବେଶ ସଙ୍କେତ\\|கடவுச்சொல்\\|సంకేతపదము\\|ಗುಪ್ತಪದ\\|അടയാളവാക്ക്\\|රහස්පදය\\|ពាក្យសម្ងាត់\\|パスワード\\|密[码碼]\\|암호\\)\\|Response\\)\\(?:\\(?:, try\\)? *again\\| (empty for no passphrase)\\| (again)\\)?\\(?: [[:alpha:]]+ .+\\)?[[:blank:]]*[:：៖][[:space:]]*\\'\\|^Enter encryption key: (repeat) *\\'\\|^([^)@
+]+@[^)@
+]+) Password: *\\'")
+
+(after! shell
+  (load! "+shell"))

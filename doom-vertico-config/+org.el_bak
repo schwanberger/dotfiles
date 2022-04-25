@@ -1,0 +1,90 @@
+;;; +org.el -*- lexical-binding: t; -*-
+(use-package! org-super-agenda
+  :after org-agenda
+  :config
+  (setq org-super-agenda-groups '((:auto-dir-name t)))
+  (org-super-agenda-mode))
+
+(after! org-clock
+  (setq org-clock-persist t)
+  (org-clock-persistence-insinuate))
+
+(use-package! org-gtd
+  :after org
+  :config
+  ;; where org-gtd will put its files. This value is also the default one.
+  (setq org-gtd-directory "~/org/gtd/")
+  ;; package: https://github.com/Malabarba/org-agenda-property
+  ;; this is so you can see who an item was delegated to in the agenda
+  (setq org-agenda-property-list '("DELEGATED_TO"))
+  ;; I think this makes the agenda easier to read
+  (setq org-agenda-property-position 'next-line)
+  ;; package: https://www.nongnu.org/org-edna-el/
+  ;; org-edna is used to make sure that when a project task gets DONE,
+  ;; the next TODO is automatically changed to NEXT.
+  (setq org-edna-use-inheritance t)
+  (org-edna-load)
+  :bind
+  (("C-c d c" . org-gtd-capture) ;; add item to inbox
+   ("C-c d a" . org-agenda-list) ;; see what's on your plate today
+   ("C-c d p" . org-gtd-process-inbox) ;; process entire inbox
+   ("C-c d n" . org-gtd-show-all-next) ;; see all NEXT items
+   ;; see projects that don't have a NEXT item
+   ("C-c d s" . org-gtd-show-stuck-projects)
+   ;; the keybinding to hit when you're done editing an item in the
+   ;; processing phase
+   ("C-c d f" . org-gtd-clarify-finalize)))
+
+(after! (org-gtd org-capture)
+  (add-to-list 'org-capture-templates
+               '("i" "GTD item"
+                 entry
+                 (file (lambda () (org-gtd--path org-gtd-inbox-file-basename)))
+                 "* %?\n%U\n\n  %i"
+                 :kill-buffer t))
+  (add-to-list 'org-capture-templates
+               '("l" "GTD item with link to where you are in emacs now"
+                 entry
+                 (file (lambda () (org-gtd--path org-gtd-inbox-file-basename)))
+                 "* %?\n%U\n\n  %i\n  %a"
+                 :kill-buffer t)))
+
+(after! org-agenda
+  (setq org-agenda-start-on-weekday nil)
+  (setq org-agenda-start-day "0d")
+  ;; Need to see deadline long in advance in some views
+  (setq org-deadline-warning-days 365)
+  (setq org-duration-format (quote h:mm))
+  (add-to-list 'org-agenda-custom-commands '("g" "Scheduled today and all NEXT items" ((agenda "" ((org-agenda-span 1))) (todo "NEXT"))))
+  (add-to-list 'org-agenda-custom-commands '("d" "Scheduled today and all NEXT items" (
+                                                                                       (agenda "" ((org-agenda-span 1)
+                                                                                                   (org-deadline-warning-days 0)
+                                                                                                   (org-scheduled-past-days 0)))))))
+
+(defadvice! +thsc/load-org-gtd-before-capture (&optional goto keys)
+  :before #'org-capture
+  (require 'org-capture)
+  (require 'org-gtd))
+
+;;;;Test [2021-05-31 ma]
+;;(add-hook! org-mode
+          ;;'(lambda ()
+             ;;(setq line-spacing 0.2) ;; Add more line padding for readability
+             ;;(variable-pitch-mode 1) ;; All fonts with variable pitch.
+             ;;(mapc
+              ;;(lambda (face) ;; Other fonts with fixed-pitch.
+                ;;(set-face-attribute face nil :inherit 'fixed-pitch))
+              ;;(list 'org-code
+                    ;;'org-link
+                    ;;'org-block
+                    ;;'org-table
+                    ;;'org-verbatim
+                    ;;'org-block-begin-line
+                    ;;'org-block-end-line
+                    ;;'org-meta-line
+                    ;;'org-document-info-keyword))))
+;;
+;;;;(custom-theme-set-faces
+;;;;'spacemacs-light
+;;;;`(org-block-begin-line ((t (:background "#fbf8ef"))))
+;;;;`(org-block-end-line ((t (:background "#fbf8ef"))))))

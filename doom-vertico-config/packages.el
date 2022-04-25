@@ -79,3 +79,19 @@
 
 (package! vlf :recipe (:host github :repo "m00natic/vlfi"))
 (package! org-auto-tangle)
+
+;;(package! powershell)
+
+(package! nano-emacs :recipe (:host github :repo "rougier/nano-emacs"))
+
+;;(package! doom-themes :disable t)
+;;(package! doom :disable t)
+
+(package! grip-mode)
+
+(package! pandoc-mode)
+(package! olivetti)
+(package! org-edna)
+
+(package! gradle-mode :recipe (:host github :repo "jacobono/emacs-gradle-mode"))
+;; Not working as intended on windows

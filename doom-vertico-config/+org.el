@@ -1,53 +1,4 @@
 ;;; +org.el -*- lexical-binding: t; -*-
-(use-package! org-super-agenda
-  :after org-agenda
-  :config
-  (setq org-super-agenda-groups '((:auto-dir-name t)))
-  (org-super-agenda-mode))
-
-(after! org-clock
-  (setq org-clock-persist t)
-  (org-clock-persistence-insinuate))
-
-(use-package! org-gtd
-  :after org
-  :config
-  ;; where org-gtd will put its files. This value is also the default one.
-  (setq org-gtd-directory "~/org/gtd/")
-  ;; package: https://github.com/Malabarba/org-agenda-property
-  ;; this is so you can see who an item was delegated to in the agenda
-  (setq org-agenda-property-list '("DELEGATED_TO"))
-  ;; I think this makes the agenda easier to read
-  (setq org-agenda-property-position 'next-line)
-  ;; package: https://www.nongnu.org/org-edna-el/
-  ;; org-edna is used to make sure that when a project task gets DONE,
-  ;; the next TODO is automatically changed to NEXT.
-  (setq org-edna-use-inheritance t)
-  (org-edna-load)
-  :bind
-  (("C-c d c" . org-gtd-capture) ;; add item to inbox
-   ("C-c d a" . org-agenda-list) ;; see what's on your plate today
-   ("C-c d p" . org-gtd-process-inbox) ;; process entire inbox
-   ("C-c d n" . org-gtd-show-all-next) ;; see all NEXT items
-   ;; see projects that don't have a NEXT item
-   ("C-c d s" . org-gtd-show-stuck-projects)
-   ;; the keybinding to hit when you're done editing an item in the
-   ;; processing phase
-   ("C-c d f" . org-gtd-clarify-finalize)))
-
-(after! (org-gtd org-capture)
-  (add-to-list 'org-capture-templates
-               '("i" "GTD item"
-                 entry
-                 (file (lambda () (org-gtd--path org-gtd-inbox-file-basename)))
-                 "* %?\n%U\n\n  %i"
-                 :kill-buffer t))
-  (add-to-list 'org-capture-templates
-               '("l" "GTD item with link to where you are in emacs now"
-                 entry
-                 (file (lambda () (org-gtd--path org-gtd-inbox-file-basename)))
-                 "* %?\n%U\n\n  %i\n  %a"
-                 :kill-buffer t)))
 
 (after! org-agenda
   (setq org-agenda-start-on-weekday nil)
@@ -55,32 +6,84 @@
   ;; Need to see deadline long in advance in some views
   (setq org-deadline-warning-days 365)
   (setq org-duration-format (quote h:mm))
-  (add-to-list 'org-agenda-custom-commands '("g" "Scheduled today and all NEXT items" ((agenda "" ((org-agenda-span 1))) (todo "NEXT")))))
+  (add-to-list 'org-agenda-custom-commands '("g" "Scheduled today and all NEXT items" ((agenda "" ((org-agenda-span 1))) (todo "NEXT"))))
+  (add-to-list 'org-agenda-custom-commands '("d" "Scheduled today and all NEXT items" (
+                                                                                       (agenda "" ((org-agenda-span 1)
+                                                                                                   (org-deadline-warning-days 0)
+                                                                                                   (org-scheduled-past-days 0)))))))
 
-(defadvice! +thsc/load-org-gtd-before-capture (&optional goto keys)
-  :before #'org-capture
-  (require 'org-capture)
-  (require 'org-gtd))
+(require 'org-indent)
+;;(setq org-agenda-files '("~/org/gtd/actionable.org" "~/org/todo/new_todo.org"))
+;; Should have agenda view that shows only work related and a view that shows both work and private
+;; The "scheduled only view" should show both
+(setq org-agenda-files '("~/org/gtd/actionable.org" "~/org/todo/new_todo.org" "~/org/private/practical.org"))
+;; Linebreaks: WYSISYG
+(setq org-export-preserve-breaks t)
+;; Disable eval on export by default
+;; Re-enabled [2022-02-05 Sat] as I maybe want it enabled?
+(setq org-export-use-babel t)
+(setq org-pandoc-options-for-docx `(
+                                    ;;(reference-doc . "C:/Projects/todo/pandoc/nc_ref.docx")
+                                    ;;(reference-doc . "~/org/todo/pandoc/nc_ref.docx")
+                                    ;;(reference-doc . "/c/Users/thsc/Desktop/nc_ref2.docx")
+                                    ;;(reference-doc . "C:/Users/thsc/Desktop/nc_ref2.docx")
+                                    (reference-doc . ,(expand-file-name "~/Desktop/nc_ref2.docx"))
+                                    ))
 
-;;;;Test [2021-05-31 ma]
-;;(add-hook! org-mode
-          ;;'(lambda ()
-             ;;(setq line-spacing 0.2) ;; Add more line padding for readability
-             ;;(variable-pitch-mode 1) ;; All fonts with variable pitch.
-             ;;(mapc
-              ;;(lambda (face) ;; Other fonts with fixed-pitch.
-                ;;(set-face-attribute face nil :inherit 'fixed-pitch))
-              ;;(list 'org-code
-                    ;;'org-link
-                    ;;'org-block
-                    ;;'org-table
-                    ;;'org-verbatim
-                    ;;'org-block-begin-line
-                    ;;'org-block-end-line
-                    ;;'org-meta-line
-                    ;;'org-document-info-keyword))))
-;;
-;;;;(custom-theme-set-faces
-;;;;'spacemacs-light
-;;;;`(org-block-begin-line ((t (:background "#fbf8ef"))))
-;;;;`(org-block-end-line ((t (:background "#fbf8ef"))))))
+(setq org-pandoc-options-for-html5 `(
+                                     (number-sections . t)
+                                     (toc . t)
+                                     (self-contained . t)
+                                     ;;(template . "C:/Projects/todo/easy_template.html")
+                                     (template . ,(expand-file-name "~/org/todo/pandoc/html5/github/GitHub.html5"))
+                                     ;;(template . "C:/Projects/todo/pandoc/html5/kjhealy/html.template")
+                                     ))
+
+;; (setq org-pandoc-options-for-latex-pdf '(
+;;                                          (number-sections . t)
+;;                                          (toc . t)
+;;                                          (template . "C:/Projects/todo/eisvogel.tex")
+;;                                          (pdf-engine . "lualatex")
+;;                                          ))
+(setq org-pandoc-options-for-markdown '(
+                                        (toc . t)
+                                        ))
+(setq org-pandoc-options-for-gfm '(
+                                   (toc . t)
+                                   ))
+(require 'org-id)
+(setq org-use-property-inheritance t
+      org-log-done 'time ; matches behaviour of orgzly
+      org-log-into-drawer t
+      org-list-allow-alphabetical t
+      org-export-in-background t
+      org-re-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js"
+      org-id-link-to-org-use-id 'create-if-interactive
+      )
+(setq org-clock-persist t)
+(org-clock-persistence-insinuate)
+
+
+(use-package! org-pandoc-import
+  :defer-incrementally t)
+;; Don't break evil navigation in org-super-agenda
+(setq org-super-agenda-header-map 'evil-org-agenda-mode-map)
+(setq org-catch-invisible-edits 'smart
+      ;;org-export-with-sub-superscripts '{}
+      org-export-with-sub-superscripts nil
+      org-hide-emphasis-markers t
+      org-ellipsis " ▾ "
+      )
+
+(setq org-todo-keyword-faces '(
+                               ("[-]" . +org-todo-active)
+                               ("STRT" . +org-todo-active)
+                               ("[?]" . +org-todo-onhold)
+                               ("WAIT" . +org-todo-onhold)
+                               ("HOLD" . +org-todo-onhold)
+                               ("PROJ" . +org-todo-project)
+                               ("NO" . +org-todo-cancel)
+                               ("KILL" . +org-todo-cancel)
+                               ("CNCL" . +org-todo-cancel)
+                               )
+      )
