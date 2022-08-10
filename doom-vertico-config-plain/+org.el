@@ -87,16 +87,3 @@
                                ("CNCL" . +org-todo-cancel)
                                )
       )
-
-
-;; agenda clocktable mode fix - 2022-08-07 (from https://github.com/doomemacs/doomemacs/issues/6491)
-;; NOTE: Not necessary, pinning to doom-pin of org-mode from march in packages.el
-;; (defun clock-and-stay ()
-;;   (interactive)
-;;   (let ((this-buffer (current-buffer)))
-;;     (org-agenda-clockreport-mode)
-;;     (switch-to-buffer this-buffer))
-;;   )
-
-;; (define-key! org-agenda-mode-map
-;;   "R" #'clock-and-stay)

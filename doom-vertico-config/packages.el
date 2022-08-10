@@ -51,8 +51,8 @@
 (package! groovy-mode)
 (package! puppet-mode)
 
-(package! sqlplus)
-(package! plsql)
+;;(package! sqlplus)
+;;(package! plsql)
 (package! modus-themes)
 (package! org-super-agenda)
 (package! org-gtd)
@@ -67,12 +67,12 @@
            :repo "tecosaur/org-pandoc-import"
            :files ("*.el" "filters" "preprocessors")))
 (package! org-appear :recipe (:host github :repo "awth13/org-appear"))
-(unpin! (:term eshell shell term vterm))
+;;(unpin! (:term eshell shell term vterm))
 
 ;; (package! vterm
 ;; 	  :recipe (:host github :repo "akermu/emacs-libvterm") :pin "9e5a208d8871293a23a2734591fac97a584a41c2")
 
-(package! xterm-color)
+;;(package! xterm-color)
 ;;(package! eshell-vterm :recipe (:host github :repo "iostapyshyn/eshell-vterm"))
 ;;(package! selectrum)
 ;;(package! real-auto-save)
@@ -87,11 +87,17 @@
 ;;(package! doom-themes :disable t)
 ;;(package! doom :disable t)
 
-(package! grip-mode)
+;;(package! grip-mode)
 
 (package! pandoc-mode)
 (package! olivetti)
 (package! org-edna)
 
-(package! gradle-mode :recipe (:host github :repo "jacobono/emacs-gradle-mode"))
+;;(package! gradle-mode :recipe (:host github :repo "jacobono/emacs-gradle-mode"))
 ;; Not working as intended on windows
+
+(package! ox-asciidoc)
+;;(package! adoc-mode)
+
+;; agenda clocktable mode fix - 2022-08-07 (from https://github.com/doomemacs/doomemacs/issues/6491)
+(package! org-mode :pin "971eb6885ec996c923e955730df3bafbdc244e54")

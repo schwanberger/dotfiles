@@ -586,6 +586,105 @@
 ;; (use-package! sqlplus
 ;;   :defer-incrementally t)
 
+(after! tramp
+  (defun tramp-remote-eshell (&optional arg)
+    "Prompt for a remote host to connect to, and open an eshell
+there."
+    (interactive "p")
+    (let*
+        ((hosts
+          (cl-reduce 'append
+                     (mapcar
+                      (lambda (x)
+                        (cl-remove nil (mapcar 'cadr (apply (car x) (cdr x)))))
+                      '((tramp-parse-sconfig "/home/vagrant/.ssh/config")))))
+         (remote-host (completing-read "Remote host: " hosts)))
+      (with-temp-buffer
+        (cd (concat "/" (or tramp-default-method "ssh") ":" remote-host ":"))
+        (eshell default-directory))))
+
+  (defun tramp-remote-sqlplus (&optional arg)
+    "Prompt for a remote host to connect to, and open sql-oracle
+there."
+    (interactive "p")
+    (let*
+        ((hosts
+          (cl-reduce 'append
+                     (mapcar
+                      (lambda (x)
+                        (cl-remove nil (mapcar 'cadr (apply (car x) (cdr x)))))
+                      '((tramp-parse-sconfig "/home/vagrant/.ssh/config")))))
+         (remote-host (completing-read "SQLPlus at remote host: " hosts)))
+      (with-temp-buffer
+        (cd (concat "/" (or tramp-default-method "ssh") ":" remote-host ":"))
+        (eshell-command (concat "sudo su - oracle; (sql-oracle \"" (generate-new-buffer-name (format "%s\"\)" remote-host)))))))
+
+  (setq auth-sources '("~/.emacs_authinfo.gpg"))
+
+
+  (defun thsc/oracle-file-path (file)
+    (let ((host (or (file-remote-p file 'host) "localhost")))
+      (concat "/" (when (file-remote-p file)
+                    (concat (file-remote-p file 'method) ":"
+                            (if-let (user (file-remote-p file 'user))
+                                (concat user "@" host)
+                              host)
+                            "|"))
+              "sudo:root@" "|" "su:oracle@" host
+              ":" (or (file-remote-p file 'localname)
+                      file))))
+
+  (defun thsc/oracle-this-file ()
+    "Open the current file as oracle."
+    (interactive)
+    (find-file
+     (thsc/oracle-file-path
+      (or buffer-file-name
+          (when (or (derived-mode-p 'dired-mode)
+                    (derived-mode-p 'wdired-mode)
+                    (derived-mode-p 'eshell-mode))
+            default-directory)))))
+
+  (defun tramp-remote-dired (&optional arg)
+    "Prompt for a remote host to connect to, and open an eshell
+there."
+    (interactive "p")
+    (let*
+        ((hosts
+          (cl-reduce 'append
+                     (mapcar
+                      (lambda (x)
+                        (cl-remove nil (mapcar 'cadr (apply (car x) (cdr x)))))
+                      '((tramp-parse-sconfig "~/.ssh/config")))))
+         (remote-host (completing-read "Remote host: " hosts)))
+      (with-temp-buffer
+        (cd (concat "/" (or tramp-default-method "ssh") ":" remote-host ":/home"))
+        (dired default-directory))))
+
+  (defun thsc/oracle-shell-this ()
+    "Open the current file as oracle."
+    (interactive)
+    (let
+        ((default-directory (thsc/oracle-file-path default-directory)))
+      (+thsc/shell)))
+
+  (defun tramp-remote-oracle-shell (&optional arg)
+    "Prompt for a remote host to connect to, and open an shell for user oracle
+there. Autosaving enabled"
+    (interactive "p")
+    (let*
+        ((hosts
+          (cl-reduce 'append
+                     (mapcar
+                      (lambda (x)
+                        (cl-remove nil (mapcar 'cadr (apply (car x) (cdr x)))))
+                      '((tramp-parse-sconfig "/home/vagrant/.ssh/config")))))
+         (remote-host (completing-read "Remote host: " hosts)))
+      (with-temp-buffer
+        (cd (concat "/" (or tramp-default-method "ssh") ":" remote-host "|" "sudo:root@" "|" "su:oracle@" remote-host ":"))
+        (+thsc/shell)
+        (auto-save-mode))))
+  )
 
 (use-package! vlf-setup
   :defer-incrementally t
@@ -837,6 +936,8 @@
 
 (setq auth-sources '(password-store "~/.emacs_authinfo.gpg"))
 (setq magit-process-find-password-functions '(magit-process-password-auth-source))
+
+
 
 (require 'auth-source-pass)
 ;; (setq auth-sources '(password-store))

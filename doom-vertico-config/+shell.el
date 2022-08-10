@@ -17,9 +17,11 @@
   "Open shell in default_directory as user (via sudo)"
   (interactive "s(sudo) shell as user: ")
   (if (file-remote-p default-directory)
+    (if (string-match "su:\\w+@" default-directory)
+        (+thsc/shell)
   (let
       ((default-directory (thsc--sudo--as-user-file-path default-directory user)))
-    (+thsc/shell))
+    (+thsc/shell)))
   (+thsc/shell))
   )
 (global-set-key (kbd "C-c s") '+thsc/shell-as-user)
@@ -56,4 +58,127 @@
   ;;(comint-send-string (current-buffer) "PS1='[\\u@\\h \\W] \\D{%F %T}\n$ '")
   ;;(comint-redirect-send-command "export PS1='[\\u@\\h \\W] \\D{%F %T}\n$ '" (current-buffer) "Wow")
   (comint-simple-send (current-buffer) "export PS1='[\\u@\\h \\W] \\D{%F %T}\n$ '")
+  )
+
+(after! tramp
+  (defun tramp-remote-eshell (&optional arg)
+    "Prompt for a remote host to connect to, and open an eshell
+there."
+    (interactive "p")
+    (let*
+        ((hosts
+          (cl-reduce 'append
+                     (mapcar
+                      (lambda (x)
+                        (cl-remove nil (mapcar 'cadr (apply (car x) (cdr x)))))
+                      '((tramp-parse-sconfig "/home/vagrant/.ssh/config")))))
+         (remote-host (completing-read "Remote host: " hosts)))
+      (with-temp-buffer
+        (cd (concat "/" (or tramp-default-method "ssh") ":" remote-host ":"))
+        (eshell default-directory))))
+
+  (defun tramp-remote-sqlplus (&optional arg)
+    "Prompt for a remote host to connect to, and open sql-oracle
+there."
+    (interactive "p")
+    (let*
+        ((hosts
+          (cl-reduce 'append
+                     (mapcar
+                      (lambda (x)
+                        (cl-remove nil (mapcar 'cadr (apply (car x) (cdr x)))))
+                      '((tramp-parse-sconfig "/home/vagrant/.ssh/config")))))
+         (remote-host (completing-read "SQLPlus at remote host: " hosts)))
+      (with-temp-buffer
+        (cd (concat "/" (or tramp-default-method "ssh") ":" remote-host ":"))
+        (eshell-command (concat "sudo su - oracle; (sql-oracle \"" (generate-new-buffer-name (format "%s\"\)" remote-host)))))))
+
+  (setq auth-sources '("~/.emacs_authinfo.gpg"))
+
+
+  (defun thsc/oracle-file-path (file)
+    (let ((host (or (file-remote-p file 'host) "localhost")))
+      (concat "/" (when (file-remote-p file)
+                    (concat (file-remote-p file 'method) ":"
+                            (if-let (user (file-remote-p file 'user))
+                                (concat user "@" host)
+                              host)
+                            "|"))
+              "sudo:root@" "|" "su:oracle@" host
+              ":" (or (file-remote-p file 'localname)
+                      file))))
+
+  (defun thsc/grid-file-path (file)
+    (let ((host (or (file-remote-p file 'host) "localhost")))
+      (concat "/" (when (file-remote-p file)
+                    (concat (file-remote-p file 'method) ":"
+                            (if-let (user (file-remote-p file 'user))
+                                (concat user "@" host)
+                              host)
+                            "|"))
+              "sudo:root@" "|" "su:grid@" host
+              ":" (or (file-remote-p file 'localname)
+                      file))))
+
+  (defun thsc/oracle-this-file ()
+    "Open the current file as oracle."
+    (interactive)
+    (find-file
+     (thsc/oracle-file-path
+      (or buffer-file-name
+          (when (or (derived-mode-p 'dired-mode)
+                    (derived-mode-p 'wdired-mode)
+                    (derived-mode-p 'eshell-mode))
+            default-directory)))))
+
+  (defun tramp-remote-dired (&optional arg)
+    "Prompt for a remote host to connect to, and open an eshell
+there."
+    (interactive "p")
+    (let*
+        ((hosts
+          (cl-reduce 'append
+                     (mapcar
+                      (lambda (x)
+                        (cl-remove nil (mapcar 'cadr (apply (car x) (cdr x)))))
+                      '((tramp-parse-sconfig "~/.ssh/config")))))
+         (remote-host (completing-read "Remote host: " hosts)))
+      (with-temp-buffer
+        (cd (concat "/" (or tramp-default-method "ssh") ":" remote-host ":/home"))
+        (dired default-directory))))
+
+  (defun thsc/oracle-shell-this ()
+    "Open shell as user oracle in this directory."
+    (interactive)
+    (if (string-match "su:oracle@" default-directory)
+        (+thsc/shell)
+      (let
+          ((default-directory (thsc/oracle-file-path default-directory)))
+        (+thsc/shell))))
+
+  (defun thsc/grid-shell-this ()
+    "Open shell as user grid in this directory."
+    (interactive)
+    (if (string-match "su:grid@" default-directory)
+        (+thsc/shell)
+      (let
+          ((default-directory (thsc/grid-file-path default-directory)))
+        (+thsc/shell))))
+
+  (defun tramp-remote-oracle-shell (&optional arg)
+    "Prompt for a remote host to connect to, and open an shell for user oracle
+there. Autosaving enabled"
+    (interactive "p")
+    (let*
+        ((hosts
+          (cl-reduce 'append
+                     (mapcar
+                      (lambda (x)
+                        (cl-remove nil (mapcar 'cadr (apply (car x) (cdr x)))))
+                      '((tramp-parse-sconfig "/home/vagrant/.ssh/config")))))
+         (remote-host (completing-read "Remote host: " hosts)))
+      (with-temp-buffer
+        (cd (concat "/" (or tramp-default-method "ssh") ":" remote-host "|" "sudo:root@" "|" "su:oracle@" remote-host ":"))
+        (+thsc/shell)
+        (auto-save-mode))))
   )

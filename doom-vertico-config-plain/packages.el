@@ -51,26 +51,50 @@
 (package! groovy-mode)
 (package! puppet-mode)
 
-(package! sqlplus)
-(package! plsql)
+;;(package! sqlplus)
+;;(package! plsql)
 (package! modus-themes)
 (package! org-super-agenda)
 (package! org-gtd)
-(package! shell-pop)
+;;(package! shell-pop)
 (package! puppet-mode)
 (package! ox-gfm)
 (package! ox-pandoc)
-(package! counsel-tramp)
+;;(package! org :built-in 'prefer)
+;;(package! counsel-tramp)
 (package! org-pandoc-import
   :recipe (:host github
            :repo "tecosaur/org-pandoc-import"
            :files ("*.el" "filters" "preprocessors")))
 (package! org-appear :recipe (:host github :repo "awth13/org-appear"))
-(unpin! (:term eshell shell term vterm))
+;;(unpin! (:term eshell shell term vterm))
 
 ;; (package! vterm
 ;; 	  :recipe (:host github :repo "akermu/emacs-libvterm") :pin "9e5a208d8871293a23a2734591fac97a584a41c2")
 
-(package! xterm-color)
-(package! eshell-vterm :recipe (:host github :repo "iostapyshyn/eshell-vterm"))
+;;(package! xterm-color)
+;;(package! eshell-vterm :recipe (:host github :repo "iostapyshyn/eshell-vterm"))
+;;(package! selectrum)
+;;(package! real-auto-save)
 
+(package! vlf :recipe (:host github :repo "m00natic/vlfi"))
+(package! org-auto-tangle)
+
+;;(package! powershell)
+
+(package! nano-emacs :recipe (:host github :repo "rougier/nano-emacs"))
+
+;;(package! doom-themes :disable t)
+;;(package! doom :disable t)
+
+;;(package! grip-mode)
+
+(package! pandoc-mode)
+(package! olivetti)
+(package! org-edna)
+
+;;(package! gradle-mode :recipe (:host github :repo "jacobono/emacs-gradle-mode"))
+;; Not working as intended on windows
+
+(package! ox-asciidoc)
+;;(package! adoc-mode)
