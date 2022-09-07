@@ -10,13 +10,24 @@
   (add-to-list 'org-agenda-custom-commands '("d" "Scheduled today and all NEXT items" (
                                                                                        (agenda "" ((org-agenda-span 1)
                                                                                                    (org-deadline-warning-days 0)
-                                                                                                   (org-scheduled-past-days 0)))))))
+                                                                                                   (org-scheduled-past-days 10000)
+                                                                                                   (TODO "NEXT")))))))
 
 (require 'org-indent)
 ;;(setq org-agenda-files '("~/org/gtd/actionable.org" "~/org/todo/new_todo.org"))
 ;; Should have agenda view that shows only work related and a view that shows both work and private
 ;; The "scheduled only view" should show both
-(setq org-agenda-files '("~/org/gtd/actionable.org" "~/org/todo/new_todo.org" "~/org/private/practical.org" "~/org/gtd/actionable.org_archive" "~/org/gtd/inbox.org"))
+
+;(setq org-agenda-files '("~/org/gtd/actionable.org" "~/org/todo/new_todo.org" "~/org/private/practical.org" "~/org/gtd/actionable.org_archive" "~/org/gtd/inbox.org"))
+;
+;;(setq org-agenda-files '("~/org/gtd/actionable.org" "~/org/todo/new_todo.org" "~/org/private/practical.org" "~/org/gtd/actionable.org_archive" "~/org/gtd/inbox.org"))
+(setq org-agenda-files '(""))
+;;(setq org-agenda-file-regexp ".*\.org$")
+;;(setq org-agenda-file-regexp "\\(\\(actionable\\|inbox\\)\.org$\\|_archive_\\)")
+(setq org-agenda-file-regexp "^.*\\(\\(?:a\\(?:\\(?:ctionabl\\|rchiv\\)e\\)\\|inbox\\)\\).*[^html][^bak][^md]$")
+;;(setq org-agenda-file-regexp "\\`[^.].*\\.org\\'")
+
+
 ;; Linebreaks: WYSISYG
 (setq org-export-preserve-breaks t)
 ;; Disable eval on export by default
@@ -100,3 +111,8 @@
 
 ;; (define-key! org-agenda-mode-map
 ;;   "R" #'clock-and-stay)
+
+(after! org-tree-slide
+  (advice-remove 'org-tree-slide--display-tree-with-narrow
+                 #'+org-present--hide-first-heading-maybe-a)
+  )

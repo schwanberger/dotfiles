@@ -72,7 +72,7 @@
 ;; (package! vterm
 ;; 	  :recipe (:host github :repo "akermu/emacs-libvterm") :pin "9e5a208d8871293a23a2734591fac97a584a41c2")
 
-;;(package! xterm-color)
+(package! xterm-color)
 ;;(package! eshell-vterm :recipe (:host github :repo "iostapyshyn/eshell-vterm"))
 ;;(package! selectrum)
 ;;(package! real-auto-save)
@@ -101,3 +101,5 @@
 
 ;; agenda clocktable mode fix - 2022-08-07 (from https://github.com/doomemacs/doomemacs/issues/6491)
 (package! org-mode :pin "971eb6885ec996c923e955730df3bafbdc244e54")
+
+(package! ob-sql-mode)

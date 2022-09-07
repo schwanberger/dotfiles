@@ -390,6 +390,7 @@
   :defer-incrementally t
   :init
   (defvar my-auto-save-folder "~/.emacs-saves/"); folder for auto-saves
+  (setq tramp-terminal-type "xterm-256color")
   (setq tramp-completion-reread-directory-timeout 180
         tramp-default-method "ssh"
         tramp-password-prompt-regexp   ; Add verification code support.
