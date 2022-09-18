@@ -141,7 +141,7 @@
         modus-themes-paren-match '(intense underline)))
 
   ;;;; LSP
-(unless (featurep! :checkers syntax)
+(unless (modulep! :checkers syntax)
   (setq lsp-diagnostics-provider :flymake))
 (after! lsp-mode
   (setq
@@ -345,7 +345,7 @@
 ;; 2013-12-10 IRC #Emacs
 ;; [2022-02-14 Mon] Windows c/p issues fixed with this
 ;; TODO create os pcase block for this to only allow on windows
-(set-clipboard-coding-system 'iso-latin-1-unix)
+;;(set-clipboard-coding-system 'iso-latin-1-unix)
 
 ;; http://www.masteringemacs.org/articles/2012/08/09/working-coding-systems-unicode-emacs/
 ;; in addition to the lines above:
@@ -555,7 +555,8 @@
 ;;   (defalias 'eshell/v 'eshell-exec-visual)
 ;;   )
 
-(setq kill-ring-max 500)
+(setq kill-ring-max 50000
+      kill-do-not-save-duplicates t)
 
 ;; Create a shell with remote-process info in buffer-name - call interactively to spawn new shells with decent names
 (defun +thsc/shell ()
@@ -582,6 +583,16 @@
 
 (use-package! tramp
   :defer-incrementally t)
+;; (use-package! plsql
+;;   :defer-incrementally t)
+;; (use-package! sqlplus
+;;   :defer-incrementally t)
+
+(use-package! clean-kill-ring
+  :defer-incrementally t
+  :config
+  (setq clean-kill-ring-prevent-duplicates t)
+  (clean-kill-ring-mode))
 ;; (use-package! plsql
 ;;   :defer-incrementally t)
 ;; (use-package! sqlplus

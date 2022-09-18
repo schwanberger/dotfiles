@@ -18,14 +18,13 @@
 ;; Should have agenda view that shows only work related and a view that shows both work and private
 ;; The "scheduled only view" should show both
 
-;(setq org-agenda-files '("~/org/gtd/actionable.org" "~/org/todo/new_todo.org" "~/org/private/practical.org" "~/org/gtd/actionable.org_archive" "~/org/gtd/inbox.org"))
+(setq org-agenda-files '("~/org/gtd/actionable.org" "~/org/todo/new_todo.org" "~/org/private/practical.org" "~/org/gtd/actionable.org_archive" "~/org/gtd/inbox.org"))
 ;
 ;;(setq org-agenda-files '("~/org/gtd/actionable.org" "~/org/todo/new_todo.org" "~/org/private/practical.org" "~/org/gtd/actionable.org_archive" "~/org/gtd/inbox.org"))
-(setq org-agenda-files '(""))
-;;(setq org-agenda-file-regexp ".*\.org$")
-;;(setq org-agenda-file-regexp "\\(\\(actionable\\|inbox\\)\.org$\\|_archive_\\)")
-(setq org-agenda-file-regexp "^.*\\(\\(?:a\\(?:\\(?:ctionabl\\|rchiv\\)e\\)\\|inbox\\)\\).*[^html][^bak][^md]$")
-;;(setq org-agenda-file-regexp "\\`[^.].*\\.org\\'")
+
+;; Works reasonably well, but sometimes it just stops working
+;;(setq org-agenda-files '(""))
+;;(setq org-agenda-file-regexp "^.*\\(\\(?:a\\(?:\\(?:ctionabl\\|rchiv\\)e\\)\\|inbox\\)\\).*[^html][^bak][^md]$")
 
 
 ;; Linebreaks: WYSISYG
