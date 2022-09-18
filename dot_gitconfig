@@ -1,7 +1,13 @@
 [user]
-	name = Thomas Schwanberger
-	email = thomas@schwanberger.dk
-[merge]
-	conflictstyle=diff3
-[github]
+        name = Thomas Schwanberger
+        email = thsc@netcompany.com
+[gitlab]
 	user = schwanberger
+[gitlab "nchosting.dk"]
+	user = admin_thsc
+[gitlab "gitlab.nchosting.dk/api/v4"]
+	user = admin_thsc
+[url "https://admin_thsc@gitlab.nchosting.dk"]
+	insteadOf = https://gitlab.nchosting.dk
+[core]
+	autocrlf = input
