@@ -219,3 +219,16 @@ there. Autosaving enabled"
   :config
   (setq vterm-max-scrollback 100000)
   )
+
+(defun +thsc/vterm ()
+  (interactive)
+
+  (vterm (generate-new-buffer-name (format "vterm %s" (concat
+                                                       (if (file-remote-p default-directory)
+                                                           (concat (file-remote-p default-directory 'user) "_" (file-remote-p default-directory 'host) "___" (sha1 (format "%s" (current-time))))
+                                                         (format "%s" (read-from-minibuffer "Name: "))
+                                                         )))))
+  (auto-save-mode)
+  ;;(comint-send-string (current-buffer) "PS1=\"\\u@\\h:\\W$ \""))
+  ;;(comint-send-string (current-buffer) "PS1='[\\u@\\h \\W] \\D{%F %T}\n$ '")
+  )
