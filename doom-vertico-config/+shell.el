@@ -147,6 +147,21 @@ there."
         (cd (concat "/" (or tramp-default-method "ssh") ":" remote-host ":/home"))
         (dired default-directory))))
 
+  (defun tramp-remote-dired-scp (&optional arg)
+    "Prompt for a remote host to connect to, and open a dired buffer there."
+    (interactive "p")
+    (let*
+        ((hosts
+          (cl-reduce 'append
+                     (mapcar
+                      (lambda (x)
+                        (cl-remove nil (mapcar 'cadr (apply (car x) (cdr x)))))
+                      '((tramp-parse-sconfig "~/.ssh/config")))))
+         (remote-host (completing-read "Remote host: " hosts)))
+      (with-temp-buffer
+        (cd (concat "/scp" ":" remote-host ":/home"))
+        (dired default-directory))))
+
   (defun thsc/oracle-shell-this ()
     "Open shell as user oracle in this directory."
     (interactive)
