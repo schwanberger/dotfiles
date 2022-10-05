@@ -214,3 +214,8 @@ there. Autosaving enabled"
   (add-hook! (shell-mode vterm-mode eshell-mode dired-mode) (solaire-mode -1))
   (remove-hook! '(shell-mode-hook vterm-mode-hook eshell-mode-hook) #'hide-mode-line-mode)
   )
+(use-package! vterm
+  :defer-incrementally t
+  :config
+  (setq vterm-max-scrollback 100000)
+  )
