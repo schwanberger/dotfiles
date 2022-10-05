@@ -26,6 +26,8 @@
 ;;(setq org-agenda-files '(""))
 ;;(setq org-agenda-file-regexp "^.*\\(\\(?:a\\(?:\\(?:ctionabl\\|rchiv\\)e\\)\\|inbox\\)\\).*[^html][^bak][^md]$")
 
+;; Make lists (all types) behave like headings in regards to folding
+(setq org-cycle-include-plain-lists 'integrate)
 
 ;; Linebreaks: WYSISYG
 (setq org-export-preserve-breaks t)
