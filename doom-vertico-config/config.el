@@ -1,4 +1,4 @@
-;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
+;;; ~/doom-vertico-config/config.el -*- lexical-binding: t; -*-
 
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
@@ -24,7 +24,19 @@
 
 ;;(ignore-errors
 ;;;;(setq doom-font (font-spec :family "Iosevka Comfy" :size 12.0 :weight 'light)
-(setq doom-font (font-spec :family "Victor Mono" :size 12.0 :weight 'semi-light))
+;;;;
+;;(setq doom-font (font-spec :family "Victor Mono" :size 12.0 :weight 'semi-light))
+;;
+;;(setq doom-font (font-spec :family "VictorMono Nerd Font Mono" :size 12.0 :weight 'regular))
+;;(setq doom-font (font-spec :family "VictorMono Nerd Font Mono" :size 16 :weight 'semi-light))
+;;(setq doom-font (font-spec :family "SFMono Nerd Font" :size 16 :weight 'regular))
+(setq doom-font (font-spec :family "SFMono Nerd Font" :size 14 :weight 'regular))
+;;(setq doom-font (font-spec :family "JetBrainsMono NF" :size 16 :weight 'semi-light))
+;;(setq doom-font (font-spec :family "Iosevka Comfy Fixed" :size 18 :weight 'light))
+;;(setq doom-variable-pitch-font (font-spec :family "ProggyCleanTTCE NF" :size 17.0 :weight 'book))
+;;(setq doom-variable-pitch-font (font-spec :family "Overpass Nerd Font" :size 30.0 :weight 'light :height 3.0))
+(setq doom-variable-pitch-font (font-spec :family "Overpass Nerd Font"))
+;;(setq doom-font (font-spec :family "DroidSansMono Nerd Font Mono" :size 12.0 :weight 'regular))
 ;;;;(setq doom-font (font-spec :family "JetBrains Mono" :size 12.0 :weight 'semi-light)
 ;;;;(setq doom-font (font-spec :family "Iosevka" :size 14.0 :weight 'semi-light)
 ;;;;(setq doom-font (font-spec :family "Iosevka" :size 12.0 :weight 'Light)
@@ -543,7 +555,7 @@
 
 ;;(setq tramp-backup-directory-alist backup-directory-alist)
 
-(remove-hook! '(shell-mode-hook vterm-mode-hook eshell-mode-hook) #'hide-mode-line-mode)
+;;(remove-hook! '(shell-mode-hook vterm-mode-hook eshell-mode-hook) #'hide-mode-line-mode)
 ;;(add-hook! (shell-mode vterm-mode eshell-mode dired-mode) (solaire-mode -1))
 ;;(add-hook! (shell-mode eshell-mode dired-mode) (solaire-mode -1))
 
@@ -863,3 +875,17 @@
                  "gitlab.nchosting.dk/api/v4"
                  "gitlab.nchosting.dk"
                  forge-gitlab-repository)))
+
+;; (after! mixed-pitch
+;;   (defface variable-pitch-serif
+;;     '((t (:family "serif")))
+;;     "A variable-pitch face with serifs."
+;;     :group 'basic-faces)
+;;   (setq mixed-pitch-set-height t)
+;;   (setq variable-pitch-serif-font (font-spec :family "Overpass Nerd Font" :size 12.0))
+;;   (set-face-attribute 'variable-pitch-serif nil :font variable-pitch-serif-font)
+;;   (defun mixed-pitch-serif-mode (&optional arg)
+;;     "Change the default face of the current buffer to a serifed variable pitch, while keeping some faces fixed pitch."
+;;     (interactive)
+;;     (let ((mixed-pitch-face 'variable-pitch-serif))
+;;       (mixed-pitch-mode (or arg 'toggle)))))

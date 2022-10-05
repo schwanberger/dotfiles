@@ -9,5 +9,8 @@
 	user = admin_thsc
 [url "https://admin_thsc@gitlab.nchosting.dk"]
 	insteadOf = https://gitlab.nchosting.dk
+[url "https://thsc@source.netcompany.com"]
+	insteadOf = https://source.netcompany.com
 [core]
-	autocrlf = input
+	autocrlf = false
+	eol = lf

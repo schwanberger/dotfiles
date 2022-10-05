@@ -97,7 +97,7 @@
 ;; Not working as intended on windows
 
 (package! ox-asciidoc)
-;;(package! adoc-mode)
+(package! adoc-mode)
 
 ;; agenda clocktable mode fix - 2022-08-07 (from https://github.com/doomemacs/doomemacs/issues/6491)
 ;;(package! org-mode :pin "971eb6885ec996c923e955730df3bafbdc244e54")
@@ -110,23 +110,23 @@
 (package! clean-kill-ring :recipe (:host github :repo "NicholasBHubbard/clean-kill-ring.el"))
 
 
-;; (package! org
-;;   :recipe (:host github
-;;            :repo "emacs-straight/org-mode"
-;;            :files (:defaults "etc")
-;;            :depth 1
-;;            :build t
-;;            :pre-build
-;;            (with-temp-file "org-version.el"
-;;              (let ((version
-;;                     (with-temp-buffer
-;;                       (insert-file-contents (doom-path "lisp/org.el") nil 0 1024)
-;;                       (if (re-search-forward "^;; Version: \\([^\n-]+\\)" nil t)
-;;                           (match-string-no-properties 1)
-;;                         "Unknown"))))
-;;                (insert (format "(defun org-release () %S)\n" version)
-;;                        (format "(defun org-git-version (&rest _) \"%s-??-%s\")\n"
-;;                                version (cdr (doom-call-process "git" "rev-parse" "--short" "HEAD")))
-;;                        "(provide 'org-version)\n"))))
-;;   :pin "971eb6885ec996c923e955730df3bafbdc244e54")
-;;   ;;:pin "d3a9c424ba32382fff1da4f4ecb447dc99205261")
+ (package! org
+   :recipe (:host github
+            :repo "emacs-straight/org-mode"
+            :files (:defaults "etc")
+            :depth 1
+            :build t
+            :pre-build
+            (with-temp-file "org-version.el"
+              (let ((version
+                     (with-temp-buffer
+                       (insert-file-contents (doom-path "lisp/org.el") nil 0 1024)
+                       (if (re-search-forward "^;; Version: \\([^\n-]+\\)" nil t)
+                           (match-string-no-properties 1)
+                         "Unknown"))))
+                (insert (format "(defun org-release () %S)\n" version)
+                        (format "(defun org-git-version (&rest _) \"%s-??-%s\")\n"
+                                version (cdr (doom-call-process "git" "rev-parse" "--short" "HEAD")))
+                        "(provide 'org-version)\n"))))
+   :pin "971eb6885ec996c923e955730df3bafbdc244e54")
+   ;;:pin "d3a9c424ba32382fff1da4f4ecb447dc99205261")
