@@ -51,6 +51,33 @@
                                      ;;(template . "C:/Projects/todo/pandoc/html5/kjhealy/html.template")
                                      ))
 
+(setq asciidoctor-command-options "-a sectnums -a toc=left -a source-highlighter=rouge -a rouge-style=thankful_eyes -a icons=font -a prewrap! -v ")
+
+(defun org-pandoc-export-to-asciidoc-then-asciidoctor (&optional a s v b e)
+  "Export to asciidoc."
+  (interactive)
+  (org-pandoc-export 'asciidoc a s v b e)
+  (shell-command (concat "asciidoctor " asciidoctor-command-options
+                         (file-name-sans-extension buffer-file-name) ".txt"))
+  (message "Exported to HTML")
+  )
+
+(defun org-export-to-asciidoc-then-asciidoctor ()
+  "Export to asciidoc."
+  (interactive)
+  (org-asciidoc-export-to-asciidoc)
+  (shell-command (concat "asciidoctor " asciidoctor-command-options
+                         (file-name-sans-extension buffer-file-name) ".txt"))
+  (message "Exported to HTML")
+  )
+
+(defun adoc-to-asciidoctor ()
+  "Run asciidoctor to generate HTML from adoc file."
+  (interactive)
+  (shell-command (concat "asciidoctor " asciidoctor-command-options buffer-file-name))
+  (message "Exported to HTML")
+  )
+
 ;; (setq org-pandoc-options-for-latex-pdf '(
 ;;                                          (number-sections . t)
 ;;                                          (toc . t)
@@ -117,3 +144,51 @@
   (advice-remove 'org-tree-slide--display-tree-with-narrow
                  #'+org-present--hide-first-heading-maybe-a)
   )
+
+(setq org-id-extra-files '(
+                           (org-agenda-text-search-extra-files)
+                           (directory-files-recursively (expand-file-name "~/org") ".org$" t)
+                           )
+      )
+
+;; Update all org-id (if some are missing)
+;; (org-id-update-id-locations (directory-files-recursively (expand-file-name "~/org") ".org$" t))
+
+(use-package! org-appear
+  :defer-incrementally t
+  :hook (org-mode . org-appear-mode)
+  :config
+  (setq org-appear-autoemphasis t
+        org-appear-autosubmarkers t
+        org-appear-autolinks nil))
+
+(use-package! org-auto-tangle
+  :defer t
+  :hook (org-mode . org-auto-tangle-mode)
+  :config
+  (setq org-auto-tangle-default nil))
+
+  ;; Trying out the latest and greatest GTD
+(use-package! org-gtd
+  :after org
+  :config
+  (setq org-gtd-directory "~/org/gtd/")
+  (setq org-gtd-default-file-name "actionable")
+  (org-edna-mode)
+  (setq org-edna-use-inheritance t)
+  (map! :leader
+        (:prefix ("d" . "org-gtd")
+         :desc "Capture"        "c"  #'org-gtd-capture
+         :desc "Engage"         "e"  #'org-gtd-engage
+         :desc "Process inbox"  "p"  #'org-gtd-process-inbox
+         :desc "Show all next"  "n"  #'org-gtd-show-all-next
+         :desc "Stuck projects" "s"  #'org-gtd-show-stuck-projects))
+  (map! :map org-gtd-process-map
+        :desc "Choose" "C-c c" #'org-gtd-choose))
+
+(setq org-agenda-prefix-format
+      '((agenda . " %i %-12:c%?-12t%-6e% s")
+       (todo . " %i %-12:c")
+       (tags . " %i %-12:c")
+       (search . " %i %-12:c"))
+      )

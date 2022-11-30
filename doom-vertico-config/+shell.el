@@ -211,14 +211,15 @@ there. Autosaving enabled"
               ;; (make-local-variable 'font-lock-function)
               ;; (setq font-lock-function (lambda (_) nil))
               (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter nil t)))
-  (add-hook! (shell-mode vterm-mode eshell-mode dired-mode) (solaire-mode -1))
+  (add-hook! (shell-mode vterm-mode eshell-mode dired-mode term-mode) (solaire-mode -1))
   (remove-hook! '(shell-mode-hook vterm-mode-hook eshell-mode-hook) #'hide-mode-line-mode)
   )
 
 (use-package! vterm
   :defer-incrementally t
   :config
-  (setq vterm-max-scrollback 100000)
+  (setq vterm-max-scrollback 100000
+        vterm-timer-delay 0.01)
   )
 
 (defun +thsc/vterm ()
@@ -229,7 +230,91 @@ there. Autosaving enabled"
                                                            (concat (file-remote-p default-directory 'user) "_" (file-remote-p default-directory 'host) "___" (sha1 (format "%s" (current-time))))
                                                          (format "%s" (read-from-minibuffer "Name: "))
                                                          )))))
+  (font-lock-mode -1)
+  ;; Prevent font-locking from being re-enabled in this buffer
+  (make-local-variable 'font-lock-function)
+  (setq font-lock-function (lambda (_) nil))
   (auto-save-mode)
   ;;(comint-send-string (current-buffer) "PS1=\"\\u@\\h:\\W$ \""))
   ;;(comint-send-string (current-buffer) "PS1='[\\u@\\h \\W] \\D{%F %T}\n$ '")
   )
+
+(add-to-list 'comint-output-filter-functions 'ansi-color-process-output)
+(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
+
+;; Add new shells to perspective (workspace)
+(add-hook! (shell-mode vterm-mode eshell-mode) (persp-add-buffer (current-buffer)))
+
+;; Create a shell with remote-process info in buffer-name - call interactively to spawn new shells with decent names
+(defun +thsc/shell ()
+  (interactive)
+  (shell (generate-new-buffer-name (format "shell:%s" (concat (file-remote-p default-directory 'user) "@" (file-remote-p default-directory 'host)))))
+  )
+
+(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
+
+(defun cygwin-shell ()
+  "Open a cygwin bash shell. Works best with fakecygpty."
+  (interactive)
+  (let ((explicit-shell-file-name "C:/cygwin64/bin/bash"))
+    (call-interactively 'shell)))
+
+(setq comint-password-prompt-regexp "\\(^ *\\|\\(database\\|Vault\\|SMB\\|'s\\|Bad\\|C\\(?:VS\\|urrent\\)\\|Enter\\(?: \\(?:Auth\\|\\(?:sam\\|th\\)e\\)\\)?\\|Kerberos\\|LDAP\\|New\\|Old\\|PEM\\|Re\\(?:peat\\|type\\)\\|SUDO\\|UNIX\\|Verify\\|\\[sudo]\\|doas\\|enter\\(?: \\(?:auth\\|\\(?:sam\\|th\\)e\\)\\)?\\|login\\|new\\|old\\) +.*\\)\\(?:\\(?:adgangskode\\|contrase\\(?:\\(?:ny\\|ñ\\)a\\)\\|decryption key\\|encryption key\\|geslo\\|h\\(?:\\(?:asł\\|esl\\)o\\)\\|iphasiwedi\\|jelszó\\|l\\(?:ozinka\\|ösenord\\)\\|m\\(?:ot de passe\\|ật khẩu\\)\\|p\\(?:a\\(?:rola\\|s\\(?:ahitza\\|s\\(?: phrase\\|code\\|ord\\|phrase\\|wor[dt]\\)\\|vorto\\)\\)\\|in\\)\\|s\\(?:alasana\\|enha\\|laptažodis\\)\\|wachtwoord\\|лозинка\\|пароль\\|ססמה\\|كلمة السر\\|गुप्तशब्द\\|शब्दकूट\\|গুপ্তশব্দ\\|পাসওয়ার্ড\\|ਪਾਸਵਰਡ\\|પાસવર્ડ\\|ପ୍ରବେଶ ସଙ୍କେତ\\|கடவுச்சொல்\\|సంకేతపదము\\|ಗುಪ್ತಪದ\\|അടയാളവാക്ക്\\|රහස්පදය\\|ពាក្យសម្ងាត់\\|パスワード\\|密[码碼]\\|암호\\)\\|Response\\)\\(?:\\(?:, try\\)? *again\\| (empty for no passphrase)\\| (again)\\)?\\(?: [[:alpha:]]+ .+\\)?[[:blank:]]*[:：៖][[:space:]]*\\'\\|^Enter encryption key: (repeat) *\\'\\|^([^)@
+]+@[^)@
+]+) Password: *\\'")
+
+(defun dfeich/ansi-terminal (&optional path name)
+  "Opens an ansi terminal at PATH. If no PATH is given, it uses
+the value of `default-directory'. PATH may be a tramp remote path.
+The ansi-term buffer is named based on `name' "
+  (interactive)
+  (unless path (setq path default-directory))
+  (unless name (setq name "ansi-term"))
+  (ansi-term "/bin/bash" name)
+  (let ((path (replace-regexp-in-string "^file:" "" path))
+        (cd-str
+         "fn=%s; if test ! -d $fn; then fn=$(dirname $fn); fi; cd $fn;")
+        (bufname (concat "*" name "*" )))
+    (if (tramp-tramp-file-p path)
+        (let ((tstruct (tramp-dissect-file-name path)))
+          (cond
+           ((equal (tramp-file-name-method tstruct) "ssh")
+            (process-send-string bufname (format
+                                          (concat  "ssh -t %s '"
+                                                   cd-str
+                                                   "exec bash'; exec bash; clear\n")
+                                          (tramp-file-name-host tstruct)
+                                          (tramp-file-name-localname tstruct))))
+           (t (error "not implemented for method %s"
+                     (tramp-file-name-method tstruct)))))
+      (process-send-string bufname (format (concat cd-str " exec bash;clear\n")
+                                           path)))))
+
+(defun nadvice/term-exec-1 (name buffer command switches)
+  (let* ((environment
+          (list
+           (format "TERM=%s" term-term-name)
+           (format "TERMINFO=%s" data-directory)
+           (format term-termcap-format "TERMCAP="
+                   term-term-name term-height term-width)
+           (format "EMACS=%s (term:%s)" emacs-version term-protocol-version)
+           (format "INSIDE_EMACS=%s,term:%s" emacs-version term-protocol-version)
+           (format "LINES=%d" term-height)
+           (format "COLUMNS=%d" term-width)))
+         (process-environment
+          (append environment
+                  process-environment))
+         (tramp-remote-process-environment
+          (append environment
+                  tramp-remote-process-environment))
+         (process-connection-type t)
+         (coding-system-for-read 'binary))
+    (apply 'start-file-process name buffer
+       "/bin/sh" "-c"
+       (format "stty -nl echo rows %d columns %d sane 2>/dev/null;\
+if [ $1 = .. ]; then shift; fi; exec \"$@\""
+           term-height term-width)
+       ".."
+       command switches)))
+
+(advice-add 'term-exec-1 :override #'nadvice/term-exec-1)
