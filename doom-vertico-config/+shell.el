@@ -246,10 +246,10 @@ there. Autosaving enabled"
 (add-hook! (shell-mode vterm-mode eshell-mode) (persp-add-buffer (current-buffer)))
 
 ;; Create a shell with remote-process info in buffer-name - call interactively to spawn new shells with decent names
-(defun +thsc/shell ()
-  (interactive)
-  (shell (generate-new-buffer-name (format "shell:%s" (concat (file-remote-p default-directory 'user) "@" (file-remote-p default-directory 'host)))))
-  )
+;; (defun +thsc/shell ()
+;;   (interactive)
+;;   (shell (generate-new-buffer-name (format "shell:%s" (concat (file-remote-p default-directory 'user) "@" (file-remote-p default-directory 'host)))))
+;;   )
 
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
