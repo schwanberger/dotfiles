@@ -18,13 +18,14 @@
 ;; Should have agenda view that shows only work related and a view that shows both work and private
 ;; The "scheduled only view" should show both
 
-(setq org-agenda-files '("~/org/gtd/actionable.org" "~/org/todo/new_todo.org" "~/org/private/practical.org" "~/org/gtd/actionable.org_archive" "~/org/gtd/inbox.org"))
+(setq org-agenda-files '("~/org/gtd/actionable.org" "~/org/todo/new_todo.org" "~/org/private/practical.org" "~/org/gtd/actionable.org_archive" "~/org/gtd/inbox.org" "~/org/gtd/gtd_archive_2022"))
 ;
 ;;(setq org-agenda-files '("~/org/gtd/actionable.org" "~/org/todo/new_todo.org" "~/org/private/practical.org" "~/org/gtd/actionable.org_archive" "~/org/gtd/inbox.org"))
 
 ;; Works reasonably well, but sometimes it just stops working
 ;;(setq org-agenda-files '(""))
 ;;(setq org-agenda-file-regexp "^.*\\(\\(?:a\\(?:\\(?:ctionabl\\|rchiv\\)e\\)\\|inbox\\)\\).*[^html][^bak][^md]$")
+;; (setq org-agenda-file-regexp "^.*\\(_archive$\|_archive_.*\\)")
 
 ;; Make lists (all types) behave like headings in regards to folding
 (setq org-cycle-include-plain-lists 'integrate)
