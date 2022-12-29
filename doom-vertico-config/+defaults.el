@@ -5,7 +5,8 @@
 (setq undo-limit 80000000                         ; Raise undo-limit to 80Mb
       evil-want-fine-undo t                       ; By default while in insert all changes are one big blob. Be more granular
       auto-save-default t                         ; Nobody likes to loose work, I certainly don't
-      select-enable-clipboard t                  ; OS clipboard integration
+      ;;select-enable-clipboard t                  ; OS clipboard integration
+      select-enable-clipboard nil                  ; evil-mode shall not trash my clipboard
       password-cache-expiry nil
       kill-ring-max 50000
       kill-do-not-save-duplicates t
