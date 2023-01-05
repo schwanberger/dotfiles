@@ -78,10 +78,8 @@
 
 (use-package! olivetti
   :after org
-  ;;:hook (olivetti-mode . double-header-line-mode)
-  :config
-  (setq olivetti-min-body-width 50
-        olivetti-body-width 120))
+  :custom
+  (olivetti-body-width 120))
 
 (setq auth-sources '(password-store "~/.emacs_authinfo.gpg"))
 (setq magit-process-find-password-functions '(magit-process-password-auth-source))
@@ -105,15 +103,17 @@
 
 (use-package! modus-themes
   :init
-  (setq modus-themes-inhibit-reload t
-        ;;modus-themes-syntax '(faint green-strings alt-syntax yellow-comments)
+  (setq modus-themes-italic-constructs t
         modus-themes-bold-constructs t
-        modus-themes-italic-constructs t
-        modus-themes-prompts '(intense bold)
-        modus-themes-completions '((matches . (extrabold intense))
-                                   (selection . (semibold accented intense underline))
-                                   (popup . (accented)))
-        modus-themes-paren-match '(intense underline)))
+        modus-themes-mixed-fonts nil
+        modus-themes-variable-pitch-ui nil
+        modus-themes-custom-auto-reload t
+        modus-themes-org-blocks 'gray-background)
+  :config
+  ;;(setq modus-themes-common-palette-overrides modus-themes-preset-overrides-intense)
+  (setq modus-themes-common-palette-overrides modus-themes-preset-overrides-faint)
+  )
+
 
   ;;;; LSP
 (unless (modulep! :checkers syntax)
@@ -159,3 +159,38 @@
 (after! flycheck
   (setq flycheck-display-errors-delay 0.1))
 
+
+;; (use-package! pyenv-mode
+;;   :init
+;;   (add-to-list 'exec-path "~/.pyenv/shims")
+;;   (setenv "WORKON_HOME" "~/.pyenv/versions/")
+;;   :config
+;;   (pyenv-mode))
+
+(setq pyenv-mode-mode-line-format nil)
+
+(use-package! lambda-themes
+  :defer-incrementally t
+  :custom
+  (lambda-themes-set-italic-comments nil)
+  (lambda-themes-set-italic-keywords nil)
+  (lambda-themes-set-variable-pitch nil)
+  )
+
+(defun +thsc/paste-from-minibuffer()
+  "An easy way to paste from clipholder program e.g.
+'Ditto' when 'select-enable-clipboard' is nil"
+  (interactive)
+  (let ((select-enable-clipboard t))
+    (setcar kill-ring (format "%s" (read-from-minibuffer "Paste: ")))
+    (yank)))
+
+(defun +thsc/paste-from-minibuffer-vterm()
+  "An easy way to paste to vterm from clipholder program e.g.
+'Ditto' when 'select-enable-clipboard' is nil"
+  (interactive)
+  (let ((select-enable-clipboard t))
+    (setcar kill-ring (format "%s" (read-from-minibuffer "Paste: ")))
+    (vterm-yank)))
+
+(map! "C-c C-p" #'+thsc/paste-from-minibuffer)

@@ -45,18 +45,12 @@
     asterisks (*name*) in the current directory and changes the
     prompt to 'name>'."
   (interactive)
-  ;;(pop-to-buffer (concat "*" name "*"))
-  ;;(pop-to-buffer (generate-new-buffer-name (format "shell name %s" (concat (file-remote-p default-directory 'user) "at" (file-remote-p default-directory 'host)))))
-  ;;(shell (current-buffer))
   (shell (generate-new-buffer-name (format "shell %s" (concat
                                                        (if (file-remote-p default-directory)
                                                            (concat (file-remote-p default-directory 'user) "_" (file-remote-p default-directory 'host) "___" (sha1 (format "%s" (current-time))))
                                                          (format "%s" (read-from-minibuffer "Name: "))
                                                          )))))
   (auto-save-mode)
-  ;;(comint-send-string (current-buffer) "PS1=\"\\u@\\h:\\W$ \""))
-  ;;(comint-send-string (current-buffer) "PS1='[\\u@\\h \\W] \\D{%F %T}\n$ '")
-  ;;(comint-redirect-send-command "export PS1='[\\u@\\h \\W] \\D{%F %T}\n$ '" (current-buffer) "Wow")
   (comint-simple-send (current-buffer) "export PS1='[\\u@\\h \\W] \\D{%F %T}\n$ '")
   )
 
@@ -223,21 +217,16 @@ there. Autosaving enabled"
   )
 
 (defun +thsc/vterm ()
+  "Create vterm shell. If on remote server, give the buffer a relevant name and
+use bash as default shell."
+  (require 'vterm)
   (interactive)
-
-  (vterm (generate-new-buffer-name (format "vterm %s" (concat
-                                                       (if (file-remote-p default-directory)
-                                                           (concat (file-remote-p default-directory 'user) "_" (file-remote-p default-directory 'host) "___" (sha1 (format "%s" (current-time))))
-                                                         (format "%s" (read-from-minibuffer "Name: "))
-                                                         )))))
-  (font-lock-mode -1)
-  ;; Prevent font-locking from being re-enabled in this buffer
-  (make-local-variable 'font-lock-function)
-  (setq font-lock-function (lambda (_) nil))
-  (auto-save-mode)
-  ;;(comint-send-string (current-buffer) "PS1=\"\\u@\\h:\\W$ \""))
-  ;;(comint-send-string (current-buffer) "PS1='[\\u@\\h \\W] \\D{%F %T}\n$ '")
-  )
+  (if
+      (file-remote-p default-directory)
+      (let ((vterm-shell "/bin/bash"))
+        (vterm (generate-new-buffer-name (format "vterm %s" (concat (concat (file-remote-p default-directory 'user) "_" (file-remote-p default-directory 'host) "___" (sha1 (format "%s" (current-time)))))))))
+    (vterm (generate-new-buffer-name (format "vterm %s" (concat (format "%s" (read-from-minibuffer "Name: ")))))))
+  (auto-save-mode))
 
 (add-to-list 'comint-output-filter-functions 'ansi-color-process-output)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
@@ -318,3 +307,7 @@ if [ $1 = .. ]; then shift; fi; exec \"$@\""
        command switches)))
 
 (advice-add 'term-exec-1 :override #'nadvice/term-exec-1)
+
+(map! :after vterm
+ :map vterm-mode-map
+ "C-c C-p" #'+thsc/paste-from-minibuffer-vterm)

@@ -110,6 +110,8 @@
 
 (package! clean-kill-ring :recipe (:host github :repo "NicholasBHubbard/clean-kill-ring.el"))
 
+(package! lambda-themes :recipe (:host github :repo "lambda-emacs/lambda-themes"))
+
 
  ;; (package! org
  ;;   :recipe (:host github
