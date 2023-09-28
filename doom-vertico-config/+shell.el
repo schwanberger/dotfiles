@@ -35,10 +35,25 @@
                                                          (format "%s" (read-from-minibuffer "Name: "))
                                                          )))))
   (auto-save-mode)
+  (comint-simple-send (current-buffer) "export PS1='[\\u@\\h \\W] \\D{%F %T}\n $ '")
+  )
+
+(defun +thsc/bash ()
+  "Opens a bash shell buffer with the given name. If it's a remote
+     shell, a unique name will be created for it."
+  (interactive)
+
+  (let ((shell-file-name "/usr/bin/bash"))
+  (shell (generate-new-buffer-name (format "shell %s" (concat
+                                                       (if (file-remote-p default-directory)
+                                                           (concat (file-remote-p default-directory 'user) "_" (file-remote-p default-directory 'host) "___" (sha1 (format "%s" (current-time))))
+                                                         (format "%s" (read-from-minibuffer "Name: "))
+                                                         )))))
+  (auto-save-mode)
   ;;(comint-send-string (current-buffer) "PS1=\"\\u@\\h:\\W$ \""))
   ;;(comint-send-string (current-buffer) "PS1='[\\u@\\h \\W] \\D{%F %T}\n$ '")
   (comint-simple-send (current-buffer) "export PS1='[\\u@\\h \\W] \\D{%F %T}\n$ '")
-  )
+  ))
 
 (defun +thsc/new-shell ()
   "Opens a new shell buffer with the given name in
@@ -160,19 +175,24 @@ there."
     "Open shell as user oracle in this directory."
     (interactive)
     (if (string-match "su:oracle@" default-directory)
-        (+thsc/shell)
+        ;; (+thsc/shell)
+        (+thsc/bash)
       (let
           ((default-directory (thsc/oracle-file-path default-directory)))
-        (+thsc/shell))))
+        ;; (+thsc/shell))))
+        (+thsc/bash)))
+    (comint-simple-send (current-buffer) "export PS1='[\\u@\\h \\W] \\D{%F %T}\n(\$ORACLE_SID) $ '")
+    )
 
   (defun thsc/grid-shell-this ()
     "Open shell as user grid in this directory."
     (interactive)
     (if (string-match "su:grid@" default-directory)
-        (+thsc/shell)
+        (+thsc/bash)
       (let
           ((default-directory (thsc/grid-file-path default-directory)))
-        (+thsc/shell))))
+        (+thsc/bash)))
+        (comint-simple-send (current-buffer) "export PS1='[\\u@\\h \\W] \\D{%F %T}\n(\$ORACLE_SID) $ '"))
 
   (defun tramp-remote-oracle-shell (&optional arg)
     "Prompt for a remote host to connect to, and open an shell for user oracle
@@ -211,9 +231,14 @@ there. Autosaving enabled"
 
 (use-package! vterm
   :defer-incrementally t
+  :init
   :config
   (setq vterm-max-scrollback 100000
+        vterm-use-vterm-prompt nil
         vterm-timer-delay 0.01)
+  ; I wanna use M-1 to M-n to change quickly between workspaces
+  (define-key vterm-mode-map (kbd "M-1") nil)
+  (define-key vterm-mode-map (kbd "M-2") nil)
   )
 
 (defun +thsc/vterm ()

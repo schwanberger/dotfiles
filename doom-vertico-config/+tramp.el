@@ -42,11 +42,16 @@
   (setq projectile-mode-line "Projectile")
   :config
   (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
-  (add-to-list 'tramp-default-proxies-alist
-                                        ;'("\\.+atp.nchosting.dk" nil "/ssh:nc-jumpserver:"))
-               '("\\.+nchosting.dk" nil "/ssh:nc-jumpserver:"))
+  ;; (add-to-list 'tramp-default-proxies-alist
+  ;;                                       ;'("\\.+atp.nchosting.dk" nil "/ssh:nc-jumpserver:"))
+  ;;              '("\\." nil "/ssh:thsc@ssh.nchosting.dk:"))
+
+  ;; (add-to-list 'tramp-default-proxies-alist
+  ;;            '("\.*" nil "/ssh:nc-jumpserver:"))
   (add-to-list 'tramp-remote-process-environment "HISTSIZE=10000")
   (add-to-list 'tramp-remote-process-environment "HISTFILESIZE=10000")
   (add-to-list 'backup-directory-alist
                (cons tramp-file-name-regexp nil))
   (setq tramp-auto-save-directory (replace-regexp-in-string tramp-file-name-regexp "" thsc/autosave-dir)))
+
+  ;;(add-to-list 'tramp-default-proxies-alist '("10.51.3.140" nil "/ssh:atp-fyp-shd01:"))

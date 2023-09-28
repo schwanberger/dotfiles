@@ -1,15 +1,23 @@
 ;;; +org.el -*- lexical-binding: t; -*-
 
 (after! org-agenda
-  (setq org-agenda-start-on-weekday nil)
-  (setq org-agenda-start-day "0d")
-  ;; Need to see deadline long in advance in some views
-  (setq org-deadline-warning-days 365)
-  (setq org-duration-format (quote h:mm))
+  (setq org-agenda-start-on-weekday nil
+        org-agenda-dim-blocked-tasks nil
+        org-agenda-start-day "0d"
+        ;; Need to see deadline long in advance in some views
+        org-deadline-warning-days 365
+        org-duration-format (quote h:mm))
+        org-agenda-clockreport-parameter-plist '(:link nil :maxlevel 2) ; 2023-02-27: Fix links everywhere, seen on issue on doom emacs
   (add-to-list 'org-agenda-custom-commands '("g" "Scheduled today and all NEXT items" ((agenda "" ((org-agenda-span 1))) (todo "NEXT"))))
+  ;; (add-to-list 'org-agenda-custom-commands '("d" "Scheduled today and all NEXT items" (
+  ;;                                                                                      (agenda "" ((org-agenda-span 1)
+  ;;                                                                                                  (org-deadline-warning-days 0)
+  ;;                                                                                                  (org-scheduled-past-days 10000)
+  ;;                                                                                                  (TODO "NEXT")))))))
   (add-to-list 'org-agenda-custom-commands '("d" "Scheduled today and all NEXT items" (
                                                                                        (agenda "" ((org-agenda-span 1)
                                                                                                    (org-deadline-warning-days 0)
+                                                                                                   (org-agenda-files '("~/org/gtd/actionable.org" "~/org/todo/new_todo.org" "~/org/private/practical.org" "~/org/gtd/inbox.org"))
                                                                                                    (org-scheduled-past-days 10000)
                                                                                                    (TODO "NEXT")))))))
 
@@ -18,7 +26,7 @@
 ;; Should have agenda view that shows only work related and a view that shows both work and private
 ;; The "scheduled only view" should show both
 
-(setq org-agenda-files '("~/org/gtd/actionable.org" "~/org/todo/new_todo.org" "~/org/private/practical.org" "~/org/gtd/actionable.org_archive" "~/org/gtd/inbox.org" "~/org/gtd/gtd_archive_2022"))
+(setq org-agenda-files '("~/org/gtd/actionable.org" "~/org/todo/new_todo.org" "~/org/private/practical.org" "~/org/gtd/actionable.org_archive" "~/org/gtd/inbox.org" "~/org/gtd/gtd_archive_2023"))
 ;
 ;;(setq org-agenda-files '("~/org/gtd/actionable.org" "~/org/todo/new_todo.org" "~/org/private/practical.org" "~/org/gtd/actionable.org_archive" "~/org/gtd/inbox.org"))
 
@@ -40,13 +48,14 @@
                                     ;;(reference-doc . "~/org/todo/pandoc/nc_ref.docx")
                                     ;;(reference-doc . "/c/Users/thsc/Desktop/nc_ref2.docx")
                                     ;;(reference-doc . "C:/Users/thsc/Desktop/nc_ref2.docx")
-                                    (reference-doc . ,(expand-file-name "~/Desktop/nc_ref2.docx"))
+                                    (reference-doc . ,(expand-file-name "/mnt/c/Users/thsc/Desktop/nc_ref.docx"))
                                     ))
 
 (setq org-pandoc-options-for-html5 `(
                                      (number-sections . t)
                                      (toc . t)
                                      (self-contained . t)
+                                     (toc-depth . 5)
                                      ;;(template . "C:/Projects/todo/easy_template.html")
                                      (template . ,(expand-file-name "~/org/todo/pandoc/html5/github/GitHub.html5"))
                                      ;;(template . "C:/Projects/todo/pandoc/html5/kjhealy/html.template")
@@ -193,3 +202,12 @@
        (tags . " %i %-12:c")
        (search . " %i %-12:c"))
       )
+
+(map! :after org-mode
+      :map org-mode-map "C-c C-p" #'+thsc/paste-from-minibuffer)
+
+(defun +thsc/org-inactive-timestamp-with-time ()
+  "Insert an inactive timestamp with date and time."
+  (interactive)
+  (let ((current-prefix-arg 4)) ;; emulate C-u
+    (call-interactively 'org-time-stamp-inactive)))

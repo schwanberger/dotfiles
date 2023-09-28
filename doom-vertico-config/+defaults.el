@@ -11,7 +11,10 @@
       kill-ring-max 50000
       kill-do-not-save-duplicates t
       display-time-24hr-format t
+      ;;battery-mode-line-format "[%b%p\%] "
+      ;;battery-mode-line-format "[%b] "
       company-idle-delay nil)
+
 (display-battery-mode 1)                          ; Show battery, not useful if not laptop
 (display-time-mode 1)
 (prefer-coding-system 'utf-8-unix)
@@ -177,6 +180,11 @@
   (lambda-themes-set-variable-pitch nil)
   )
 
+(use-package! standard-themes
+  :defer-incrementally t
+  )
+
+
 (defun +thsc/paste-from-minibuffer()
   "An easy way to paste from clipholder program e.g.
 'Ditto' when 'select-enable-clipboard' is nil"
@@ -194,3 +202,73 @@
     (vterm-yank)))
 
 (map! "C-c C-p" #'+thsc/paste-from-minibuffer)
+
+(defun +thsc/yank-to-clipboard (beg end &optional region)
+  ;; Pass mark first, then point, because the order matters when
+  ;; calling `kill-append'.
+  (interactive (list (mark) (point) 'region))
+  (let ((select-enable-clipboard t))
+  (copy-region-as-kill beg end region))
+  ;; This use of called-interactively-p is correct because the code it
+  ;; controls just gives the user visual feedback.
+  (if (called-interactively-p 'interactive)
+      (indicate-copied-region)))
+
+(map! :leader
+      (:prefix-map ("y" . "Yank helpers")
+       :desc "Yank it to system clipboard, please" "y" #'+thsc/yank-to-clipboard))
+
+(map! :leader
+      (:prefix-map ("F" . "Switch to next frame")
+       :desc "Change active frame, skipping Windows entirely." "F" #'+evil/next-frame))
+
+
+(defun uniquify-region-lines (beg end)
+  "Remove duplicate adjacent lines in region."
+  (interactive "*r")
+  (save-excursion
+    (goto-char beg)
+    (while (re-search-forward "^\\(.*\n\\)\\1+" end t)
+      (replace-match "\\1"))))
+
+(defun uniquify-buffer-lines ()
+  "Remove duplicate adjacent lines in the current buffer."
+  (interactive)
+  (uniquify-region-lines (point-min) (point-max)))
+
+;; (defun uniquify-u (list)
+;;   "Return a copy of LIST with all non-unique elements removed."
+;;   (let ((table (make-hash-table :test 'equal)))
+;;     (cl-loop for string in list do
+;; 	     (puthash string (1+ (gethash string table 0))
+;; 		      table))
+;;     (cl-loop for key being the hash-keys of table
+;; 	     unless (> (gethash key table) 1)
+;; 	     collect key)))
+
+;; (defun uniquify-u (buffer)
+;;   (interactive)
+;;   "Return a copy of LIST with all non-unique elements removed."
+;;   (let ((table (make-hash-table :test 'equal)))
+;;     (cl-loop for string in buffer do
+;; 	     (puthash string (1+ (gethash string table 0))
+;; 		      table))
+;;     (cl-loop for key being the hash-keys of table
+;; 	     unless (> (gethash key table) 1)
+;; 	     collect key)))
+
+(defun uniquify-u-region-lines (beg end)
+  "Remove duplicate adjacent lines in region."
+  (interactive "*r")
+  (save-excursion
+    (goto-char beg)
+    (while (re-search-forward "^\\(.*\n\\)\\1+" end t)
+      (replace-match ""))))
+
+(defun uniquify-u-buffer-lines ()
+  "Remove duplicate adjacent lines in the current buffer."
+  (interactive)
+  (uniquify-region-lines (point-min) (point-max)))
+
+; Proper tab with for Oracle Sqlplus
+(setq-default tab-width 8)

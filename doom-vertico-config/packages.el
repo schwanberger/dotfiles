@@ -78,7 +78,8 @@
 ;;(package! selectrum)
 ;;(package! real-auto-save)
 
-(package! vlf :recipe (:host github :repo "m00natic/vlfi"))
+;; Disabled 2023-08-21: Emacs 29 has way better very-large-file support
+;;(package! vlf :recipe (:host github :repo "m00natic/vlfi"))
 (package! org-auto-tangle)
 
 ;;(package! powershell)
@@ -104,6 +105,9 @@
 ;;(package! org-mode :pin "971eb6885ec996c923e955730df3bafbdc244e54")
 ;; Newer commit that should fix it upstream, but does not allow doom sync
 ;;(package! org-mode :pin "d3a9c424ba32382fff1da4f4ecb447dc99205261")
+
+;; 2023-07-16: Test to see if unpinning is nice
+;; > It isn't, link navigation is bonkers. Keep the DOOM pin for now.
 ;;(unpin! (:lang org))
 
 (package! ob-sql-mode)
@@ -111,6 +115,8 @@
 (package! clean-kill-ring :recipe (:host github :repo "NicholasBHubbard/clean-kill-ring.el"))
 
 (package! lambda-themes :recipe (:host github :repo "lambda-emacs/lambda-themes"))
+
+(package! standard-themes :recipe (:host github :repo "protesilaos/standard-themes"))
 
 
  ;; (package! org
