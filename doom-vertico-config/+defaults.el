@@ -84,6 +84,7 @@
   :custom
   (olivetti-body-width 120))
 
+(fset 'epg-wait-for-status 'ignore) ; Help emacs 29.1 with gpg save timeout with newer gnupg versions
 (setq auth-sources '(password-store "~/.emacs_authinfo.gpg"))
 (setq magit-process-find-password-functions '(magit-process-password-auth-source))
 
