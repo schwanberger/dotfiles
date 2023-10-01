@@ -46,8 +46,10 @@
 ;;(setq doom-font (font-spec :family "IosevkaTerm Nerd Font Mono" :size 17 :weight 'regular))
  ;;(setq doom-font (font-spec :family "Iosevka Nerd Font Mono" :size 14.0 :weight 'regular))
 ;; (setq doom-font (font-spec :family "Iosevka Nerd Font Mono" :size 17 :weight 'regular))
-;;(setq doom-font (font-spec :family "VictorMono Nerd Font" :size 18 :weight 'semi-bold))
-(setq doom-font (font-spec :family "VictorMono Nerd Font" :size 19 :weight 'semi-bold))
+(setq doom-font (font-spec :family "VictorMono Nerd Font" :size 18 :weight 'semi-bold))
+;;(setq doom-font (font-spec :family "CaskaydiaCove NF Mono" :size 18 :weight 'semi-light))
+;;(setq doom-font (font-spec :family "VictorMono Nerd Font" :size 19 :weight 'semi-bold))
+;;(setq doom-font (font-spec :family "FiraMono Nerd Font Mono" :size 19 :weight 'regular))
 ;;(setq doom-font (font-spec :family "MesloLGS Nerd Font" :size 14.0 :weight 'light))
 
 ;; If you use `org' and don't want your org files in the default location below,
