@@ -17,16 +17,11 @@
 	          ((emacsPackagesFor emacs29-pgtk).emacsWithPackages (epkgs: [epkgs.vterm]))
 	          git
 	          ripgrep
-            bash
-            coreutils
             openssh
-            pinentry
-            pinentry-curses
-	    gnupg
 	    nerdfonts
-	    fzf
             nodejs
             pandoc
+            fd
           ];
            shellHook = ''
              exec zsh
