@@ -25,10 +25,6 @@
           ];
            shellHook = ''
              exec zsh
-      export GPG_TTY=$(tty)
-            echo "DOOOOM"
-            #echo pinentry-program $(which pinentry-curses) >> ~/.gnupg/gpg-agent.conf
-            echo pinentry-program $(which pinentry) >> ~/.gnupg/gpg-agent.conf
        '';
         };
       }
