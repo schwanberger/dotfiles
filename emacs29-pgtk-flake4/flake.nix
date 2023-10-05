@@ -10,20 +10,23 @@
     flake-utils.lib.eachDefaultSystem (system:
       let pkgs = import nixpkgs { inherit system; };
       in with pkgs; rec {
+
+
         # Development environment
         devShell = mkShell {
           name = "DOOM emacs29-pgtk";
           nativeBuildInputs = [
-	          ((emacsPackagesFor emacs29-pgtk).emacsWithPackages (epkgs: [epkgs.vterm]))
-	          git
-	          ripgrep
+            ((emacsPackagesFor emacs29-pgtk).emacsWithPackages (epkgs: [epkgs.vterm]))
+            bash
+            git
+            ripgrep
             openssh
-	    nerdfonts
+            nerdfonts
             nodejs
             pandoc
             fd
           ];
-           shellHook = ''
+          shellHook = ''
              exec zsh
        '';
         };
