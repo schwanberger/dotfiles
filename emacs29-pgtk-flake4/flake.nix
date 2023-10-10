@@ -25,6 +25,7 @@
             nodejs
             pandoc
             fd
+            p7zip
           ];
           shellHook = ''
              exec zsh
