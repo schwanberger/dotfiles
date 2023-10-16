@@ -30,7 +30,7 @@
 ;
 ;; (setq doom-font (font-spec :family "VictorMono NFM" :size 12.5 :weight 'normal))
 ;;(setq doom-font (font-spec :family "JetBrainsMono NFM" :size 15 :weight 'regular))
-(setq doom-font (font-spec :family "Hack Nerd Font" :size 17 :weight 'semi-light))
+(setq doom-font (font-spec :family "Hack Nerd Font" :size 16 :weight 'semi-light))
 ;; (setq doom-font (font-spec :family "JetBrainsMono NFM" :size 11.0 :weight 'semilight))
 ;;(setq doom-font (font-spec :family "MesloLGS NFM" :height 26 :weight 'normal))
 ;;(setq doom-font (font-spec :family "MesloLGS NFM" :size 11.0 :weight 'normal))
