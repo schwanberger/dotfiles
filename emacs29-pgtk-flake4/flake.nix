@@ -26,6 +26,8 @@
             pandoc
             fd
             p7zip
+            yq
+            jq
           ];
           shellHook = ''
              exec zsh
