@@ -43,7 +43,7 @@
      shell, a unique name will be created for it."
   (interactive)
 
-  (let ((shell-file-name "/usr/bin/bash"))
+  (let ((shell-file-name (locate-file "bash" exec-path)))
   (shell (generate-new-buffer-name (format "shell %s" (concat
                                                        (if (file-remote-p default-directory)
                                                            (concat (file-remote-p default-directory 'user) "_" (file-remote-p default-directory 'host) "___" (sha1 (format "%s" (current-time))))
