@@ -19,7 +19,8 @@
             ((emacsPackagesFor emacs29-pgtk).emacsWithPackages (epkgs: [epkgs.vterm]))
             bash
             git
-            ripgrep
+            # ripgrep
+            (ripgrep.override {withPCRE2 = true;})
             openssh
             nerdfonts
             nodejs
@@ -28,6 +29,9 @@
             p7zip
             yq
             jq
+            zstd
+            (aspellWithDicts (ds: with ds; [ en en-computers en-science ]))
+            sqlite
           ];
           shellHook = ''
              exec zsh
