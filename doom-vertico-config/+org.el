@@ -211,3 +211,5 @@
   (interactive)
   (let ((current-prefix-arg 4)) ;; emulate C-u
     (call-interactively 'org-time-stamp-inactive)))
+
+(use-package! ob-async)
