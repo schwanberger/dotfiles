@@ -32,6 +32,7 @@
             zstd
             (aspellWithDicts (ds: with ds; [ en en-computers en-science ]))
             sqlite
+            nil
           ];
           shellHook = ''
              exec zsh
