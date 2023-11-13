@@ -55,6 +55,44 @@
   (comint-simple-send (current-buffer) "export PS1='[\\u@\\h \\W] \\D{%F %T}\n$ '")
   ))
 
+(defun +thsc/simple-bash ()
+  "Opens a bash shell buffer with the given name. If it's a remote
+     shell, a unique name will be created for it."
+  (interactive)
+
+  (let ((shell-file-name (locate-file "bash" exec-path)))
+  (shell (generate-new-buffer-name (format "shell %s" (concat
+                                                       (if (file-remote-p default-directory)
+                                                           (concat (file-remote-p default-directory 'user) "_" (file-remote-p default-directory 'host) "___" (sha1 (format "%s" (current-time))))
+                                                         (format "%s" (read-from-minibuffer "Name: "))
+                                                         )))))
+  (auto-save-mode)
+  ;;(comint-send-string (current-buffer) "PS1=\"\\u@\\h:\\W$ \""))
+  ;;(comint-send-string (current-buffer) "PS1='[\\u@\\h \\W] \\D{%F %T}\n$ '")
+  ))
+
+(defun +thsc/simple-zsh ()
+  "Opens a bash shell buffer with the given name. If it's a remote
+     shell, a unique name will be created for it."
+  (interactive)
+
+  (let ((shell-file-name (locate-file "zsh" exec-path)))
+  (shell (generate-new-buffer-name (format "shell %s" (concat
+                                                       (if (file-remote-p default-directory)
+                                                           (concat (file-remote-p default-directory 'user) "_" (file-remote-p default-directory 'host) "___" (sha1 (format "%s" (current-time))))
+                                                         (format "%s" (read-from-minibuffer "Name: "))
+                                                         )))))
+  (auto-save-mode)
+  ;;(comint-send-string (current-buffer) "PS1=\"\\u@\\h:\\W$ \""))
+  ;;(comint-send-string (current-buffer) "PS1='[\\u@\\h \\W] \\D{%F %T}\n$ '")
+  (comint-simple-send (current-buffer) "export PS1='[\\u@\\h \\W] \\D{%F %T}\n$ '")
+  (comint-simple-send (current-buffer) "export PS1='[\\u@\\h \\W] \\D{%F %T}\n$ '")
+  (comint-simple-send (current-buffer) "export PS1='[\\u@\\h \\W] \\D{%F %T}\n$ '")
+  (comint-simple-send (current-buffer) "export PS1='[\\u@\\h \\W] \\D{%F %T}\n$ '")
+  (comint-simple-send (current-buffer) "export PS1='[\\u@\\h \\W] \\D{%F %T}\n$ '")
+  (comint-simple-send (current-buffer) "export PS1='[\\u@\\h \\W] \\D{%F %T}\n$ '")
+  ))
+
 (defun +thsc/new-shell ()
   "Opens a new shell buffer with the given name in
     asterisks (*name*) in the current directory and changes the
