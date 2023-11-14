@@ -63,11 +63,11 @@
 (package! ox-pandoc)
 ;;(package! org :built-in 'prefer)
 ;;(package! counsel-tramp)
-(package! org-pandoc-import
-  :recipe (:host github
-           :repo "tecosaur/org-pandoc-import"
-           :files ("*.el" "filters" "preprocessors")))
-(package! org-appear :recipe (:host github :repo "awth13/org-appear"))
+;; (package! org-pandoc-import
+;;   :recipe (:host github
+;;            :repo "tecosaur/org-pandoc-import"
+;;            :files ("*.el" "filters" "preprocessors")))
+;; (package! org-appear :recipe (:host github :repo "awth13/org-appear"))
 ;;(unpin! (:term eshell shell term vterm))
 
 ;; (package! vterm
@@ -84,7 +84,7 @@
 
 ;;(package! powershell)
 
-(package! nano-emacs :recipe (:host github :repo "rougier/nano-emacs"))
+;;(package! nano-emacs :recipe (:host github :repo "rougier/nano-emacs"))
 
 ;;(package! doom-themes :disable t)
 ;;(package! doom :disable t)
@@ -112,11 +112,11 @@
 
 (package! ob-sql-mode)
 
-(package! clean-kill-ring :recipe (:host github :repo "NicholasBHubbard/clean-kill-ring.el"))
+;;(package! clean-kill-ring :recipe (:host github :repo "NicholasBHubbard/clean-kill-ring.el"))
 
-(package! lambda-themes :recipe (:host github :repo "lambda-emacs/lambda-themes"))
+;;(package! lambda-themes :recipe (:host github :repo "lambda-emacs/lambda-themes"))
 
-(package! standard-themes :recipe (:host github :repo "protesilaos/standard-themes"))
+;;(package! standard-themes :recipe (:host github :repo "protesilaos/standard-themes"))
 
 
  ;; (package! org
