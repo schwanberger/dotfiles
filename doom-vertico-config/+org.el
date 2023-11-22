@@ -164,13 +164,13 @@
 ;; Update all org-id (if some are missing)
 ;; (org-id-update-id-locations (directory-files-recursively (expand-file-name "~/org") ".org$" t))
 
-(use-package! org-appear
-  :defer-incrementally t
-  :hook (org-mode . org-appear-mode)
-  :config
-  (setq org-appear-autoemphasis t
-        org-appear-autosubmarkers t
-        org-appear-autolinks nil))
+;; (use-package! org-appear
+;;   :defer-incrementally t
+;;   :hook (org-mode . org-appear-mode)
+;;   :config
+;;   (setq org-appear-autoemphasis t
+;;         org-appear-autosubmarkers t
+;;         org-appear-autolinks nil))
 
 (use-package! org-auto-tangle
   :defer t
