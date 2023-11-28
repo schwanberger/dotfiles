@@ -80,3 +80,4 @@
 (after! org (load! "+org"))     ; org-mode settings
 (load! "+tramp")                ; Tramp setup
 (after! shell (load! "+shell")) ; Shell tweaks
+(load! "+nix")                  ; Nix stuff
