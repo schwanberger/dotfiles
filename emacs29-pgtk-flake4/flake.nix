@@ -18,7 +18,7 @@
           nativeBuildInputs = [
             ((emacsPackagesFor emacs29-pgtk).emacsWithPackages (epkgs: [epkgs.vterm]))
             bash
-            git
+            #git
             # ripgrep
             (ripgrep.override {withPCRE2 = true;})
             openssh
