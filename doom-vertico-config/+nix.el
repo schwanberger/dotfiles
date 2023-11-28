@@ -22,7 +22,7 @@
 
 
 (defun +thsc/nixos-rebuild-switch()
-  "Run 'sudo nixos-rebuild switch --flake ~/nix'."
+  "Execute async: \"sudo nixos-rebuild switch --flake ~/nix\"."
   (interactive)
   (async-shell-command "sudo nixos-rebuild switch --flake ~/nix")
   )
