@@ -64,10 +64,10 @@
 ;; spell-check will be activated when needed, not before
 (remove-hook! (org-mode markdown-mode TeX-mode rst-mode mu4e-compose-mode message-mode) #'flyspell-mode)
 
-; Nicer navigation of huge files
-(use-package! vlf-setup
-  :defer-incrementally t
-  )
+;; ; Nicer navigation of huge files
+;; (use-package! vlf-setup
+;;   :defer-incrementally t
+;;   )
 
 (add-to-list 'load-path "~/doom-vertico-config/snippets")
 
