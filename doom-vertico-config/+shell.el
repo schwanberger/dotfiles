@@ -374,3 +374,9 @@ if [ $1 = .. ]; then shift; fi; exec \"$@\""
 (map! :after vterm
  :map vterm-mode-map
  "C-c C-p" #'+thsc/paste-from-minibuffer-vterm)
+
+(map! :after shell
+      :map shell-mode-map
+      :leader
+      (:prefix-map ("s" . "search")
+       :desc "Search history (via consult-history) useful in shell-mode." "h" #'consult-history))
