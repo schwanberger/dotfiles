@@ -81,8 +81,9 @@
 
 (use-package! olivetti
   :after org
-  :custom
-  (olivetti-body-width 120))
+  ;; :custom
+  ;; ;(olivetti-body-width 120) ; 2024-01-09 back to defaults, in line with semantic line breaks: https://sembr.org/
+  )
 
 (fset 'epg-wait-for-status 'ignore) ; Help emacs 29.1 with gpg save timeout with newer gnupg versions
 (setq auth-sources '(password-store "~/.emacs_authinfo.gpg"))
