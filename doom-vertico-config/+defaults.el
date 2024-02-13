@@ -31,6 +31,14 @@
             browse-url-browser-function 'browse-url-generic
             search-web-default-browser 'browse-url-generic))))
 
+(defun wsl-paste ()
+  (interactive)
+  (let ((clipboard
+     (shell-command-to-string "powershell.exe -command 'Get-Clipboard' 2> /dev/null")))
+    (setq clipboard (replace-regexp-in-string "\r" "" clipboard)) ; Remove Windows ^M characters
+    (setq clipboard (substring clipboard 0 -1)) ; Remove newline added by Powershell
+    (insert clipboard)))
+
 (setq completion-category-overrides '((file (styles basic-remote orderless))))
 
 (use-package! clean-kill-ring
