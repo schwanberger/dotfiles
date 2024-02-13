@@ -14,18 +14,25 @@
   ;;                                                                                                  (org-deadline-warning-days 0)
   ;;                                                                                                  (org-scheduled-past-days 10000)
   ;;                                                                                                  (TODO "NEXT")))))))
-  (add-to-list 'org-agenda-custom-commands '("d" "Scheduled today and all NEXT items" (
+  (add-to-list 'org-agenda-custom-commands '("d" "Items scheduled up to today" (
                                                                                        (agenda "" ((org-agenda-span 1)
                                                                                                    (org-deadline-warning-days 0)
                                                                                                    (org-agenda-files '("~/org/gtd/actionable.org" "~/org/todo/new_todo.org" "~/org/private/practical.org" "~/org/gtd/inbox.org" "~/org/private/nerd.org"))
                                                                                                    (org-scheduled-past-days 10000)
                                                                                                    (TODO "NEXT"))))))
 
-  (add-to-list 'org-agenda-custom-commands '("w" "Scheduled today and all NEXT work items" (
+  (add-to-list 'org-agenda-custom-commands '("w" "Items scheduled up to today for NC work" (
                                                                                        (agenda "" ((org-agenda-span 1)
                                                                                                    (org-deadline-warning-days 0)
                                                                                                    (org-agenda-files '("~/org/gtd/actionable.org" "~/org/todo/new_todo.org" "~/org/gtd/inbox.org"))
                                                                                                    (org-scheduled-past-days 10000)
+                                                                                                   (TODO "NEXT"))))))
+
+  (add-to-list 'org-agenda-custom-commands '("W" "Items scheduled today only for NC work" (
+                                                                                       (agenda "" ((org-agenda-span 1)
+                                                                                                   (org-deadline-warning-days 0)
+                                                                                                   (org-agenda-files '("~/org/gtd/actionable.org" "~/org/todo/new_todo.org" "~/org/gtd/inbox.org"))
+                                                                                                   (org-scheduled-past-days 0)
                                                                                                    (TODO "NEXT")))))))
 
 (require 'org-indent)
