@@ -38,6 +38,17 @@
   (comint-simple-send (current-buffer) "export PS1='[\\u@\\h \\W] \\D{%F %T}\n $ '")
   )
 
+(defun +thsc/simple-shell ()
+  (interactive)
+
+  (shell (generate-new-buffer-name (format "shell %s" (concat
+                                                       (if (file-remote-p default-directory)
+                                                           (concat (file-remote-p default-directory 'user) "_" (file-remote-p default-directory 'host) "___" (sha1 (format "%s" (current-time))))
+                                                         (format "%s" (read-from-minibuffer "Name: "))
+                                                         )))))
+  (auto-save-mode)
+  )
+
 (defun +thsc/bash ()
   "Opens a bash shell buffer with the given name. If it's a remote
      shell, a unique name will be created for it."
@@ -250,6 +261,38 @@ there. Autosaving enabled"
         (auto-save-mode))))
   )
 
+  (defun tramp-remote-shell (&optional arg)
+    "Prompt for a remote host to connect to, and open an eshell
+there."
+    (interactive "p")
+    (let*
+        ((hosts
+          (cl-reduce 'append
+                     (mapcar
+                      (lambda (x)
+                        (cl-remove nil (mapcar 'cadr (apply (car x) (cdr x)))))
+                      '((tramp-parse-sconfig "~/.ssh/config")))))
+         (remote-host (completing-read "Remote host: " hosts)))
+      (with-temp-buffer
+        (cd (concat "/" (or tramp-default-method "ssh") ":" remote-host ":"))
+        (shell default-directory))))
+
+  (defun tramp-remote-vterm (&optional arg)
+    "Prompt for a remote host to connect to, and open an eshell
+there."
+    (interactive "p")
+    (let*
+        ((hosts
+          (cl-reduce 'append
+                     (mapcar
+                      (lambda (x)
+                        (cl-remove nil (mapcar 'cadr (apply (car x) (cdr x)))))
+                      '((tramp-parse-sconfig "~/.ssh/config")))))
+         (remote-host (completing-read "Remote host: " hosts)))
+      (with-temp-buffer
+        (cd (concat "/" (or tramp-default-method "ssh") ":" remote-host ":"))
+        (vterm default-directory))))
+
 (after! shell
   (require 'xterm-color)
   (setq comint-output-filter-functions
@@ -290,6 +333,19 @@ use bash as default shell."
       (let ((vterm-shell "/bin/bash"))
         (vterm (generate-new-buffer-name (format "vterm %s" (concat (concat (file-remote-p default-directory 'user) "_" (file-remote-p default-directory 'host) "___" (sha1 (format "%s" (current-time)))))))))
     (vterm (generate-new-buffer-name (format "vterm %s" (concat (format "%s" (read-from-minibuffer "Name: ")))))))
+  (auto-save-mode))
+
+(defun +thsc/vterm-bash ()
+  "Create vterm shell. If on remote server, give the buffer a relevant name and
+use bash as default shell."
+  (require 'vterm)
+  (interactive)
+  (if
+      (file-remote-p default-directory)
+      (let ((vterm-shell "/bin/bash"))
+        (vterm (generate-new-buffer-name (format "vterm %s" (concat (concat (file-remote-p default-directory 'user) "_" (file-remote-p default-directory 'host) "___" (sha1 (format "%s" (current-time)))))))))
+      (let ((vterm-shell (locate-file "bash" exec-path)))
+    (vterm (generate-new-buffer-name (format "vterm %s" (concat (format "%s" (read-from-minibuffer "Name: "))))))))
   (auto-save-mode))
 
 (add-to-list 'comint-output-filter-functions 'ansi-color-process-output)
@@ -381,3 +437,38 @@ if [ $1 = .. ]; then shift; fi; exec \"$@\""
       :leader
       (:prefix-map ("s" . "search")
        :desc "Search history (via consult-history) useful in shell-mode." "h" #'consult-history))
+
+;; (defun run-in-vterm-kill (process event)
+;;   "A process sentinel. Kills PROCESS's buffer if it is live."
+;;   (let ((b (process-buffer process)))
+;;     (and (buffer-live-p b)
+;;          (kill-buffer b))))
+
+;; (defun run-in-vterm (command)
+;;   "Execute string COMMAND in a new vterm.
+
+;; Interactively, prompt for COMMAND with the current buffer's file
+;; name supplied. When called from Dired, supply the name of the
+;; file at point.
+
+;; Like `async-shell-command`, but run in a vterm for full terminal features.
+
+;; The new vterm buffer is named in the form `*foo bar.baz*`, the
+;; command and its arguments in earmuffs.
+
+;; When the command terminates, the shell remains open, but when the
+;; shell exits, the buffer is killed."
+;;   (interactive
+;;    (list
+;;     (let* ((f (cond (buffer-file-name)
+;;                     ((eq major-mode 'dired-mode)
+;;                      (dired-get-filename nil t))))
+;;            (filename (concat " " (shell-quote-argument (and f (file-relative-name f))))))
+;;       (read-shell-command "Terminal command: "
+;;                           (cons filename 0)
+;;                           (cons 'shell-command-history 1)
+;;                           (list filename)))))
+;;   (with-current-buffer (vterm (concat "*" command "*"))
+;;     (set-process-sentinel vterm--process #'run-in-vterm-kill)
+;;     (vterm-send-string command)
+;;     (vterm-send-return)))
