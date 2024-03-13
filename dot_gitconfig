@@ -11,6 +11,7 @@
 	insteadOf = https://gitlab.nchosting.dk
 [url "https://thsc@source.netcompany.com"]
 	insteadOf = https://source.netcompany.com
+        helper =
 [core]
 	autocrlf = false
 	eol = lf
