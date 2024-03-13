@@ -272,9 +272,9 @@ there. Autosaving enabled"
   :init
   :config
   (setq vterm-max-scrollback 100000
-        vterm-use-vterm-prompt nil
-        vterm-timer-delay 0.01)
+        ;vterm-use-vterm-prompt nil
         vterm-kill-buffer-on-exit nil
+        vterm-timer-delay 0.00)
   ; I wanna use M-1 to M-n to change quickly between workspaces
   (define-key vterm-mode-map (kbd "M-1") nil)
   (define-key vterm-mode-map (kbd "M-2") nil)
