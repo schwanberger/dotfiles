@@ -353,6 +353,7 @@ use bash as default shell."
 
 ;; Add new shells to perspective (workspace)
 (add-hook! (shell-mode vterm-mode eshell-mode) (persp-add-buffer (current-buffer)))
+(add-hook! (shell-mode vterm-mode eshell-mode) (corfu-mode -1))
 
 ;; Create a shell with remote-process info in buffer-name - call interactively to spawn new shells with decent names
 ;; (defun +thsc/shell ()
