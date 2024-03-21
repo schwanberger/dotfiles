@@ -13,10 +13,9 @@
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type 'visual)
 
-
-;;(setq doom-theme 'modus-vivendi-tinted
 ;;(setq doom-theme 'doom-vibrant
-(setq doom-theme 'doom-one
+;;(setq doom-theme 'doom-one
+(setq doom-theme 'modus-vivendi-tinted
       doom-themes-treemacs-theme 'doom-colors
       doom-acario-dark-brighter-modeline t
       doom-acario-light-brighter-modeline t
