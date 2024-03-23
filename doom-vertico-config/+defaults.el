@@ -34,7 +34,7 @@
 (defun wsl-paste ()
   (interactive)
   (let ((clipboard
-     (shell-command-to-string "powershell.exe -command 'Get-Clipboard' 2> /dev/null")))
+         (shell-command-to-string "powershell.exe -command 'Get-Clipboard' 2> /dev/null")))
     (setq clipboard (replace-regexp-in-string "\r" "" clipboard)) ; Remove Windows ^M characters
     (setq clipboard (substring clipboard 0 -1)) ; Remove newline added by Powershell
     (insert clipboard)))
@@ -83,8 +83,8 @@
 ;;
 ;; System locale to use for formatting time values.
 (setq system-time-locale "C")         ; Make sure that the weekdays in the
-                                      ; time stamps of your Org mode files and
-                                      ; in the agenda appear in English.
+                                        ; time stamps of your Org mode files and
+                                        ; in the agenda appear in English.
 
 
 (use-package! olivetti
@@ -115,79 +115,85 @@
   :defer-incrementally t)
 
 (use-package! modus-themes
-  :init
-  (setq modus-themes-italic-constructs t
-        modus-themes-bold-constructs t
-        modus-themes-mixed-fonts nil
-        modus-themes-variable-pitch-ui nil
-        modus-themes-custom-auto-reload t
-        modus-themes-org-blocks 'gray-background)
-  :config
-  ;;(setq modus-themes-common-palette-overrides modus-themes-preset-overrides-intense)
-  (setq modus-themes-common-palette-overrides modus-themes-preset-overrides-faint)
+  :defer-incrementally t
+  ;; :init
+  ;; (setq modus-themes-italic-constructs t
+  ;;       modus-themes-bold-constructs t
+  ;;       modus-themes-mixed-fonts nil
+  ;;       modus-themes-variable-pitch-ui nil
+  ;;       modus-themes-custom-auto-reload t
+  ;;       modus-themes-org-blocks 'gray-background)
+  ;; :config
+  ;; ;;(setq modus-themes-common-palette-overrides modus-themes-preset-overrides-intense)
+  ;; (setq modus-themes-common-palette-overrides modus-themes-preset-overrides-faint)
   )
 
+(after! corfu
+  (setq corfu-auto nil ; You shell help when prompted (by TAB)
+        +corfu-want-minibuffer-completion nil ; termianl minibuffer corfu completion leads to bad UX
+        )
+  )
 
   ;;;; LSP
-(unless (modulep! :checkers syntax)
-  (setq lsp-diagnostics-provider :flymake))
-(after! lsp-mode
-  (setq
-   lsp-auto-guess-root t
-   lsp-enable-semantic-tokens-enable nil
-   lsp-progress-via-spinner nil
-   lsp-idle-delay 0.47
-   lsp-completion-enable-additional-text-edit nil
-   lsp-signature-render-documentation t
-   lsp-signature-auto-activate t
-   lsp-signature-doc-lines 5
-   lsp-eldoc-enable-hover t
-   lsp-headerline-breadcrumb-enable t
-   lsp-enable-indentation t
-   lsp-enable-on-type-formatting nil
-   lsp-enable-symbol-highlighting nil
-   lsp-enable-links nil
-   lsp-log-io nil))
+;; (unless (modulep! :checkers syntax)
+;;   (setq lsp-diagnostics-provider :flymake))
+;; (after! lsp-mode
+;;   (setq
+;;    lsp-auto-guess-root t
+;;    lsp-enable-semantic-tokens-enable nil
+;;    lsp-progress-via-spinner nil
+;;    lsp-idle-delay 0.47
+;;    lsp-completion-enable-additional-text-edit nil
+;;    lsp-signature-render-documentation t
+;;    lsp-signature-auto-activate t
+;;    lsp-signature-doc-lines 5
+;;    lsp-eldoc-enable-hover t
+;;    lsp-headerline-breadcrumb-enable t
+;;    lsp-enable-indentation t
+;;    lsp-enable-on-type-formatting nil
+;;    lsp-enable-symbol-highlighting nil
+;;    lsp-enable-links nil
+;;    lsp-log-io nil))
 
-(setq +lsp-company-backends '(company-capf :with company-yasnippet))
+;; (setq +lsp-company-backends '(company-capf :with company-yasnippet))
 
-(after! lsp-ui
-  (setq lsp-ui-sideline-enable t
-        lsp-ui-sideline-show-code-actions t
-        lsp-ui-sideline-show-symbol nil
-        lsp-ui-sideline-show-hover nil
-        lsp-ui-sideline-show-diagnostics nil
-        lsp-ui-doc-enable t
-        lsp-ui-doc-position 'top
-        lsp-ui-doc-delay 0.73
-        lsp-ui-doc-max-width 50
-        lsp-ui-doc-max-height 15
-        lsp-ui-doc-include-signature t
-        lsp-ui-doc-header t)
+;; (after! lsp-ui
+;;   (setq lsp-ui-sideline-enable t
+;;         lsp-ui-sideline-show-code-actions t
+;;         lsp-ui-sideline-show-symbol nil
+;;         lsp-ui-sideline-show-hover nil
+;;         lsp-ui-sideline-show-diagnostics nil
+;;         lsp-ui-doc-enable t
+;;         lsp-ui-doc-position 'top
+;;         lsp-ui-doc-delay 0.73
+;;         lsp-ui-doc-max-width 50
+;;         lsp-ui-doc-max-height 15
+;;         lsp-ui-doc-include-signature t
+;;         lsp-ui-doc-header t)
 
-  (add-hook! 'lsp-ui-mode-hook
-    (run-hooks (intern (format "%s-lsp-ui-hook" major-mode)))))
+;;   (add-hook! 'lsp-ui-mode-hook
+;;     (run-hooks (intern (format "%s-lsp-ui-hook" major-mode)))))
 
-;;;;; Flycheck
-(after! flycheck
-  (setq flycheck-display-errors-delay 0.1))
+;; ;;;;; Flycheck
+;; (after! flycheck
+;;   (setq flycheck-display-errors-delay 0.1))
 
 
-;; (use-package! pyenv-mode
-;;   :init
-;;   (add-to-list 'exec-path "~/.pyenv/shims")
-;;   (setenv "WORKON_HOME" "~/.pyenv/versions/")
-;;   :config
-;;   (pyenv-mode))
+;; ;; (use-package! pyenv-mode
+;; ;;   :init
+;; ;;   (add-to-list 'exec-path "~/.pyenv/shims")
+;; ;;   (setenv "WORKON_HOME" "~/.pyenv/versions/")
+;; ;;   :config
+;; ;;   (pyenv-mode))
 
 (setq pyenv-mode-mode-line-format nil)
 
 (use-package! lambda-themes
   :defer-incrementally t
-  :custom
-  (lambda-themes-set-italic-comments nil)
-  (lambda-themes-set-italic-keywords nil)
-  (lambda-themes-set-variable-pitch nil)
+  ;; :custom
+  ;; (lambda-themes-set-italic-comments nil)
+  ;; (lambda-themes-set-italic-keywords nil)
+  ;; (lambda-themes-set-variable-pitch nil)
   )
 
 (use-package! standard-themes
@@ -218,7 +224,7 @@
   ;; calling `kill-append'.
   (interactive (list (mark) (point) 'region))
   (let ((select-enable-clipboard t))
-  (copy-region-as-kill beg end region))
+    (copy-region-as-kill beg end region))
   ;; This use of called-interactively-p is correct because the code it
   ;; controls just gives the user visual feedback.
   (if (called-interactively-p 'interactive)
@@ -280,5 +286,5 @@
   (interactive)
   (uniquify-region-lines (point-min) (point-max)))
 
-; Proper tab with for Oracle Sqlplus
+                                        ; Proper tab with for Oracle Sqlplus
 (setq-default tab-width 8)

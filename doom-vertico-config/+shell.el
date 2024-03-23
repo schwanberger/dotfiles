@@ -306,7 +306,7 @@ there."
               ;; (make-local-variable 'font-lock-function)
               ;; (setq font-lock-function (lambda (_) nil))
               (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter nil t)))
-  (add-hook! (shell-mode vterm-mode eshell-mode dired-mode term-mode) (solaire-mode -1))
+  ;; (add-hook! (shell-mode vterm-mode eshell-mode dired-mode term-mode) (solaire-mode -1))
   (remove-hook! '(shell-mode-hook vterm-mode-hook eshell-mode-hook) #'hide-mode-line-mode)
   )
 

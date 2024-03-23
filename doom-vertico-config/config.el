@@ -14,16 +14,16 @@
 (setq display-line-numbers-type 'visual)
 
 ;;(setq doom-theme 'doom-vibrant
-;;(setq doom-theme 'doom-one
-(setq doom-theme 'modus-vivendi-tinted
+;;(setq doom-theme 'modus-vivendi-tinted
+(setq doom-theme 'doom-one
       doom-themes-treemacs-theme 'doom-colors
       doom-acario-dark-brighter-modeline t
       doom-acario-light-brighter-modeline t
       doom-nohl-light-brighter-comments t
       doom-nohl-dark-brighter-comments t)
 
-(after! solaire-mode
-  (add-to-list 'solaire-mode-themes-to-face-swap 'doom-one))
+;; (after! solaire-mode
+;;   (add-to-list 'solaire-mode-themes-to-face-swap 'doom-one))
 
 (after! doom-modeline (setq doom-modeline-major-mode-icon t))
 
