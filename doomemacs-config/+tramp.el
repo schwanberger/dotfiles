@@ -35,21 +35,17 @@
             "RADIUS challenge")
           t)
          ".*:\0? *"))
-  (defun tramp-remote-dired (&optional arg)
-    "Prompt for a remote host to connect to, and open an eshell
-there."
-    (interactive "p")
-    (let*
-        ((hosts
-          (cl-reduce 'append
-                     (mapcar
-                      (lambda (x)
-                        (cl-remove nil (mapcar 'cadr (apply (car x) (cdr x)))))
-                      '((tramp-parse-sconfig "~/.ssh/config")))))
-         (remote-host (completing-read "Remote host: " hosts)))
-      (with-temp-buffer
-        (cd (concat "/" (or tramp-default-method "ssh") ":" remote-host ":/home"))
-        (dired default-directory))))
+  (defun +thsc/oracle-login-shell ()
+    "Open login shell as user oracle on host belonging to default-directory."
+    (require 'tramp)
+    (interactive)
+    (if (string-match "su:oracle@" default-directory)
+        (+thsc/bash)
+      (let
+          ((default-directory (thsc/oracle-file-path default-directory)))
+        (+thsc/bash)))
+    (comint-simple-send (current-buffer) "export PS1='[\\u@\\h \\W] \\D{%F %T}\n(\$ORACLE_SID) $ '")
+    )
   (defun thsc/oracle-file-path (file)
     (let ((host (or (file-remote-p file 'host) "localhost")))
       (concat "/" (when (file-remote-p file)
@@ -71,7 +67,102 @@ there."
         (+thsc/bash)))
     (comint-simple-send (current-buffer) "export PS1='[\\u@\\h \\W] \\D{%F %T}\n(\$ORACLE_SID) $ '")
     )
+  (add-to-list 'tramp-methods
+               '("isudo"
+                 (tramp-login-program "env")
+                 (tramp-login-args
+                  (
+                   ("sudo")
+                   ("-u" "%u")
+                   ("--login")))
+                 (tramp-remote-shell "/bin/bash")
+                 (tramp-remote-shell-login
+                  ("-l"))
+                 (tramp-remote-shell-args
+                  ("-c"))
+                 (tramp-connection-timeout 10)
+                 (tramp-session-timeout 300)
+                 (tramp-password-previous-hop t))
+               )
+  )
+
+(defun tramp-remote-dired (&optional arg)
+  "Prompt for a remote host to connect to, and open an eshell
+there."
+  (require 'tramp)
+  (interactive "p")
+  (let*
+      ((hosts
+        (cl-reduce 'append
+                   (mapcar
+                    (lambda (x)
+                      (cl-remove nil (mapcar 'cadr (apply (car x) (cdr x)))))
+                    '((tramp-parse-sconfig "~/.ssh/config")))))
+       (remote-host (completing-read "Remote host: " hosts)))
+    (with-temp-buffer
+      (cd (concat "/" (or tramp-default-method "ssh") ":" remote-host ":/home"))
+      (dired default-directory))))
+
+(defun +thsc/remote-dired (&optional arg)
+  "Prompt for a remote host to connect to, and open an eshell
+there."
+  (interactive "p")
+  (require 'tramp)
+  (let*
+      ((hosts
+        (cl-reduce 'append
+                   (mapcar
+                    (lambda (x)
+                      (cl-remove nil (mapcar 'cadr (apply (car x) (cdr x)))))
+                    '((tramp-parse-sconfig "~/.ssh/config")))))
+       (remote-host (completing-read "Remote host: " hosts)))
+    (with-temp-buffer
+      (cd (concat "/" (or tramp-default-method "ssh") ":" remote-host ":"))
+      (dired default-directory))))
+
+(defun +thsc/oracle-remote-login-shell ()
+  "Open login shell as user oracle on remote host belonging to `default-directory`."
+  (interactive)
+  (require 'tramp)
+  (unless (file-remote-p default-directory) (error "This function only works on remote hosts"))
+  (let
+                                        ;/ssh:atp-pev-ora01|sudo:oracle@
+      ;; ((explicit-bash-args '("--noediting" "-l"))
+      ;;  (explicit-shell-file-name "/bin/bash")
+      ((default-directory (concat
+                           "/ssh:"
+                           (file-remote-p default-directory 'host)
+                           "|isudo:oracle@:"
+                           )))
+                                        ;(shell))
+    (shell (generate-new-buffer-name (format "shell %s"
+                                             (concat
+                                              default-directory
+                                              "___"
+                                              (sha1 (format "%s" (current-time))))
+                                             ))))
+  (auto-save-mode)
+  (comint-simple-send (current-buffer) "export PS1='[\\u@\\h \\W] \\D{%F %T}\n(\$ORACLE_SID) $ '")
   )
 
 (provide '+tramp)
 ;;; +tramp.el ends here
+
+;;  (add-to-list 'tramp-methods
+;;               '("sudoer"
+;;   (tramp-login-program "env")
+;;   (tramp-login-args
+;;    (("SUDO_PROMPT=P\"\"a\"\"s\"\"s\"\"w\"\"o\"\"r\"\"d\"\":")
+;;     ("sudo")
+;;     ("-u" "%u")
+;;     ("-s")
+;;     ("-H")
+;;     ("%l")))
+;;   (tramp-remote-shell "/bin/bash")
+;;   (tramp-remote-shell-login
+;;    ("-l"))
+;;   (tramp-remote-shell-args
+;;    ("-c"))
+;;   (tramp-connection-timeout 10)
+;;   (tramp-session-timeout 300)
+;;   (tramp-password-previous-hop t)))

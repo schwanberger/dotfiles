@@ -78,15 +78,8 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
-(after! corfu
-  (setq corfu-auto nil ; You shell help when prompted (by TAB)
-        +corfu-want-minibuffer-completion nil ; termianl minibuffer corfu completion leads to bad UX
-        ))
-
-(fset 'epg-wait-for-status 'ignore) ; Help emacs 29.1 with gpg save timeout with newer gnupg versions
-(setq auth-sources '("~/.emacs_authinfo.gpg"))
-
 (load! "+org")
 (load! "+tramp")
 (load! "+shell")
 (load! "+autosave")
+(load! "+defaults")
