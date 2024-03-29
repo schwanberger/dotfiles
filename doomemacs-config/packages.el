@@ -53,6 +53,7 @@
 (package! puppet-mode)
 (package! modus-themes)
 (package! ef-themes)
+(package! solaire-mode :disable t)
 
 ;; org-gtd
 (package! org-gtd)
