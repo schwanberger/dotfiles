@@ -33,8 +33,9 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-one
+(setq doom-theme 'doom-vibrant
       doom-themes-treemacs-theme 'doom-colors)
+;(doom-themes-treemacs-config)
 (after! doom-modeline (setq doom-modeline-major-mode-icon t))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
@@ -77,6 +78,8 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
+
+(require 'lsp-mode) ; 2024-03-25: Weird bug with lsp-mode, gotta be activated before entering golang buffer
 
 (load! "+org")
 (load! "+tramp")

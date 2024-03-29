@@ -45,7 +45,7 @@
         ;; Need to see deadline long in advance in some views
         org-deadline-warning-days 365
         org-duration-format (quote h:mm))
-        org-agenda-clockreport-parameter-plist '(:link nil :maxlevel 2) ; 2023-02-27: Fix links everywhere, seen on issue on doom emacs
+        ;; org-agenda-clockreport-parameter-plist '(:link nil :maxlevel 4) ; 2024-03-25: Seems to be unncessary now. ; 2023-02-27: Fix links everywhere, seen on issue on doom emacs
   (add-to-list 'org-agenda-custom-commands '("g" "Scheduled today and all NEXT items" ((agenda "" ((org-agenda-span 1))) (todo "NEXT"))))
   ;; (add-to-list 'org-agenda-custom-commands '("d" "Scheduled today and all NEXT items" (
   ;;                                                                                      (agenda "" ((org-agenda-span 1)
@@ -72,6 +72,54 @@
                                                                                                    (org-agenda-files '("~/org/gtd/actionable.org" "~/org/todo/new_todo.org" "~/org/gtd/inbox.org"))
                                                                                                    (org-scheduled-past-days 0)
                                                                                                    (TODO "NEXT")))))))
+
+(after! org
+  ;(doom-themes-org-config)
+  (setq org-log-done 'time
+        ;; Require braces to make org consider_{this} or^{this} as subscript or superscript
+        org-use-sub-superscripts "{}"
+        org-export-with-sub-superscripts "{}"
+        org-agenda-tags-column 'auto
+        org-log-into-drawer t)
+           ;;; Clocking
+  ;; Resume clocking task when emacs is restarted
+  (org-clock-persistence-insinuate)
+  (setq
+   ;; Show lot of clocking history so it's easy to pick items off the C-F11 list
+   org-clock-history-length 23
+   ;; Resume clocking task on clock-in if the clock is open
+   org-clock-in-resume t
+   ;; Separate drawers for clocking and logs
+   org-drawers (quote ("PROPERTIES" "LOGBOOK"))
+   ;; Save clock data and state changes and notes in the LOGBOOK drawer
+   org-clock-into-drawer t
+   ;; Sometimes I change tasks I'm clocking quickly - this removes clocked tasks with 0:00 duration
+   org-clock-out-remove-zero-time-clocks t
+   ;; Cl!ock out when moving task to a done state
+   org-clock-out-when-done t
+   ;; Save the running clock and all clock history when exiting Emacs, load it on startup
+   org-clock-persist t
+   ;; Enable auto clock resolution for finding open clocks
+   org-clock-auto-clock-resolution 'when-no-clock-is-running
+   ;; Include current clocking task in clock reports
+   org-clock-report-include-clocking-task t
+   org-hide-emphasis-markers t
+   )
+  (defun +thsc/org-inactive-timestamp-with-time ()
+    "Insert an inactive timestamp with date and time."
+    (interactive)
+    (let ((current-prefix-arg 4)) ;; emulate C-u
+      (call-interactively 'org-time-stamp-inactive)))
+  (setq org-pandoc-options-for-html5 `(
+                                       (number-sections . t)
+                                       (toc . t)
+                                       (self-contained . t)
+                                       (toc-depth . 5)
+                                       ;;(template . "C:/Projects/todo/easy_template.html")
+                                       (template . ,(expand-file-name "~/org/todo/pandoc/html5/github/GitHub.html5"))
+                                       ;;(template . "C:/Projects/todo/pandoc/html5/kjhealy/html.template")
+                                       ))
+  )
 
 (provide '+org)
 ;;; +org.el ends here

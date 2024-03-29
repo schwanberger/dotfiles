@@ -28,7 +28,8 @@
         vterm-timer-delay 0.01)
   (add-hook! (shell-mode vterm-mode) (corfu-mode -1)) ;; auto-completion for vterm buffers should be handled by the shell
   (custom-set-faces!
-    `(vterm-color-bright-black :foreground ,(doom-color 'comments))) ;; Fix zsh-autosuggestions being invisible in vterm buffers.
+    `(vterm-color-bright-black :foreground ,(doom-color 'comments)) ;; Fix zsh-autosuggestions being invisible in vterm buffers.
+    `(vterm-color-bright-black :background ,(doom-color 'comments))) ;; Fix some (rare) ansible output being invisible in  vterm buffers.
   (remove-hook! '(vterm-mode-hook) #'hide-mode-line-mode))
 
 
@@ -71,7 +72,9 @@ use bash as default shell."
     (auto-save-mode)
     ;;(comint-send-string (current-buffer) "PS1=\"\\u@\\h:\\W$ \""))
     ;;(comint-send-string (current-buffer) "PS1='[\\u@\\h \\W] \\D{%F %T}\n$ '")
-    (comint-simple-send (current-buffer) "export PS1='[\\u@\\h \\W] \\D{%F %T}\n$ '")
+    ;;(comint-simple-send (current-buffer) "export PS1='[\\u@\\h \\W] \\D{%F %T}\n$ '")
+    (comint-simple-send (current-buffer) "export PS1='[\\u@\\h:\\w] \\D{%F %T}\n$ '")
+    ;;(comint-simple-send (current-buffer) "export PS1='\\D{%F %T}\n[\\u@\\h:\\w]$ '")
     ))
 
 (defun +thsc/shell () ;; Shell is built-in no need to be lazy
