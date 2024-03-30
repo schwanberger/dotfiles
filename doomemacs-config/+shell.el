@@ -32,6 +32,21 @@
     `(vterm-color-bright-black :background ,(doom-color 'comments))) ;; Fix some (rare) ansible output being invisible in  vterm buffers.
   (remove-hook! '(vterm-mode-hook) #'hide-mode-line-mode))
 
+(after! vterm
+  (defun +thsc/paste-from-minibuffer-vterm()
+    "An easy way to paste to vterm from clipholder program e.g.
+'Ditto' when 'select-enable-clipboard' is nil"
+    (interactive)
+    (let ((select-enable-clipboard t)
+          ;; (kill-ring nil) ; In case we do not want insertions into the kill-ring
+          )
+      (kill-new (format "%s" (read-from-minibuffer "Paste: ")))
+      (vterm-yank)))
+  (map!
+   :map vterm-mode-map
+   "C-c C-p" #'+thsc/paste-from-minibuffer-vterm)
+  )
+
 
 (defun +thsc/vterm ()
   "Create vterm shell. If on remote server, give the buffer a relevant name and
@@ -86,7 +101,6 @@ use bash as default shell."
                                                          )))))
   (auto-save-mode)
   (comint-simple-send (current-buffer) "export PS1='[\\u@\\h \\W] \\D{%F %T}\n $ '"))
-
 
 (provide '+shell)
 ;;; +shell.el ends here
