@@ -36,7 +36,9 @@
          :desc "Show all next"  "n"  #'org-gtd-show-all-next
          :desc "Stuck projects" "s"  #'org-gtd-review-stuck-projects))
   (map! :map org-gtd-clarify-map
-        :desc "Organize this item" "C-c c" #'org-gtd-organize))
+        :desc "Organize this item" "C-c c" #'org-gtd-organize)
+  (map! :map org-mode-map
+        "C-c C-p" #'+thsc/paste-from-minibuffer))
 
 (after! org-agenda
   (setq org-agenda-start-on-weekday nil
@@ -77,8 +79,8 @@
   ;(doom-themes-org-config)
   (setq org-log-done 'time
         ;; Require braces to make org consider_{this} or^{this} as subscript or superscript
-        org-use-sub-superscripts "{}"
-        org-export-with-sub-superscripts "{}"
+        org-use-sub-superscripts t
+        org-export-with-sub-superscripts '{}
         org-agenda-tags-column 'auto
         org-log-into-drawer t)
            ;;; Clocking
@@ -119,6 +121,12 @@
                                        (template . ,(expand-file-name "~/org/todo/pandoc/html5/github/GitHub.html5"))
                                        ;;(template . "C:/Projects/todo/pandoc/html5/kjhealy/html.template")
                                        ))
+  ;; Org id's
+  (require 'org-id)
+  (setq org-id-link-to-org-use-id 'create-if-interactive)
+  (setq org-id-extra-files '(
+                             (org-agenda-text-search-extra-files)
+                             (directory-files-recursively (expand-file-name "~/org") ".org$" t)))
   )
 
 (provide '+org)

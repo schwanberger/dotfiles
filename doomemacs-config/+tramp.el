@@ -23,6 +23,11 @@
   :defer-incrementally t
   :config
   (add-to-list 'tramp-remote-path 'tramp-own-remote-path) ; Add paths of remote at login time to tramp - why is not default?
+  ;; make sure vc stuff is not making tramp slower
+  (setq vc-ignore-dir-regexp
+        (format "%s\\|%s"
+                vc-ignore-dir-regexp
+                tramp-file-name-regexp))
   (setq tramp-default-method "ssh"
         remote-file-name-inhibit-locks 't
         tramp-auto-save-directory (eval thsc/autosave-dir)
@@ -30,6 +35,7 @@
         tramp-use-ssh-controlmaster-options nil
         ;; cache file-name forever
         remote-file-name-inhibit-cache nil
+        projectile-mode-line "Projectile"
         tramp-password-prompt-regexp   ; Add verification code support.
         (concat
          "^.*"
@@ -148,6 +154,70 @@ there."
   ;;(comint-simple-send (current-buffer) "export PS1='[\\u@\\h \\W] \\D{%F %T}\n(\$ORACLE_SID) $ '")
   (comint-simple-send (current-buffer) "export PS1='[\\u@\\h:\\w] \\D{%F %T}\n(\$ORACLE_SID) $ '")
   )
+
+(defun +thsc/oracle-remote-shell ()
+  "Open login shell as user oracle on remote host belonging to `default-directory`."
+  (interactive)
+  (require 'tramp)
+  (unless (file-remote-p default-directory) (error "This function only works on remote hosts"))
+  (let
+      ((default-directory (concat
+                           "/ssh:"
+                           (file-remote-p default-directory 'host)
+                           "|sudo:oracle@:"
+                           )))
+    (shell (generate-new-buffer-name (format "shell %s"
+                                             (concat
+                                              default-directory
+                                              "___"
+                                              (sha1 (format "%s" (current-time))))
+                                             ))))
+  (auto-save-mode)
+  ;;(comint-simple-send (current-buffer) "export PS1='[\\u@\\h \\W] \\D{%F %T}\n(\$ORACLE_SID) $ '")
+  (comint-simple-send (current-buffer) "export PS1='[\\u@\\h:\\w] \\D{%F %T}\n(\$ORACLE_SID) $ '")
+  )
+
+(defun +thsc/grid-remote-login-shell ()
+  "Open login shell as user oracle on remote host belonging to `default-directory`."
+  (interactive)
+  (require 'tramp)
+  (unless (file-remote-p default-directory) (error "This function only works on remote hosts"))
+  (let
+      ((default-directory (concat
+                           "/ssh:"
+                           (file-remote-p default-directory 'host)
+                           "|isudo:grid@:"
+                           )))
+    (shell (generate-new-buffer-name (format "shell %s"
+                                             (concat
+                                              default-directory
+                                              "___"
+                                              (sha1 (format "%s" (current-time))))
+                                             ))))
+  (auto-save-mode)
+  ;;(comint-simple-send (current-buffer) "export PS1='[\\u@\\h \\W] \\D{%F %T}\n(\$ORACLE_SID) $ '")
+  (comint-simple-send (current-buffer) "export PS1='[\\u@\\h:\\w] \\D{%F %T}\n(\$ORACLE_SID) $ '")
+  )
+
+(defun +thsc/eshell-remote-open (&optional arg)
+  "Prompt for a remote host to connect to, and open a shell
+there.  With prefix argument, get a sudo shell."
+  (interactive "p")
+  (require 'tramp)
+  (let*
+      ((hosts
+        (cl-reduce 'append
+                   (mapcar
+                    (lambda (x)
+                      (cl-remove nil (mapcar 'cadr (apply (car x) (cdr x)))))
+                    (tramp-get-completion-function "ssh"))))
+       (remote-host (completing-read "Remote host: " hosts))
+    (eshell-buffer-name-local (concat "eshell_" remote-host "___" (sha1 (format "%s" (current-time)))))
+       )
+    (with-temp-buffer
+      (cd (concat "/" (or tramp-default-method "ssh") ":" remote-host ":"))
+      (setq-local eshell-buffer-name eshell-buffer-name-local)
+      (eshell remote-host))))
 
 (provide '+tramp)
 ;;; +tramp.el ends here
