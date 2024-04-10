@@ -1,0 +1,28 @@
+
+
+# Commands that should be applied only for interactive shells.
+[[ $- == *i* ]] || return
+
+HISTCONTROL=ignoredups:ignorespace
+HISTFILESIZE=100000
+HISTSIZE=10000
+
+shopt -s histappend
+shopt -s checkwinsize
+shopt -s extglob
+shopt -s globstar
+shopt -s checkjobs
+
+
+
+if [[ ! -v BASH_COMPLETION_VERSINFO ]]; then
+  . "/nix/store/kb9ijh62gj3hx36avp2mh4fg6jmpw0gs-bash-completion-2.11/etc/profile.d/bash_completion.sh"
+fi
+
+if [[ :$SHELLOPTS: =~ :(vi|emacs): ]]; then
+  . /nix/store/sif8a7y7p7r7wxpww2inxfrckni69c1a-fzf-0.47.0/share/fzf/completion.bash
+  . /nix/store/sif8a7y7p7r7wxpww2inxfrckni69c1a-fzf-0.47.0/share/fzf/key-bindings.bash
+fi
+
+eval "$(/nix/store/lhcz6v59vwcdavh73aixrnzq5ppli1w5-direnv-2.34.0/bin/direnv hook bash)"
+
