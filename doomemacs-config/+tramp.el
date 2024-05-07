@@ -212,12 +212,13 @@ there.  With prefix argument, get a sudo shell."
                       (cl-remove nil (mapcar 'cadr (apply (car x) (cdr x)))))
                     (tramp-get-completion-function "ssh"))))
        (remote-host (completing-read "Remote host: " hosts))
-    (eshell-buffer-name-local (concat "eshell_" remote-host "___" (sha1 (format "%s" (current-time)))))
+       (eshell-buffer-name-local (concat "eshell_" remote-host "___" (sha1 (format "%s" (current-time)))))
        )
     (with-temp-buffer
       (cd (concat "/" (or tramp-default-method "ssh") ":" remote-host ":"))
       (setq-local eshell-buffer-name eshell-buffer-name-local)
-      (eshell remote-host))))
+      (eshell remote-host)
+      (auto-save-mode))))
 
 (provide '+tramp)
 ;;; +tramp.el ends here

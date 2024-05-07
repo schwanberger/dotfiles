@@ -114,8 +114,28 @@ use bash as default shell."
   :defer-incrementally t
   :config
   (add-to-list 'eshell-modules-list 'eshell-elecslash)
+  (remove-hook! '(eshell-mode-hook) #'hide-mode-line-mode)
   )
 
+(after! shell
+  (remove-hook! '(shell-mode-hook) #'hide-mode-line-mode)
+  (map!
+   :map shell-mode-map
+   "C-c C-p" #'+thsc/paste-from-minibuffer)
+  )
+
+(defun +thsc/eshell ()
+  "Setup eshell buffer and open it in default directory."
+  (interactive)
+  (let* ((remote-hostname (file-remote-p default-directory 'host))
+         (eshell-buffer-hostname (if remote-hostname remote-hostname (system-name)))
+         (eshell-buffer-name-local (concat "eshell_" eshell-buffer-hostname "__" (sha1 (format "%s" (current-time))))))
+    (with-temp-buffer
+      (setq-local eshell-buffer-name eshell-buffer-name-local)
+      (eshell)
+      (auto-save-mode)
+      ;; (do-auto-save)
+      )))
 
 (provide '+shell)
 ;;; +shell.el ends here

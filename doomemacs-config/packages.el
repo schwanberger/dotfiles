@@ -58,6 +58,8 @@
 (package! ef-themes :recipe (:host github :repo "protesilaos/ef-themes"))
 (package! modus-themes :recipe (:host github :repo "protesilaos/modus-themes"))
 
+(package! catppuccin :recipe (:host github :repo "catppuccin/emacs"))
+
 ;; org-gtd
 (package! org-gtd)
 (package! org-edna)
